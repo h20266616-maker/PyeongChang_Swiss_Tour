@@ -44,4 +44,4 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 - [ ] 겨울 사진(풍차 언덕, 올림픽 레거시) → 여름 사진으로 교체
 - [ ] 곤드레밥 실제 사진 (지금은 말린 곤드레 나물)
 - [ ] 발표 전 교통 시간표 재확인
-- [ ] Vercel 배포
+- [x] Vercel 배포 → https://pyeong-chang-swiss-tour.vercel.app (main에 push하면 자동 재배포)
