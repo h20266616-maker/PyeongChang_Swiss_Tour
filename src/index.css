@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+/* 키키(kiiikiii.kr) 톤: 2000년대 여행사 홈페이지. 흰 배경 + 하늘색 포인트 + 주황 광택 버튼 */
+@theme {
+  --color-brand: #2a6db5;      /* 제목 포인트 파랑 ("Tour Schedule"의 Schedule) */
+  --color-navy: #1d2a6b;
+  --color-sky: #5bc6ef;
+  --color-cream: #fbf0c6;
+  --color-line: #e3e3e3;
+  --color-panel: #f3f3f3;
+  --font-sans: "Inter", "Pretendard", system-ui, sans-serif;
+  --font-serif: "Tinos", "Times New Roman", serif;
+  --font-script: "Pacifico", cursive;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: #fff; color: #111;
+  font-family: var(--font-sans);
+  word-break: keep-all; -webkit-font-smoothing: antialiased;
+}
+
+/* 2000년대 광택 버튼 */
+.btn-orange {
+  background: linear-gradient(#ffc34d, #ff9a1a 50%, #f58300 51%, #ff9d2e);
+  color: #fff; font-weight: 700; text-shadow: 0 1px 1px rgba(150,60,0,.45);
+  border: 1px solid #e07800; border-radius: 6px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 2px 4px rgba(0,0,0,.18);
+}
+.btn-orange:hover { filter: brightness(1.06); }
+.btn-green {
+  background: linear-gradient(#9be36b, #5fbf37 50%, #4caf2a 51%, #6cc742);
+  color: #fff; font-weight: 700; text-shadow: 0 1px 1px rgba(0,80,0,.4);
+  border: 1px solid #3f9a20; border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), 0 2px 4px rgba(0,0,0,.15);
+}
+
+/* "book ticket now!" 반사 효과 */
+.reflect { -webkit-box-reflect: below -14px linear-gradient(transparent 40%, rgba(255,255,255,.35)); }
+
+.card-shadow { box-shadow: 0 3px 8px rgba(0,0,0,.18); }
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-track { animation: marquee 30s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  html { scroll-behavior: auto; }
+}
