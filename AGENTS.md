@@ -48,7 +48,7 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 ## 남은 작업 (TODO)
 - [x] 곤드레곤 캐릭터 삭제 (마스코트는 대괄양 하나)
 - [ ] 성민 캐릭터(대괄양) 이미지 → `public/characters/` + `config.ts`
-- [x] 마스코트 표기 확정: **대괄양** → `config.ts`의 `MASCOT_NAME`
+- [x] 마스코트 표기 확정: **평치양** (2026-11-23 성민 피드백) → `config.ts`의 `MASCOT_NAME`. 캐릭터 이미지 `public/characters/`
 - [ ] 아리 홈쇼핑 영상 유튜브 ID → `config.ts`의 `HOMESHOPPING_VIDEO_ID`, 평가 구글폼 링크 → `EVAL_FORM_URL`
 - [x] 피그마 반영 (홈쇼핑 영상, 투어 코스, 코스 상세, 코스 선택, 발권 애니메이션) — 피그마 https://www.figma.com/design/F172HJ7ss055cTetZwdlPh
 - [x] 굿즈샵 (목록·상세·장바구니·영수증)
@@ -56,7 +56,8 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 - [x] 숙소·치즈·배추 확정 (평창 스위스마을 / 바람마을 치즈체험장 / 대관령 수레마을)
 - [x] 교통 시간표·요금 재확인 (2026-11-23 조회: KTX 청량리→평창 18,000원 1시간 10~20분 하루 약 14회 / 동서울→장평 우등 14,800원 약 1시간 50분 하루 8회)
 - [x] 패키지 이동수단 = 왕복 전용 버스로 통일 (KTX·시외버스는 Travel Info "따로 가는 법")
-- [x] 로고 = 한글 글자 로고(별 + 평스투어, Common.tsx Logo). 시안 추출본 `public/logo/pyeongs-tour.png`는 보관만 (`LOGO_IMAGE`)
+- [x] 공식 로고 `public/logo/` (헤더: logo-horizontal, 푸터: logo-full, 파비콘: logo-icon). 로고는 상단 바 안에 (튀어나온 박스 X)
+- [x] 팀명 쿠팡산 스위스 (구 테무산), 굿즈 가격은 원화로만 표시
 - [x] 인스타 @donggyeol_pyeongchang (`config.ts` INSTAGRAM_ID)
 - [ ] 사용성 평가 구글폼 → `config.ts`의 `EVAL_FORM_URL` (넣으면 우측 하단 "평가하기" 버튼 생김, 비면 숨김)
 - [ ] 여름 사진으로 교체 (지금 겨울 사진 많음: samyangranch, skijump, alpensia)

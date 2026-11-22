@@ -48,7 +48,7 @@ export default function Hero({ course, onCourse }: { course: CourseId; onCourse:
         <div className="absolute bottom-0 right-[8%] hidden h-[300px] w-[230px] md:block" aria-hidden>
           <div className="absolute bottom-0 left-1/2 h-[210px] w-[18px] -translate-x-1/2 bg-gradient-to-r from-[#6b4423] via-[#8a5a32] to-[#5a3a1d]" />
           <div className="absolute left-0 top-6 -rotate-6 rounded-sm bg-gradient-to-b from-[#9b6a3f] to-[#6e4524] px-5 py-3 shadow-[0_4px_8px_rgba(0,0,0,.35)]">
-            <span className="font-script text-[30px] text-white/90 [text-shadow:0_2px_2px_rgba(0,0,0,.35)]">{BOOKING.signText}</span>
+            <span className="text-[30px] font-black italic text-white/90 [text-shadow:0_2px_2px_rgba(0,0,0,.35)]">{BOOKING.signText}</span>
           </div>
         </div>
 
@@ -59,9 +59,9 @@ export default function Hero({ course, onCourse }: { course: CourseId; onCourse:
             className="card-shadow w-full max-w-[343px] border border-white bg-gradient-to-b from-white to-[#e9f4fb] px-[18px] pb-4 pt-5"
           >
             <div className="mb-5 flex items-start justify-between">
-              <p className="reflect origin-left scale-x-[.82] font-serif text-[40px] leading-none tracking-tight">
-                book <span className="bg-gradient-to-b from-[#3fc6d8] to-[#1f6fb5] bg-clip-text text-transparent">ticket</span>{' '}
-                <span className="text-navy">now!</span>
+              <p className="reflect text-[34px] font-black leading-none tracking-[-0.04em]">
+                지금 <span className="bg-gradient-to-b from-[#3fc6d8] to-[#1f6fb5] bg-clip-text text-transparent">바로</span>{' '}
+                <span className="text-navy">예매!</span>
               </p>
               <svg width="40" height="44" viewBox="0 0 40 44" aria-hidden className="mt-1">
                 <path d="M6 4 C 30 6, 36 22, 22 38" stroke="#46b520" strokeWidth="7" fill="none" strokeLinecap="round" />
@@ -70,17 +70,17 @@ export default function Hero({ course, onCourse }: { course: CourseId; onCourse:
             </div>
 
             <div className="grid grid-cols-[60px_1fr] items-center gap-x-2 gap-y-3 text-[13px] font-semibold">
-              <label htmlFor="bk-name">Name</label>
-              <input id="bk-name" className={input} placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-              <label htmlFor="bk-from">From</label>
+              <label htmlFor="bk-name">이름</label>
+              <input id="bk-name" className={input} placeholder="이름" value={name} onChange={(e) => setName(e.target.value)} />
+              <label htmlFor="bk-from">출발지</label>
               <select id="bk-from" className={input} value={from} onChange={(e) => setFrom(e.target.value)}>
                 {BOOKING.origins.map((o) => (
                   <option key={o}>{o}</option>
                 ))}
               </select>
-              <label htmlFor="bk-date">Departure</label>
+              <label htmlFor="bk-date">출발일</label>
               <input id="bk-date" type="date" min={SUMMER.min} max={SUMMER.max} className={input} value={date} onChange={(e) => setDate(e.target.value)} />
-              <label htmlFor="bk-course">Course</label>
+              <label htmlFor="bk-course">코스</label>
               <select id="bk-course" className={input} value={course} onChange={(e) => onCourse(e.target.value as CourseId)}>
                 {COURSES.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -91,7 +91,7 @@ export default function Hero({ course, onCourse }: { course: CourseId; onCourse:
             </div>
 
             <fieldset className="mt-4">
-              <legend className="mb-2 text-[13px] font-semibold">Choose Ticket Type</legend>
+              <legend className="mb-2 text-[13px] font-semibold">티켓 등급 선택</legend>
               <div className="grid grid-cols-2 gap-y-1.5 text-[13px]">
                 {BOOKING.types.map((t) => (
                   <label key={t} className="flex cursor-pointer items-center gap-2">

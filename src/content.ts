@@ -7,24 +7,24 @@ import { MASCOT_NAME } from './config';
 // ─────────────────────────────────────────────
 
 export const SLOGAN =
-  '스위스를 동결건조해서 평창의 동결건조 상황을 뒤엎어버리는 우리는 테무산스위스다 이것들아ㅏㅏㅏ';
+  '스위스를 동결건조해서 평창의 동결건조 상황을 뒤엎어버리는 우리는 쿠팡산스위스다 이것들아ㅏㅏㅏ';
 
 export const NAV = [
-  { href: '#ticket', label: 'Tickets' },
-  { href: '#courses', label: 'Tour Course' },
-  { href: '#guides', label: 'Tour Guides' },
-  { href: '#map', label: 'Map' },
-  { href: '#info', label: 'Travel Info' },
-  { href: '#reviews', label: 'Reviews' },
+  { href: '#ticket', label: '예매하기' },
+  { href: '#courses', label: '투어 코스' },
+  { href: '#guides', label: '투어 가이드' },
+  { href: '#map', label: '지도' },
+  { href: '#info', label: '교통 정보' },
+  { href: '#reviews', label: '후기' },
 ];
 
 export const BOOKING = {
-  origins: ['From My Bed', '서울', '경기 · 인천', '그 외 (먼 곳)'],
+  origins: ['내 침대에서', '서울', '경기 · 인천', '그 외 (먼 곳)'],
   types: ['VIP', 'VVIP', 'VVVIP', 'VVVVIP'],
-  agree: 'I accepted that 여기가 스위스가 아닐 수도 있음.',
-  button: 'Buy Ticket »',
-  breakfast: 'Breakfast (곤드레밥) Included in the package.',
-  signText: 'PyeongSwiss',
+  agree: '여기가 스위스가 아닐 수도 있음을 확인했습니다.',
+  button: '티켓 구매 »',
+  breakfast: '조식(곤드레밥) 패키지 포함',
+  signText: '평스위스',
   // 부제: B급 영화 제목처럼 길게 → "...더보기". 팀이 독스에 이어 쓰는 대로 교체
   subtitleShort:
     '스위스를 동결건조해서 옮겨놓은 듯한 느낌을 받을 수 있는 평창. 이 평창에 저희 평스투어가 엄선한 관광상품들을 즐기면서 저가로 유럽감성을 느낄 수 있는 이 기회가 단 돈 팔',
@@ -216,7 +216,7 @@ export const GUIDES_INTRO = {
       id: 'dwaegwalyang',
       name: MASCOT_NAME,
       role: '메인 가이드 · 스위스산(이라고 주장)',
-      desc: '대관령 출신. 괄괄괄거리는 성격이라 일정 늦으면 버스 안 기다려줌.',
+      desc: '대관령 출신. 성격이 급해서 일정 늦으면 버스 안 기다려줌.',
     },
   ],
 };
@@ -232,8 +232,8 @@ export const PARTNERS = [
 
 export const INFO = {
   howTo: {
-    title: 'How to Get to',
-    accent: 'PyeongSwiss',
+    title: '평스위스',
+    accent: '가는 법',
     sub: '패키지는 서울에서 전용 버스로 모십니다. 따로 오실 분은 아래로 → "버스가 있는데 검색하면 안 나와요" (현지인 인터뷰) 그래서 여기 다 적어둠',
     rows: [
       {
@@ -260,9 +260,9 @@ export const INFO = {
     caution: '※ 2026년 11월 23일 시간표 조회 기준. 출발 전 예매 사이트에서 꼭 다시 확인하세요.',
   },
   compare: {
-    title: 'Why',
-    accent: 'PyeongSwiss?',
-    sub: '진짜 스위스 vs 테무산 스위스. 정직하게 비교해 드립니다.',
+    title: '왜',
+    accent: '평스위스?',
+    sub: '진짜 스위스 vs 쿠팡산 스위스. 정직하게 비교해 드립니다.',
     rows: [
       { item: '가는 법', swiss: '비행기 10시간 넘게', pc: '서울에서 버스 한 번 (KTX면 약 1시간 15분)' },
       { item: '여행 경비', swiss: '항공권 생각만 해도 더워짐', pc: '1박2일 99,000원 (버스·숙박·식사 포함)' },
@@ -284,7 +284,7 @@ export const REVIEWS = {
     { text: '한여름인데 밤엔 추워서 겉옷 입을 정도', who: '평창 거주 경험 20대', initial: '평' },
     { text: '유럽 감성 느끼고 싶은데 돈이 부족하다? 평창 오세요', who: '평창 거주 경험 20대', initial: '평' },
     { text: '유명해지기 전에 지금 저점 매수하세요', who: '평창 거주 경험 20대', initial: '평' },
-    { text: '괄괄괄!!!', who: MASCOT_NAME, initial: '양' },
+    { text: '평스 투어에 환불이 어딨어? 여름 시원하잖아. 좋다며?', who: MASCOT_NAME, initial: '양', avatar: '/characters/pyeongchiyang-angry.png' },
   ],
 };
 
@@ -337,7 +337,7 @@ export const COURSES: Course[] = [
     id: 'intro',
     path: '/tour/intro',
     short: '입문 코스 (1박2일)',
-    promo: '[테무산특가]',
+    promo: '[쿠팡산특가]',
     title: '[평스투어 입문 코스] 양떼목장+발왕산+별보기 (1박2일)',
     subtitle: '양떼목장+발왕산+별보기',
     photo: 'sheep2',
@@ -380,7 +380,7 @@ export const COURSES: Course[] = [
     id: 'master',
     path: '/tour/master',
     short: '정복 코스 (2박3일)',
-    promo: '[테무산특가]',
+    promo: '[쿠팡산특가]',
     title: '[평스투어 정복 코스] 발왕산+육백마지기+봉평 (2박3일)',
     subtitle: '발왕산+육백마지기+봉평',
     photo: 'buckwheat',
@@ -458,7 +458,6 @@ export const HOMESHOPPING = {
 // ⚠ 상품명·가격은 임시값. 피그마 확정본 나오면 여기만 고치면 됨
 // 이미지: public/goods/<이름>.jpg 넣고 각 상품 images 에 이름 추가 (첫 장이 대표)
 // ─────────────────────────────────────────────
-export const WOOL_WON = 100; // 1 양털 = 100원
 export const GOODS_CATEGORIES = ['전체', '마스코트', '의류·잡화', '먹거리', '기념품'] as const;
 export type GoodsCategory = Exclude<(typeof GOODS_CATEGORIES)[number], '전체'> | '세트';
 export type GoodsBadge = 'BEST' | 'NEW' | 'MD추천' | '한정';
@@ -469,7 +468,7 @@ export type Goods = {
   id: string;
   name: string;
   category: GoodsCategory;
-  price: number; // 양털
+  price: number; // 원
   badge?: GoodsBadge;
   popularity: number; // 인기순 정렬용
   soldOut?: boolean;
@@ -480,7 +479,7 @@ export type Goods = {
   images: string[]; // public/goods/<이름>.jpg (첫 장이 대표). 성민 시안
 };
 
-const SIZES: GoodsOption = { name: '사이즈', values: [{ label: 'S' }, { label: 'M' }, { label: 'L' }, { label: 'XL', delta: 20 }] };
+const SIZES: GoodsOption = { name: '사이즈', values: [{ label: 'S' }, { label: 'M' }, { label: 'L' }, { label: 'XL', delta: 2000 }] };
 
 // 성민 굿즈 시안 기준 (2026-11-23). 가격은 임시값 → 확정되면 price만 수정
 export const GOODS: Goods[] = [
@@ -488,19 +487,19 @@ export const GOODS: Goods[] = [
     id: 'set-intro',
     name: '[입문 코스 고객 전용] 평스 웰컴 세트',
     category: '세트',
-    price: 170,
+    price: 17000,
     badge: '한정',
     popularity: 90,
     course: 'intro',
     summary: `${MASCOT_NAME} 인형 키링 + 평스 스티커팩`,
-    description: ['입문 코스 탑승권 소지자만 살 수 있다고 우기는 세트입니다. (확인은 안 합니다)', `구성: ${MASCOT_NAME} 인형 키링(기본) 1 + 평스 스티커팩 1`, '따로 사는 것보다 20양털 저렴합니다.'],
+    description: ['입문 코스 탑승권 소지자만 살 수 있다고 우기는 세트입니다. (확인은 안 합니다)', `구성: ${MASCOT_NAME} 인형 키링(기본) 1 + 평스 스티커팩 1`, '따로 사는 것보다 2,000원 저렴합니다.'],
     images: ['plush-basic', 'sticker-pack'],
   },
   {
     id: 'set-master',
     name: '[정복 코스 고객 전용] 평스 정복자 세트',
     category: '세트',
-    price: 640,
+    price: 64000,
     badge: '한정',
     popularity: 85,
     course: 'master',
@@ -508,7 +507,7 @@ export const GOODS: Goods[] = [
     description: [
       '2박 3일을 버틴 정복자에게 드리는 풀세트입니다.',
       `구성: ${MASCOT_NAME} 인형 키링 1 + 동결건조 ${MASCOT_NAME} 무드등 키링 1 + "평창 창좋다~" 티셔츠 1 + 하스카프 동결건조칩 시리얼 1`,
-      '따로 사는 것보다 70양털 저렴합니다.',
+      '따로 사는 것보다 7,000원 저렴합니다.',
     ],
     images: ['moodlight-keyring', 'plush-basic', 'tshirt-changjota', 'haskap-cereal'],
   },
@@ -516,20 +515,20 @@ export const GOODS: Goods[] = [
     id: 'plush',
     name: `${MASCOT_NAME} 인형 키링`,
     category: '마스코트',
-    price: 150,
+    price: 15000,
     badge: 'BEST',
     popularity: 100,
     options: {
       name: '표정',
       values: [
         { label: '기본', image: 'plush-basic' },
-        { label: '괄괄 (화남)', image: 'plush-angry' },
+        { label: '화남', image: 'plush-angry' },
       ],
     },
-    summary: '평스투어 메인 가이드, 가방에 달고 다니는 대괄양',
+    summary: `평스투어 메인 가이드, 가방에 달고 다니는 ${MASCOT_NAME}`,
     description: [
       `평스투어 메인 가이드 ${MASCOT_NAME}를 그대로 옮긴 복슬복슬 인형 키링.`,
-      '표정 2종: 기본 / 괄괄(일정 늦으면 나오는 표정)',
+      '표정 2종: 기본 / 화남(일정 늦으면 나오는 표정)',
       '원산지: 대관령 (스위스 아님)',
     ],
     images: ['plush-basic', 'plush-angry'],
@@ -538,10 +537,10 @@ export const GOODS: Goods[] = [
     id: 'moodlight',
     name: `동결건조 ${MASCOT_NAME} 무드등 키링`,
     category: '마스코트',
-    price: 180,
+    price: 18000,
     badge: 'NEW',
     popularity: 88,
-    summary: '리모컨을 누르면 유리병 속 대괄양이 파랗게 빛남',
+    summary: `리모컨을 누르면 유리병 속 ${MASCOT_NAME}이 파랗게 빛남`,
     description: [
       `유리병 안에 동결건조(?)된 ${MASCOT_NAME}가 들어 있는 키링.`,
       '함께 달린 리모컨의 빨간 버튼을 누르면 병이 파랗게 빛납니다.',
@@ -553,7 +552,7 @@ export const GOODS: Goods[] = [
     id: 'tshirt-changjota',
     name: '"평창 창좋다~" 티셔츠',
     category: '의류·잡화',
-    price: 290,
+    price: 29000,
     badge: 'BEST',
     popularity: 80,
     options: SIZES,
@@ -565,7 +564,7 @@ export const GOODS: Goods[] = [
     id: 'tshirt-more',
     name: '"…(더보기)" 티셔츠',
     category: '의류·잡화',
-    price: 290,
+    price: 29000,
     badge: 'MD추천',
     popularity: 75,
     options: SIZES,
@@ -577,7 +576,7 @@ export const GOODS: Goods[] = [
     id: 'haskap-cereal',
     name: '평창 특산물 하스카프 동결건조칩 시리얼',
     category: '먹거리',
-    price: 90,
+    price: 9000,
     badge: 'MD추천',
     popularity: 70,
     summary: '평창산 하스카프 동결건조칩 함유 · 300g',
@@ -588,10 +587,10 @@ export const GOODS: Goods[] = [
     id: 'sticker',
     name: '평스 스티커팩',
     category: '기념품',
-    price: 40,
+    price: 4000,
     badge: 'BEST',
     popularity: 92,
-    summary: '"평창… 창좋다", 동결건조, 대괄양 등 스티커 한 장',
+    summary: `"평창… 창좋다", 동결건조, ${MASCOT_NAME} 등 스티커 한 장`,
     description: [
       `${MASCOT_NAME}, 평스투어 로고, "평창… 창좋다", "동결건조", "시원해!" 등이 들어간 스티커 시트.`,
       '캐리어에 붙이면 스위스 다녀온 것처럼 보입니다.',
@@ -602,7 +601,7 @@ export const GOODS: Goods[] = [
     id: 'wakppu',
     name: '평창 동결 건조 왁뿌 (12개입)',
     category: '기념품',
-    price: 120,
+    price: 12000,
     badge: '한정',
     popularity: 65,
     summary: '하늘색·민트·흰색 캡슐 12개입 박스',
@@ -614,31 +613,31 @@ export const GOODS: Goods[] = [
 export const goodsById = (id: string) => GOODS.find((g) => g.id === id);
 
 export const SHOP = {
-  title: 'PyeongS',
-  accent: 'Duty Free',
-  sub: '해외(같은 국내)에서 직구해온 스위스 굿즈. 1 양털 = 100원.',
+  title: '평스',
+  accent: '면세점',
+  sub: '해외(같은 국내)에서 직구해온 스위스(보다 더 좋은) 굿즈.',
   setTitle: '코스 고객 전용 세트',
   shipping: [
     '배송: 실제로 배송되지 않습니다 (과제). 마음으로 보내드립니다.',
-    '배송비: 0 양털 (스위스에서 오지 않으므로)',
+    '배송비: 0원 (스위스에서 오지 않으므로)',
     '교환·반품: 상품을 받지 않으셨으므로 교환·반품할 것도 없습니다.',
-    '양털은 실제 화폐가 아니며, 결제는 절대 일어나지 않습니다.',
+    '결제는 절대 일어나지 않습니다. 실제로 판매하지 않는 상품입니다.',
   ],
-  receiptNote: '실제 결제는 일어나지 않았습니다. 양털도 빠져나가지 않았습니다. (디자인씽킹 과제)',
+  receiptNote: '실제 결제는 일어나지 않았습니다. 돈도 빠져나가지 않았습니다. (디자인씽킹 과제)',
 };
 
-export const POLAROID_QUOTE = { a: 'One', b: 'Night,', c: 'Zero', d: 'Flights' };
+export const POLAROID_QUOTE = { a: '1박', b: '하는데', c: '비행기', d: '0번' };
 
 export const DUTY_FREE = {
-  banner: 'Looking for souvenirs? 해외(같은 국내)에서 직구해온 스위스 굿즈를 만나보세요',
-  link: '평스투어 (직구) Duty Free',
-  cta: 'Shop now »',
+  banner: '기념품 찾으세요? 해외(같은 국내)에서 직구해온 스위스(보다 더 좋은) 굿즈를 만나보세요',
+  link: '평스투어 (직구) 면세점',
+  cta: '쇼핑하러 가기 »',
 };
 
 export const FOOTER = {
   disclaimer:
-    '평창 스위스 투어(평스투어)는 실존하지 않는 여행사입니다. 한림대학교 디자인씽킹 6조 「테무산 스위스」 텀과제 결과물이며 실제 상품을 판매하거나 예약을 받지 않습니다. 교통·관광지 정보는 실제 정보입니다.',
-  team: '디자인씽킹 6조 테무산 스위스 · 화영 채빈 은빈 아리 성민 도연',
+    '평창 스위스 투어(평스투어)는 실존하지 않는 여행사입니다. 한림대학교 디자인씽킹 6조 「쿠팡산 스위스」 텀과제 결과물이며 실제 상품을 판매하거나 예약을 받지 않습니다. 교통·관광지 정보는 실제 정보입니다.',
+  team: '디자인씽킹 6조 쿠팡산 스위스 · 화영 채빈 은빈 아리 성민 도연',
 };
 
 // ─────────────────────────────────────────────

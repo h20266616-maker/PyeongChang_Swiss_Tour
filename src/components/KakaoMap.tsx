@@ -243,7 +243,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
         {/* 목록 */}
         <div className="order-2 max-h-[380px] overflow-y-auto border border-line lg:order-1 lg:max-h-[560px]">
           <p className="sticky top-0 z-10 border-b border-line bg-panel px-5 py-3 text-[15px] font-semibold">
-            Location <span className="text-[12px] font-normal text-gray-500">· 이번엔 진짜 위치입니다</span>
+            장소 목록 <span className="text-[12px] font-normal text-gray-500">· 이번엔 진짜 위치입니다</span>
           </p>
           {route.spots.map((s, i) => {
             const p = s.query ? coords[s.query] : undefined;
@@ -275,7 +275,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
                     }}
                     className="hidden shrink-0 text-[12px] font-bold text-brand underline sm:block"
                   >
-                    Tour Now
+                    투어 보기
                   </a>
                 )}
                 {!tbd && (

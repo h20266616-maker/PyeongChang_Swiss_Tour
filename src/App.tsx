@@ -50,8 +50,8 @@ export default function App() {
     <CartProvider>
       <header className="sticky top-0 z-40 h-[54px] bg-white/95 shadow-[0_2px_6px_rgba(0,0,0,.12)] backdrop-blur">
         <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-4 md:px-[50px]">
-          {/* 키키처럼 헤더 밖으로 튀어나온 로고 박스 */}
-          <a href="#ticket" onClick={go('#ticket')} className="relative z-10 self-start bg-[#f6f6f6] px-4 pb-2 pt-3 shadow-[0_3px_6px_rgba(0,0,0,.18)] md:px-9 md:pb-4 md:pt-5">
+          {/* 로고는 상단 바 안에 (튀어나온 박스 X — 성민 피드백) */}
+          <a href="/" onClick={(e) => { e.preventDefault(); setOpen(false); navigate('/#ticket'); }} className="flex h-full items-center" aria-label="평스투어 홈">
             <Logo />
           </a>
           <nav className="hidden items-center gap-11 text-[15px] font-semibold lg:flex">
@@ -61,7 +61,7 @@ export default function App() {
               </a>
             ))}
             <a href="/duty-free" onClick={toShop} className="btn-green flex items-center gap-1.5 px-4 py-1.5 text-[14px]">
-              <ShoppingBag size={15} /> (직구) Duty Free
+              <ShoppingBag size={15} /> (직구) 면세점
             </a>
             <CartButton />
           </nav>
@@ -80,7 +80,7 @@ export default function App() {
               </a>
             ))}
             <a href="/duty-free" onClick={toShop} className="py-1.5 text-[#3f9a20]">
-              Duty Free
+              면세점
             </a>
           </nav>
         )}

@@ -71,7 +71,7 @@ export const Ticket = forwardRef<HTMLDivElement, { t: TicketData; stamped: boole
       {/* 본권 */}
       <div className="relative flex-1">
         <div className="flex items-center justify-between bg-gradient-to-r from-[#1f6fb5] to-[#3fc6d8] px-4 py-2 text-white md:px-5">
-          <span className="text-[12px] font-extrabold tracking-wide md:text-[13px]">PyeongS Travel · BOARDING PASS</span>
+          <span className="text-[12px] font-extrabold tracking-wide md:text-[13px]">평스투어 · BOARDING PASS</span>
           <span className="text-[11px] font-semibold opacity-90">평스투어 탑승권</span>
         </div>
         <div className="grid grid-cols-[1fr_auto_1.2fr] items-center gap-2 px-4 pt-4 md:px-5">
@@ -129,7 +129,7 @@ export const Ticket = forwardRef<HTMLDivElement, { t: TicketData; stamped: boole
       {/* 꼬리표 */}
       <div className="flex flex-col justify-between gap-2 bg-[#dff1fb] px-4 py-3 sm:w-[170px] md:w-[180px]">
         <div>
-          <p className="text-[11px] font-extrabold tracking-wide text-navy">PyeongS Travel</p>
+          <p className="text-[11px] font-extrabold tracking-wide text-navy">평스투어</p>
           <p className="mt-1 text-[14px] font-bold">{t.name || '익명의 여행자'}</p>
           <p className="text-[11px] font-semibold text-gray-600">{t.course}</p>
           <p className="text-[11px] font-semibold text-gray-600">{t.date}</p>
@@ -286,7 +286,7 @@ export function TicketingModal({ t, onClose, onReissue }: { t: TicketData; onClo
       </button>
 
       <div className="mx-auto flex min-h-full max-w-[720px] flex-col items-center px-4 pb-10 pt-12">
-        <p className="text-[13px] font-semibold tracking-[0.3em] text-[#9fb3ff]">TICKET ISSUED</p>
+        <p className="text-[13px] font-semibold tracking-[0.3em] text-[#9fb3ff]">평스투어 자동발권기</p>
         <h2 className="mt-1 text-[24px] font-extrabold md:text-[30px]">발권이 완료되었습니다</h2>
 
         {/* 발권기 */}

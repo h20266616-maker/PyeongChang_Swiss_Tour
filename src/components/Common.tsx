@@ -25,7 +25,7 @@ export function SectionTitle({ black, blue, sub, blueFirst }: { black: string; b
 }
 
 export function Logo({ small }: { small?: boolean }) {
-  if (LOGO_IMAGE) return <img src={LOGO_IMAGE} alt="평스투어 PyeongS Travel" className={`h-[46px] w-auto md:h-[58px] ${small ? 'scale-90' : ''}`} />;
+  if (LOGO_IMAGE) return <img src={LOGO_IMAGE} alt="평스투어" className={`h-[30px] w-auto md:h-[36px] ${small ? 'scale-90' : ''}`} />;
   return (
     // 한글 로고 "평스투어" (피그마 원본 파일 받으면 config.ts LOGO_IMAGE로 교체)
     <div className={`flex flex-col items-center leading-none ${small ? 'scale-90' : ''}`} aria-label="평스투어 PyeongS Travel">

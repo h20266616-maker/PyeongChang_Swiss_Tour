@@ -78,7 +78,7 @@ export default function CoursePage({ course, onBook }: { course: Course; onBook:
         </div>
         <div>
           <p className="text-[14px] font-extrabold text-[#e60023]">{course.promo}</p>
-          <h1 className="mt-1 text-[22px] font-bold leading-snug md:text-[26px]">{course.title.replace(/^\[테무산특가\]\s*/, '')}</h1>
+          <h1 className="mt-1 text-[22px] font-bold leading-snug md:text-[26px]">{course.title.replace(/^\[[^\]]*특가\]\s*/, '')}</h1>
           <div className="mt-4 flex flex-wrap items-end gap-x-2 border-b border-line pb-4">
             <s className="text-[15px] text-gray-500">{course.priceOrig}</s>
             <span className="text-[14px] font-semibold text-gray-500">1인</span>

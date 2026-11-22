@@ -16,7 +16,7 @@ const go = (to: string) => (e: MouseEvent) => {
 export function TourMap() {
   return (
     <section id="map" className="scroll-mt-[90px] px-4 py-20">
-      <SectionTitle blue="Map" black="of PyeongSwiss" blueFirst sub="Take a Peek at the PyeongSwiss Map (이번엔 축척 지킴)" />
+      <SectionTitle blue="평스위스" black="지도" blueFirst sub="평스위스 한눈에 보기 (이번엔 축척 지킴)" />
       <KakaoTourMap fallback={<IllustratedMap onPin={(t) => navigate(`/spot/${t.id}`)} />} />
     </section>
   );
@@ -83,7 +83,7 @@ export function Partners() {
   const logos = [...PARTNERS, ...PARTNERS];
   return (
     <section className="overflow-hidden py-16">
-      <SectionTitle black="Our" blue="Partners" />
+      <SectionTitle black="우리" blue="파트너사" />
       <div className="marquee-track flex w-max items-center gap-20">
         {logos.map((p, i) => (
           <PartnerLogo key={i} name={p.name} style={p.style} />
@@ -194,10 +194,10 @@ export function Reviews() {
               <ellipse cx="24" cy="26" rx="20" ry="15" fill="#6ccd2f" />
               <path d="M14 38 L8 47 L24 40 Z" fill="#6ccd2f" />
             </svg>
-            <h2 className="text-[20px] font-semibold">Honest Reviews</h2>
+            <h2 className="text-[20px] font-semibold">솔직 후기</h2>
           </div>
           <div className="px-5 py-3">
-            <p className="text-[13px] font-semibold">Average Rating</p>
+            <p className="text-[13px] font-semibold">평균 별점</p>
             <p className="flex items-center gap-2 text-[15px] font-semibold">
               {REVIEWS.avg} <span className="text-[24px] text-[#f7c600]">★★★★★</span>
               <span className="text-[14px] font-normal text-gray-500">{REVIEWS.count}</span>
@@ -212,7 +212,11 @@ export function Reviews() {
                 <p className="mt-2 text-[15px] font-semibold">{r.text}</p>
               </div>
               <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#7c8b99] font-semibold text-white">{r.initial}</span>
+                {'avatar' in r && r.avatar ? (
+                  <img src={r.avatar} alt="" className="h-10 w-10 rounded-full border border-line bg-white object-cover" />
+                ) : (
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#7c8b99] font-semibold text-white">{r.initial}</span>
+                )}
                 <div className="leading-tight">
                   <p className="text-[14px] font-semibold">{r.who}</p>
                   <p className="text-[12px] text-gray-500">인터뷰 · 2026</p>
@@ -241,7 +245,7 @@ export function Polaroids() {
   const q = POLAROID_QUOTE;
   return (
     <section className="overflow-hidden px-4 pb-24 pt-10">
-      <p className="reflect mx-auto w-fit text-center font-serif text-[40px] leading-none md:text-[50px]">
+      <p className="reflect mx-auto w-fit text-center text-[36px] font-black leading-none tracking-[-0.03em] md:text-[48px]">
         “<span className="text-[#19b6d2]">{q.a}</span> {q.b} <span className="text-[#1d2aa8]">{q.c}</span> {q.d}”
       </p>
       <div className="mx-auto mt-14 flex max-w-[1300px] flex-wrap justify-center gap-x-2 gap-y-6 items-start md:h-[330px] md:flex-nowrap">
@@ -259,6 +263,7 @@ export function Polaroids() {
 export function Footer() {
   return (
     <footer className="rounded-t-[60px] bg-[#f3f3f3] px-5 pb-10 pt-12 text-center shadow-[0_-8px_20px_rgba(0,0,0,.05)]">
+      <img src="/logo/logo-full.png" alt="PYEONGS TOUR 평스투어" className="mx-auto mb-8 h-[54px] w-auto md:h-[64px]" />
       <nav className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-[15px] font-semibold text-navy">
         {NAV.map((n) => (
           <a key={n.href} href={`/${n.href}`} onClick={go(`/${n.href}`)} className="underline">
@@ -266,11 +271,11 @@ export function Footer() {
           </a>
         ))}
         <a href="/duty-free" onClick={go('/duty-free')} className="underline">
-          Duty Free
+          면세점
         </a>
         {EXHIBIT_SITE_URL && (
           <a href={EXHIBIT_SITE_URL} target="_blank" rel="noreferrer" className="underline">
-            About Project
+            프로젝트 소개
           </a>
         )}
       </nav>
@@ -296,7 +301,7 @@ export function Footer() {
           @{INSTAGRAM_ID}
         </a>
       )}
-      <p className="mt-4 text-[13px] text-navy">Copyright © 2026 PyeongS Travel. All rights reserved (아마도).</p>
+      <p className="mt-4 text-[13px] text-navy">© 2026 평스투어. 모든 권리 보유 (아마도).</p>
       <p className="mx-auto mt-6 max-w-3xl text-[12px] leading-relaxed text-gray-500">{FOOTER.disclaimer}</p>
       <p className="mt-2 text-[11px] text-gray-500">{FOOTER.team}</p>
       <details className="mx-auto mt-6 max-w-3xl text-left text-[11px] text-gray-500">

@@ -1,11 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Minus, Plus, ShoppingCart, Trash2, X } from 'lucide-react';
-import { WOOL_WON, goodsById, SHOP, type Goods } from './content';
+import { goodsById, SHOP, type Goods } from './content';
 import { GoodsImage } from './components/Shop';
 
 /* ───────── 장바구니 상태 (React context + localStorage) ───────── */
-// ⚠ 실제 결제는 절대 일어나지 않음. 양털은 가상 화폐.
+// ⚠ 실제 결제는 절대 일어나지 않음.
 
 export type CartLine = { id: string; option?: string; qty: number };
 export type PricedLine = CartLine & { goods: Goods; unit: number };
@@ -23,7 +23,7 @@ function load(): CartLine[] {
 }
 
 export const unitPrice = (g: Goods, option?: string) => g.price + (g.options?.values.find((v) => v.label === option)?.delta ?? 0);
-export const won = (wool: number) => `${(wool * WOOL_WON).toLocaleString('ko-KR')}원`;
+export const won = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 export const priceLines = (lines: CartLine[]): PricedLine[] =>
   lines.flatMap((l) => {
     const g = goodsById(l.id);
@@ -188,7 +188,7 @@ function CartDrawer() {
                       {l.option && <p className="text-[12px] text-gray-500">{l.goods.options?.name}: {l.option}</p>}
                       <div className="mt-2 flex items-center justify-between">
                         <Stepper value={l.qty} onChange={(q) => setQty(l.id, l.option, q)} />
-                        <p className="text-[14px] font-bold">{(l.unit * l.qty).toLocaleString()} 양털</p>
+                        <p className="text-[14px] font-bold">{won(l.unit * l.qty)}</p>
                       </div>
                     </div>
                     <button onClick={() => remove(l.id, l.option)} aria-label={`${l.goods.name} 삭제`} className="self-start text-gray-500 hover:text-[#e60023]">
@@ -201,14 +201,14 @@ function CartDrawer() {
 
             <div className="border-t border-line bg-panel px-5 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] pt-4">
               <div className="flex items-end justify-between">
-                <span className="text-[14px] font-semibold text-gray-600">총 결제 양털</span>
+                <span className="text-[14px] font-semibold text-gray-600">총 결제 금액</span>
                 <span className="text-right">
-                  <b className="text-[22px] text-[#e60023]">{total.toLocaleString()} 양털</b>
-                  <span className="block text-[11px] text-gray-500">= {won(total)} (가상)</span>
+                  <b className="text-[22px] text-[#e60023]">{won(total)}</b>
+                  <span className="block text-[11px] text-gray-500">(가상 결제)</span>
                 </span>
               </div>
               <button disabled={!priced.length} onClick={() => checkout(lines, true)} className="btn-orange mt-3 h-[48px] w-full text-[16px] disabled:opacity-50">
-                양털로 결제하기 »
+                결제하기 »
               </button>
               {priced.length > 0 && (
                 <button onClick={clear} className="mt-2 w-full text-[12px] text-gray-500 underline">
@@ -268,7 +268,7 @@ function Receipt({ r, onClose }: { r: { lines: PricedLine[]; no: string; at: str
         className="relative w-full max-w-[360px]"
       >
         <div className="bg-white px-6 pb-6 pt-7 font-mono text-[13px] text-[#222] shadow-2xl">
-          <p className="text-center font-sans text-[12px] font-bold tracking-[0.3em] text-brand">PYEONGS DUTY FREE</p>
+          <p className="text-center font-sans text-[12px] font-bold tracking-[0.3em] text-brand">평스 면세점</p>
           <p className="mt-1 text-center font-sans text-[22px] font-extrabold">결제 완료(?)</p>
           <p className="mt-1 text-center text-[11px] text-gray-500">
             {r.at} · No. {r.no}
@@ -295,15 +295,15 @@ function Receipt({ r, onClose }: { r: { lines: PricedLine[]; no: string; at: str
           </div>
           <div className="mt-1 flex justify-between font-sans text-[17px] font-extrabold">
             <span>합계</span>
-            <span className="text-[#e60023]">{total.toLocaleString()} 양털</span>
+            <span className="text-[#e60023]">{won(total)}</span>
           </div>
           <div className="mt-1 flex justify-between text-[11px] text-gray-500">
-            <span>원화 환산 (1 양털 = {WOOL_WON}원)</span>
-            <span>{won(total)}</span>
+            <span>결제 상태</span>
+            <span>가상 (실제 결제 없음)</span>
           </div>
           <div className="flex justify-between text-[11px] text-gray-500">
             <span>결제수단</span>
-            <span>양털 (가상)</span>
+            <span>평스페이 (가상)</span>
           </div>
           <div className="relative mt-5 flex items-center justify-center">
             <span className="-rotate-6 rounded border-[3px] border-[#d6001c] px-3 py-1 font-sans text-[15px] font-black tracking-wider text-[#d6001c] opacity-85">

@@ -45,10 +45,8 @@ function Wool({ n, big }: { n: number; big?: boolean }) {
   return (
     <span className="flex flex-wrap items-baseline gap-x-1.5">
       <b className={big ? 'text-[30px] leading-none text-[#e60023]' : 'text-[17px] text-[#e60023]'}>
-        {n.toLocaleString()}
-        <span className={big ? 'ml-1 text-[18px]' : 'ml-0.5 text-[13px]'}>양털</span>
+        {won(n)}
       </b>
-      <span className={`text-gray-500 ${big ? 'text-[14px]' : 'text-[11px]'}`}>({won(n)})</span>
     </span>
   );
 }
@@ -72,7 +70,7 @@ export function GoodsCard({ g }: { g: Goods }) {
         )}
         {g.soldOut && (
           <span className="absolute inset-0 flex items-center justify-center bg-white/65">
-            <span className="border-2 border-gray-600 px-3 py-1 text-[14px] font-extrabold tracking-widest text-gray-700">SOLD OUT</span>
+            <span className="border-2 border-gray-600 px-3 py-1 text-[14px] font-extrabold tracking-widest text-gray-700">품절</span>
           </span>
         )}
       </a>
@@ -118,7 +116,7 @@ export function ShopPage() {
 
   return (
     <div className="px-4 pb-24 pt-10">
-      <Crumbs here="(직구) Duty Free" />
+      <Crumbs here="(직구) 면세점" />
       <div className="mt-6">
         <SectionTitle black={SHOP.title} blue={SHOP.accent} sub={SHOP.sub} />
       </div>
@@ -181,7 +179,7 @@ export function ShopPage() {
             </label>
             <select aria-label="정렬" value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="h-[30px] border border-[#bfbfbf] bg-white px-2">
               <option value="popular">인기순</option>
-              <option value="cheap">낮은 양털순</option>
+              <option value="cheap">낮은 가격순</option>
             </select>
           </div>
         </div>
@@ -207,7 +205,7 @@ function Crumbs({ here, mid }: { here: string; mid?: boolean }) {
       {mid && (
         <>
           <a href="/duty-free" onClick={(e) => (e.preventDefault(), navigate('/duty-free'))} className="hover:text-brand">
-            (직구) Duty Free
+            (직구) 면세점
           </a>
           <ChevronRight size={12} />
         </>
@@ -277,7 +275,7 @@ export function GoodsDetail({ g }: { g: Goods }) {
           <p className="mt-1 text-[14px] text-gray-600">{g.summary}</p>
           <div className="mt-4 border-y border-line py-4">
             <Wool n={g.price} big />
-            <p className="mt-1 text-[12px] text-gray-500">1 양털 = 100원 · 배송비 0 양털</p>
+            <p className="mt-1 text-[12px] text-gray-500">배송비 0원 · 실제 판매 상품 아님</p>
           </div>
 
           <div className="mt-4 grid grid-cols-[64px_1fr] items-center gap-x-3 gap-y-3 text-[14px]">
@@ -290,7 +288,7 @@ export function GoodsDetail({ g }: { g: Goods }) {
                   {g.options.values.map((v) => (
                     <option key={v.label} value={v.label}>
                       {v.label}
-                      {v.delta ? ` (+${v.delta} 양털)` : ''}
+                      {v.delta ? ` (+${won(v.delta)})` : ''}
                     </option>
                   ))}
                 </select>
@@ -303,10 +301,10 @@ export function GoodsDetail({ g }: { g: Goods }) {
           </div>
 
           <div className="mt-5 flex items-end justify-between bg-panel px-4 py-3">
-            <span className="text-[14px] font-semibold text-gray-600">총 상품 양털</span>
+            <span className="text-[14px] font-semibold text-gray-600">총 상품 금액</span>
             <span className="text-right">
-              <b className="text-[22px] text-[#e60023]">{(unit * qty).toLocaleString()} 양털</b>
-              <span className="block text-[11px] text-gray-500">= {won(unit * qty)} (가상)</span>
+              <b className="text-[22px] text-[#e60023]">{won(unit * qty)}</b>
+              <span className="block text-[11px] text-gray-500">(가상 결제)</span>
             </span>
           </div>
 
@@ -326,7 +324,7 @@ export function GoodsDetail({ g }: { g: Goods }) {
                 장바구니 담기
               </button>
               <button onClick={() => checkout([{ id: g.id, option, qty }], false)} className="btn-orange h-[50px] text-[15px]">
-                양털로 바로 구매
+                바로 구매
               </button>
             </div>
           )}

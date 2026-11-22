@@ -29,14 +29,14 @@ export default function SpotPage({ t, onBook }: { t: Tour; onBook: (id: CourseId
             </a>
             <ChevronRight size={12} />
             <a href="/#guides" onClick={link('/#guides')} className="hover:text-brand">
-              Tour Guides
+              투어 가이드
             </a>
             <ChevronRight size={12} />
             <span className="font-semibold text-black">{t.name}</span>
           </nav>
           <span className="w-fit rounded-full border-2 border-[#9db6db] bg-white/80 px-3 py-0.5 text-[13px] font-semibold tracking-[2px] text-[#5b7fb5]">{t.time}</span>
           <h1 className="mt-3 text-[44px] font-light leading-none tracking-tight md:text-[64px]">{t.name}</h1>
-          <p className="mt-3 text-[13px] font-semibold tracking-[0.45em]">GUIDE BY {t.guide.toUpperCase()}</p>
+          <p className="mt-3 text-[13px] font-semibold tracking-[0.45em]">가이드 · {t.guide}</p>
           <p className="mt-4 max-w-[460px] whitespace-pre-line text-[15px] font-medium text-gray-700">{t.blurb}</p>
         </div>
       </div>

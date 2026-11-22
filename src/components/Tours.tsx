@@ -10,7 +10,7 @@ import { SectionTitle, photo } from './Common';
 export function Courses({ onBook }: { onBook: (id: CourseId) => void }) {
   return (
     <section id="courses" className="scroll-mt-[90px] px-4 py-20">
-      <SectionTitle black="PyeongS Tour" blue="Course" sub="스위스 같은데 평창인 패키지. 처음이면 입문, 다 보고 싶으면 정복." />
+      <SectionTitle black="평스투어" blue="코스" sub="스위스 같은데 평창인 패키지. 처음이면 입문, 다 보고 싶으면 정복." />
       <div className="mx-auto grid max-w-[1100px] gap-8 md:grid-cols-2">
         {COURSES.map((c) => (
           <CourseCard key={c.id} c={c} onBook={onBook} />
@@ -62,7 +62,7 @@ function CourseCard({ c, onBook }: { c: Course; onBook: (id: CourseId) => void }
             </span>
           ))}
         </div>
-        <h3 className="mt-2 text-[18px] font-bold leading-snug">{c.title.replace(/^\[테무산특가\]\s*/, '')}</h3>
+        <h3 className="mt-2 text-[18px] font-bold leading-snug">{c.title.replace(/^\[[^\]]*특가\]\s*/, '')}</h3>
         <div className="mt-3 flex flex-wrap items-end gap-x-2">
           <s className="text-[14px] text-gray-500">{c.priceOrig}</s>
           <span className="text-[13px] font-semibold text-gray-500">1인</span>
@@ -214,7 +214,7 @@ export function DutyBanner() {
 /** 성민 캐릭터 이미지 오기 전 임시 양 일러스트 (config.ts CHARACTER_IMAGES 넣으면 교체) */
 function SheepIcon() {
   return (
-    <svg viewBox="0 0 96 96" className="h-[84px] w-[84px]" role="img" aria-label="대괄양 (임시 일러스트)">
+    <svg viewBox="0 0 96 96" className="h-[84px] w-[84px]" role="img" aria-label="평치양 (임시 일러스트)">
       <g fill="#fff" stroke="#d9dde3" strokeWidth="2">
         <circle cx="34" cy="50" r="14" />
         <circle cx="48" cy="44" r="16" />
@@ -241,7 +241,7 @@ export function Guides() {
   const t = TOURS[i];
   return (
     <section id="guides" className="scroll-mt-[90px] px-4 pb-20 pt-6">
-      <SectionTitle black="Tour" blue="Guides" sub="Meet the Best Tour Guides in Pyeongchang (= Switzerland). 사진을 고르고 Start Tour를 누르면 투어 페이지로 이동해요." />
+      <SectionTitle black="투어" blue="가이드" sub="평창(=스위스) 최고의 가이드들을 소개합니다. 사진을 고르고 투어 보기를 누르면 투어 페이지로 이동해요." />
       <div className="mx-auto max-w-[756px] border border-[#cfcfcf] bg-white p-[7px]">
         <div className="relative aspect-[740/490] overflow-hidden">
           <AnimatePresence mode="wait">
@@ -261,7 +261,7 @@ export function Guides() {
           </span>
           <div className="absolute left-0 top-[18%] bg-white/70 px-6 py-4 backdrop-blur-sm">
             <p className="text-[32px] font-light leading-none tracking-tight sm:text-[38px] md:text-[48px]">{t.name}</p>
-            <p className="mt-3 text-[12px] font-semibold tracking-[0.45em]">GUIDE BY {t.guide.toUpperCase()}</p>
+            <p className="mt-3 text-[12px] font-semibold tracking-[0.45em]">가이드 · {t.guide}</p>
             <a
               href={`/spot/${t.id}`}
               onClick={(e) => {
@@ -270,11 +270,11 @@ export function Guides() {
               }}
               className="btn-orange mt-3 inline-block px-4 py-1.5 text-[13px]"
             >
-              Start Tour »
+              투어 보기 »
             </a>
           </div>
           <div className="absolute bottom-3 left-4 flex items-center gap-2 text-white [text-shadow:0_1px_3px_rgba(0,0,0,.5)]">
-            <span className="text-[13px] font-bold italic">PyeongS Travel</span>
+            <span className="text-[13px] font-bold italic">평스투어</span>
             {TOURS.map((_, k) => (
               <span key={k} className={`h-2.5 w-2.5 rounded-full border border-white ${k === i ? 'bg-white' : ''}`} />
             ))}
@@ -283,7 +283,7 @@ export function Guides() {
             </span>
           </div>
           <p className="absolute bottom-3 right-4 hidden font-mono text-[13px] tracking-[0.3em] text-white/80 md:block">
-            {t.name.toUpperCase()} TOUR GUIDE BY {t.guide.toUpperCase()}
+            {t.real} · 가이드 {t.guide}
           </p>
         </div>
       </div>
