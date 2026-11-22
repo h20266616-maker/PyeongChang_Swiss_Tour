@@ -692,7 +692,7 @@ const SPOT = {
   pension: { id: 'pension', name: '평창 스위스마을 (숙소)', query: '평창스위스마을', when: '1일차 저녁', desc: '양떼목장 도보 3분 독채 · 바비큐 + 별 보기' },
   samyang: { id: 'samyang', name: '삼양라운드힐', query: '삼양라운드힐', when: '2일차 오전', desc: '풍력발전기 능선 + 양몰이 공연' },
   cheese: { id: 'cheese', name: '바람마을 치즈체험장', query: '바람마을 치즈체험장', when: '2일차', desc: '대관령 목장 우유로 만드는 스위스 치즈(?)' },
-  cabbage: { id: 'cabbage', name: '대관령 수레마을 (고랭지배추)', query: '대관령 수레마을', when: '2일차 오후', desc: '고랭지배추 체험 + 배추모양 만두 빚기' },
+  cabbage: { id: 'cabbage', name: '대관령 수레마을 (고랭지배추)', query: '수레마을', when: '2일차 오후', desc: '고랭지배추 체험 + 배추모양 만두 빚기' },
   seonja: { id: 'seonja', name: '선자령', query: '선자령', when: '2일차 오전', desc: '입구 숲길만 산책 (전체 코스 4~5시간)' },
   sliding: { id: 'sliding', name: '알펜시아 슬라이딩파크', query: '알펜시아 슬라이딩센터', when: '2일차 오후', desc: '봅슬레이 대신 튜브썰매' },
   yukbaek: { id: 'yukbaek', name: '육백마지기', query: '육백마지기', when: '3일차 오전', desc: '해발 1,256m 고랭지 채소단지 + 풍력발전기 초원' },

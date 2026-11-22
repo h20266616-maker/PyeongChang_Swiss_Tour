@@ -70,11 +70,8 @@ function searchPlace(kakao: any, query: string): Promise<LatLng | null> {
     ps.keywordSearch(query, (data: any[], status: string) => {
       let hit: LatLng | null = null;
       if (status === kakao.maps.services.Status.OK) {
-        // 평창군 결과 우선 → 없으면 강원 → 그래도 없으면 첫 결과
-        const pick =
-          data.find((d) => d.address_name?.includes('평창군')) ||
-          data.find((d) => d.address_name?.startsWith('강원')) ||
-          data[0];
+        // 평창군 결과 우선 → 없으면 강원. 다른 지역 동명 장소는 핀 안 찍음 (엉뚱한 위치 방지)
+        const pick = data.find((d) => d.address_name?.includes('평창군')) || data.find((d) => d.address_name?.startsWith('강원'));
         if (pick) hit = { lat: Number(pick.y), lng: Number(pick.x), address: pick.road_address_name || pick.address_name, placeUrl: pick.place_url };
       }
       memCache[query] = hit;
