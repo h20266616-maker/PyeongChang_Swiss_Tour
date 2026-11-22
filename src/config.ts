@@ -36,5 +36,5 @@ export const GOODS_IMAGES: Record<string, string> = {
   sticker: '',
 };
 
-/** 마스코트 표기 (돼괄양 / 대관양 확정되면 변경) */
-export const MASCOT_NAME = '돼괄양';
+/** 마스코트 표기 (확정: 대괄양) — 사이트 전체가 이 값을 따라감 */
+export const MASCOT_NAME = '대괄양';

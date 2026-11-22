@@ -26,7 +26,7 @@ npm run build    # dist/ 생성 → Vercel에 그대로 배포 가능
 | 문구 전부 (부제, 일정, 비교표, 후기 등) | `src/content.ts` |
 | 아리 영상 / 인스타 / 전시 사이트 / 평가 구글폼 링크 | `src/config.ts` |
 | 성민 캐릭터·굿즈 이미지 | `public/characters/`, `public/goods/`에 넣고 `src/config.ts`에 경로 |
-| 마스코트 표기 (돼괄양/대관양) | `src/config.ts` → `MASCOT_NAME` |
+| 마스코트 표기 (확정: 대괄양) | `src/config.ts` → `MASCOT_NAME` |
 | 키컬러 (청록 미확정) | `src/index.css` → `@theme` |
 
 ## 디자인 방향

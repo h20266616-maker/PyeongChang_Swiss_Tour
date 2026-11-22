@@ -44,14 +44,13 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 - 푸터의 "실존하지 않는 여행사 / 과제" 고지는 지우지 말 것
 
 ## 남은 작업 (TODO)
-- [ ] 성민 캐릭터(돼괄양/곤드레곤) 이미지 → `public/characters/` + `config.ts`
-- [ ] 마스코트 표기 확정 (돼괄양 vs 대관양) → `config.ts`의 `MASCOT_NAME`
+- [ ] 성민 캐릭터(대괄양/곤드레곤) 이미지 → `public/characters/` + `config.ts`
+- [x] 마스코트 표기 확정: **대괄양** → `config.ts`의 `MASCOT_NAME`
 - [ ] 아리 홈쇼핑 영상 유튜브 ID → `config.ts`의 `HOMESHOPPING_VIDEO_ID`, 평가 구글폼 링크 → `EVAL_FORM_URL`
 - [x] 피그마 반영 (홈쇼핑 영상, 투어 코스, 코스 상세, 코스 선택, 발권 애니메이션) — 피그마 https://www.figma.com/design/F172HJ7ss055cTetZwdlPh
 - [x] 굿즈샵 (목록·상세·장바구니·영수증)
 - [ ] 굿즈 상품명·가격을 피그마 확정본으로 교체 → `content.ts`의 `GOODS` (지금은 임시값)
 - [ ] 성민 굿즈 시안 → `public/goods/` + `config.ts`의 `GOODS_IMAGES` (비어 있으면 카테고리 아이콘 자리표시)
-- [ ] 마스코트 표기: 피그마 코스 원문은 "대관양", 코드는 `MASCOT_NAME`(현재 돼괄양) 따라감
 - [ ] 겨울 사진(풍차 언덕, 올림픽 레거시) → 여름 사진으로 교체
 - [ ] 곤드레밥 실제 사진 (지금은 말린 곤드레 나물)
 - [ ] 발표 전 교통 시간표 재확인
