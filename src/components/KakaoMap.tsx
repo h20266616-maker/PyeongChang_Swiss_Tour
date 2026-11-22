@@ -109,6 +109,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
   const route = useMemo(() => MAP_ROUTES.find((r) => r.id === routeId)!, [routeId]);
   const [coords, setCoords] = useState<Record<string, LatLng | null>>({});
   const [active, setActive] = useState<string | null>(null);
+  const [tick, setTick] = useState(0);
   const [state, setState] = useState<'nokey' | 'loading' | 'ready' | 'error'>(KAKAO_MAP_KEY ? 'loading' : 'nokey');
 
   const boxRef = useRef<HTMLDivElement>(null);
@@ -170,8 +171,13 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
       seen.add(key);
       const el = document.createElement('div');
       el.innerHTML = pinHtml(i + 1, route.color, active === s.id);
-      el.onclick = () => setActive(s.id);
-      const ov = new kakao.maps.CustomOverlay({ position: pos, content: el, yAnchor: 0, zIndex: active === s.id ? 3 : 1 });
+      el.title = `${i + 1}. ${s.name} — 눌러서 확대`;
+      el.onclick = (e) => {
+        e.stopPropagation();
+        focusSpot(s.id);
+      };
+      // clickable: true 가 없으면 핀 클릭을 지도가 가로챔
+      const ov = new kakao.maps.CustomOverlay({ position: pos, content: el, yAnchor: 0, zIndex: active === s.id ? 3 : 1, clickable: true });
       ov.setMap(map);
       layerRef.current.push(ov);
     });
@@ -192,17 +198,26 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
     infoRef.current?.setMap(null);
     if (!s || !p) return;
     const pos = new kakao.maps.LatLng(p.lat, p.lng);
-    mapRef.current.setLevel(6);
-    mapRef.current.panTo(pos);
+    // 핀 쪽으로 확대 (부드럽게) 후 가운데로
+    const map = mapRef.current;
+    if (map.getLevel() > 5) map.setLevel(5, { anchor: pos, animate: { duration: 300 } });
+    const t = setTimeout(() => map.panTo(pos), 320);
     const el = document.createElement('div');
     el.innerHTML = `<div style="transform:translate(-50%,calc(-100% - 52px));background:#fff;border:1px solid #e3e3e3;box-shadow:0 3px 8px rgba(0,0,0,.18);padding:10px 14px;font-family:Pretendard,sans-serif;min-width:200px">
       <p style="font-size:11px;color:${route.color};font-weight:700;margin:0">${esc(s.when)}</p>
       <p style="font-size:15px;font-weight:700;margin:2px 0">${esc(s.name)}</p>
       <p style="font-size:12px;color:#555;margin:0">${esc(p.address)}</p>
       <a href="${esc(kakaoLink(s, p))}" target="_blank" rel="noreferrer" style="display:inline-block;margin-top:6px;font-size:12px;color:#2a6db5;font-weight:700">카카오맵에서 길찾기 »</a></div>`;
-    infoRef.current = new kakao.maps.CustomOverlay({ position: pos, content: el, yAnchor: 0, zIndex: 5 });
-    infoRef.current.setMap(mapRef.current);
-  }, [state, active, route, coords]);
+    infoRef.current = new kakao.maps.CustomOverlay({ position: pos, content: el, yAnchor: 0, zIndex: 5, clickable: true });
+    infoRef.current.setMap(map);
+    return () => clearTimeout(t);
+  }, [state, active, route, coords, tick]);
+
+  /** 핀·목록 클릭: 같은 핀을 다시 눌러도 다시 확대되게 tick 증가 */
+  function focusSpot(id: string) {
+    setActive(id);
+    setTick((n) => n + 1);
+  }
 
   const switchRoute = (id: MapRoute['id']) => {
     setActive(null);
@@ -238,8 +253,8 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
                 key={`${route.id}-${s.id}-${i}`}
                 role={tbd ? undefined : 'button'}
                 tabIndex={tbd ? -1 : 0}
-                onClick={() => !tbd && setActive(s.id)}
-                onKeyDown={(e) => !tbd && (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), setActive(s.id))}
+                onClick={() => !tbd && focusSpot(s.id)}
+                onKeyDown={(e) => !tbd && (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), focusSpot(s.id))}
                 className={`flex cursor-pointer items-center gap-3 px-5 py-2.5 ${active === s.id ? 'bg-[#eaf4fc]' : i % 2 ? 'bg-panel' : 'bg-white'} ${tbd ? 'cursor-default opacity-70' : ''}`}
               >
                 <Pin n={i + 1} color={tbd ? '#9aa0a6' : route.color} size={22} />
@@ -291,6 +306,19 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
         ) : (
           <div className="relative order-1 min-h-[360px] border border-line lg:order-2 lg:min-h-[560px]">
             <div ref={boxRef} className="absolute inset-0" />
+            {state === 'ready' && active && (
+              <button
+                onClick={() => setActive(null)}
+                className="absolute left-3 top-3 z-10 rounded-full border border-line bg-white px-4 py-2 text-[13px] font-bold text-navy shadow-[0_2px_6px_rgba(0,0,0,.2)] hover:bg-panel"
+              >
+                ← 전체 코스 보기
+              </button>
+            )}
+            {state === 'ready' && !active && (
+              <p className="pointer-events-none absolute left-3 top-3 z-10 rounded-full bg-white/90 px-3 py-1.5 text-[12px] font-semibold text-gray-600 shadow">
+                핀을 누르면 그 장소로 확대돼요
+              </p>
+            )}
             {state === 'loading' && <p className="absolute inset-0 flex items-center justify-center text-[13px] text-gray-500">지도 불러오는 중…</p>}
           </div>
         )}
