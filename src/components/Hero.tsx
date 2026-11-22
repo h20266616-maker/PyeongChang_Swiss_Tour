@@ -1,10 +1,10 @@
 import { useState, type FormEvent } from 'react';
 import { AnimatePresence } from 'motion/react';
-import { BOOKING, COURSES, courseById, type CourseId } from '../content';
+import { BOOKING, COURSES, SUMMER, courseById, type CourseId } from '../content';
 import { TrustBadges, photo } from './Common';
 import { TicketingModal, makeBookingNo, type TicketData } from './Ticketing';
 
-const today = new Date().toISOString().slice(0, 10);
+const today = SUMMER.def; // 여름 출발 상품이라 기본값은 다가오는 7월 중순
 
 export default function Hero({ course, onCourse }: { course: CourseId; onCourse: (id: CourseId) => void }) {
   const [name, setName] = useState('');
@@ -40,7 +40,7 @@ export default function Hero({ course, onCourse }: { course: CourseId; onCourse:
   const input = 'h-[27px] w-full border border-[#bfbfbf] bg-white px-2 text-[13px] text-[#555] shadow-[inset_0_1px_2px_rgba(0,0,0,.08)] outline-none focus:border-brand';
 
   return (
-    <section id="ticket" className="relative scroll-mt-16">
+    <section id="ticket" className="relative scroll-mt-[90px]">
       <div className="relative min-h-[640px] overflow-hidden md:h-[640px]">
         <img src={photo('sheep1')} alt="초록 언덕 위에서 풀을 뜯는 양떼와 먼 산 (사실 대관령)" className="absolute inset-0 h-full w-full object-cover" />
 
@@ -79,8 +79,8 @@ export default function Hero({ course, onCourse }: { course: CourseId; onCourse:
                 ))}
               </select>
               <label htmlFor="bk-date">Departure</label>
-              <input id="bk-date" type="date" className={input} value={date} onChange={(e) => setDate(e.target.value)} />
-              <label htmlFor="bk-course">코스</label>
+              <input id="bk-date" type="date" min={SUMMER.min} max={SUMMER.max} className={input} value={date} onChange={(e) => setDate(e.target.value)} />
+              <label htmlFor="bk-course">Course</label>
               <select id="bk-course" className={input} value={course} onChange={(e) => onCourse(e.target.value as CourseId)}>
                 {COURSES.map((c) => (
                   <option key={c.id} value={c.id}>

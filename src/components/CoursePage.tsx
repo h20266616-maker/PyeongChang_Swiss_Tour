@@ -80,7 +80,7 @@ export default function CoursePage({ course, onBook }: { course: Course; onBook:
           <p className="text-[14px] font-extrabold text-[#e60023]">{course.promo}</p>
           <h1 className="mt-1 text-[22px] font-bold leading-snug md:text-[26px]">{course.title.replace(/^\[테무산특가\]\s*/, '')}</h1>
           <div className="mt-4 flex flex-wrap items-end gap-x-2 border-b border-line pb-4">
-            <s className="text-[15px] text-gray-400">{course.priceOrig}</s>
+            <s className="text-[15px] text-gray-500">{course.priceOrig}</s>
             <span className="text-[14px] font-semibold text-gray-500">1인</span>
             <span className="text-[34px] font-extrabold leading-none text-[#e60023]">{course.price}</span>
             <span className="mb-1 rounded-sm bg-[#fff1c2] px-1.5 text-[12px] font-bold text-[#b35a00]">{course.discount}</span>
@@ -166,7 +166,7 @@ export default function CoursePage({ course, onBook }: { course: Course; onBook:
                 <span className={`rounded-full border px-3 py-1 ${r.startsWith('서울') ? 'border-navy bg-navy text-white' : r.startsWith('펜션') ? 'border-[#ffc98a] bg-[#fff1dc]' : 'border-line bg-panel'}`}>
                   {r}
                 </span>
-                {k < course.route.length - 1 && <ChevronRight size={14} className="mx-0.5 text-gray-400" />}
+                {k < course.route.length - 1 && <ChevronRight size={14} className="mx-0.5 text-gray-500" />}
               </li>
             ))}
           </ol>

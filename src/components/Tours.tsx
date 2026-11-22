@@ -9,7 +9,7 @@ import { SectionTitle, photo } from './Common';
 /* ───────── Tour Course: 입문/정복 코스 카드 (피그마 node 19:197) ───────── */
 export function Courses({ onBook }: { onBook: (id: CourseId) => void }) {
   return (
-    <section id="courses" className="scroll-mt-16 px-4 py-20">
+    <section id="courses" className="scroll-mt-[90px] px-4 py-20">
       <SectionTitle black="PyeongS Tour" blue="Course" sub="스위스 같은데 평창인 패키지. 처음이면 입문, 다 보고 싶으면 정복." />
       <div className="mx-auto grid max-w-[1100px] gap-8 md:grid-cols-2">
         {COURSES.map((c) => (
@@ -64,7 +64,7 @@ function CourseCard({ c, onBook }: { c: Course; onBook: (id: CourseId) => void }
         </div>
         <h3 className="mt-2 text-[18px] font-bold leading-snug">{c.title.replace(/^\[테무산특가\]\s*/, '')}</h3>
         <div className="mt-3 flex flex-wrap items-end gap-x-2">
-          <s className="text-[14px] text-gray-400">{c.priceOrig}</s>
+          <s className="text-[14px] text-gray-500">{c.priceOrig}</s>
           <span className="text-[13px] font-semibold text-gray-500">1인</span>
           <span className="text-[28px] font-extrabold leading-none text-[#e60023]">{c.price}</span>
           <span className="mb-0.5 rounded-sm bg-[#fff1c2] px-1.5 text-[12px] font-bold text-[#b35a00]">{c.discount}</span>
@@ -106,7 +106,7 @@ export function Schedule() {
   const scroll = (d: number) => track.current?.scrollBy({ left: d * 328, behavior: 'smooth' });
 
   return (
-    <section id="schedule" className="scroll-mt-16 px-4 py-20">
+    <section id="schedule" className="scroll-mt-[90px] px-4 py-20">
       <SectionTitle black="PyeongS Tour" blue="Schedule" sub="1박 2일 동안 7개의 플랜. 스위스 같은데 평창인 경험을 시간대별로." />
       <div className="relative mx-auto max-w-[1340px]">
         <button onClick={() => scroll(-1)} aria-label="이전" className="absolute -left-1 top-1/2 z-10 hidden -translate-y-1/2 text-brand md:block">
@@ -216,8 +216,8 @@ export function Guides() {
   const [i, setI] = useState(0);
   const t = TOURS[i];
   return (
-    <section id="guides" className="scroll-mt-16 px-4 pb-20 pt-6">
-      <SectionTitle black="Tour" blue="Guides" sub="Meet the Best Tour Guides in Pyeongchang (= Switzerland)." />
+    <section id="guides" className="scroll-mt-[90px] px-4 pb-20 pt-6">
+      <SectionTitle black="Tour" blue="Guides" sub="Meet the Best Tour Guides in Pyeongchang (= Switzerland). 사진을 고르고 Start Tour를 누르면 투어 페이지로 이동해요." />
       <div className="mx-auto max-w-[756px] border border-[#cfcfcf] bg-white p-[7px]">
         <div className="relative aspect-[740/490] overflow-hidden">
           <AnimatePresence mode="wait">
@@ -235,9 +235,19 @@ export function Guides() {
           <span className="absolute right-4 top-4 rounded-full border-2 border-[#9db6db] bg-white/80 px-3 py-0.5 text-[14px] font-semibold tracking-[2px] text-[#5b7fb5]">
             {t.time}
           </span>
-          <div className="absolute left-0 top-[22%] bg-white/70 px-6 py-4 backdrop-blur-sm">
-            <p className="text-[38px] font-light leading-none tracking-tight md:text-[48px]">{t.name}</p>
+          <div className="absolute left-0 top-[18%] bg-white/70 px-6 py-4 backdrop-blur-sm">
+            <p className="text-[32px] font-light leading-none tracking-tight sm:text-[38px] md:text-[48px]">{t.name}</p>
             <p className="mt-3 text-[12px] font-semibold tracking-[0.45em]">GUIDE BY {t.guide.toUpperCase()}</p>
+            <a
+              href={`/spot/${t.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/spot/${t.id}`);
+              }}
+              className="btn-orange mt-3 inline-block px-4 py-1.5 text-[13px]"
+            >
+              Start Tour »
+            </a>
           </div>
           <div className="absolute bottom-3 left-4 flex items-center gap-2 text-white [text-shadow:0_1px_3px_rgba(0,0,0,.5)]">
             <span className="text-[13px] font-bold italic">PyeongS Travel</span>
@@ -275,7 +285,7 @@ export function Guides() {
       <div className={`mx-auto mt-14 grid gap-5 ${GUIDES_INTRO.mascots.length > 1 ? 'max-w-[900px] md:grid-cols-2' : 'max-w-[450px]'}`}>
         {GUIDES_INTRO.mascots.map((m) => (
           <div key={m.id} className="card-shadow flex gap-4 bg-panel p-4">
-            <div className="flex h-[96px] w-[96px] shrink-0 items-center justify-center border border-dashed border-gray-300 bg-white text-center text-[10px] text-gray-400">
+            <div className="flex h-[96px] w-[96px] shrink-0 items-center justify-center border border-dashed border-gray-300 bg-white text-center text-[10px] text-gray-500">
               {CHARACTER_IMAGES[m.id] ? <img src={CHARACTER_IMAGES[m.id]} alt={m.name} className="h-full w-full object-contain" /> : <>캐릭터 이미지<br />(성민)</>}
             </div>
             <div>

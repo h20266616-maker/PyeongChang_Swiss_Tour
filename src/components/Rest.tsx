@@ -1,21 +1,23 @@
-import { useState } from 'react';
-import { AnimatePresence } from 'motion/react';
+import type { MouseEvent } from 'react';
 import { BusFront, Check, ExternalLink, TrainFront } from 'lucide-react';
 import credits from '../credits.json';
-import { EXHIBIT_SITE_URL, INSTAGRAM_URL } from '../config';
-import { FOOTER, INFO, NAV, PARTNERS, POLAROID_QUOTE, REVIEWS, TOURS, type Tour } from '../content';
+import { EXHIBIT_SITE_URL, INSTAGRAM_ID, INSTAGRAM_URL } from '../config';
+import { COURSES, FOOTER, INFO, NAV, PARTNERS, POLAROID_QUOTE, REVIEWS, TOURS, type Tour } from '../content';
+import { navigate } from '../router';
 import { Pin, SectionTitle, photo } from './Common';
-import { TourModal } from './Tours';
 import { KakaoTourMap } from './KakaoMap';
+
+const go = (to: string) => (e: MouseEvent) => {
+  e.preventDefault();
+  navigate(to);
+};
 
 /* ───────── Map (카카오맵 실제 지도, 키 없으면 일러스트 약도) ───────── */
 export function TourMap() {
-  const [open, setOpen] = useState<Tour | null>(null);
   return (
-    <section id="map" className="scroll-mt-16 px-4 py-20">
+    <section id="map" className="scroll-mt-[90px] px-4 py-20">
       <SectionTitle blue="Map" black="of PyeongSwiss" blueFirst sub="Take a Peek at the PyeongSwiss Map (이번엔 축척 지킴)" />
-      <KakaoTourMap fallback={<IllustratedMap onPin={setOpen} />} />
-      <AnimatePresence>{open && <TourModal t={open} onClose={() => setOpen(null)} />}</AnimatePresence>
+      <KakaoTourMap fallback={<IllustratedMap onPin={(t) => navigate(`/spot/${t.id}`)} />} />
     </section>
   );
 }
@@ -117,7 +119,7 @@ export function TravelInfo() {
   const h = INFO.howTo;
   const c = INFO.compare;
   return (
-    <section id="info" className="scroll-mt-16 bg-[#f7fbfe] px-4 py-20">
+    <section id="info" className="scroll-mt-[90px] bg-[#f7fbfe] px-4 py-20">
       <SectionTitle black={h.title} blue={h.accent} sub={h.sub} />
       <div className="mx-auto grid max-w-[1160px] gap-5 md:grid-cols-2">
         {h.rows.map((r) => (
@@ -148,23 +150,24 @@ export function TravelInfo() {
 
       <div className="mt-20">
         <SectionTitle black={c.title} blue={c.accent} sub={c.sub} />
-        <div className="card-shadow mx-auto max-w-[900px] overflow-x-auto bg-white">
-          <table className="w-full min-w-[520px] border-collapse text-[14px]">
+        {/* 모바일에서도 3열이 화면 안에 들어오게 (가로 스크롤 없음) */}
+        <div className="card-shadow mx-auto max-w-[900px] bg-white">
+          <table className="w-full table-fixed border-collapse text-[13px] md:text-[14px]">
             <thead>
               <tr>
-                <th className="w-[120px] border-b border-line bg-panel p-3" />
-                <th className="border-b border-line bg-panel p-3 font-semibold text-gray-500">진짜 스위스</th>
-                <th className="border-b border-line bg-gradient-to-b from-[#ffd27a] to-[#ffb238] p-3 font-bold text-[#5a3200]">
-                  PyeongSwiss ★추천★
+                <th className="w-[64px] border-b border-line bg-panel p-2 md:w-[120px] md:p-3" />
+                <th className="border-b border-line bg-panel p-2 font-semibold text-gray-600 md:p-3">진짜 스위스</th>
+                <th className="border-b border-line bg-gradient-to-b from-[#ffd27a] to-[#ffb238] p-2 font-bold text-[#5a3200] md:p-3">
+                  PyeongSwiss <span className="hidden sm:inline">★추천★</span>
                 </th>
               </tr>
             </thead>
             <tbody>
               {c.rows.map((r) => (
                 <tr key={r.item}>
-                  <td className="border-b border-line p-3 font-semibold text-gray-500">{r.item}</td>
-                  <td className="border-b border-line p-3 text-center text-gray-500">{r.swiss}</td>
-                  <td className="border-b border-line bg-[#fffaf0] p-3 text-center font-semibold">
+                  <td className="border-b border-line p-2 font-semibold text-gray-600 md:p-3">{r.item}</td>
+                  <td className="border-b border-line p-2 text-center text-gray-600 md:p-3">{r.swiss}</td>
+                  <td className="border-b border-line bg-[#fffaf0] p-2 text-center font-semibold md:p-3">
                     <Check size={14} className="mr-1 inline text-[#46b520]" strokeWidth={3} />
                     {r.pc}
                   </td>
@@ -181,7 +184,7 @@ export function TravelInfo() {
 /* ───────── Reviews ───────── */
 export function Reviews() {
   return (
-    <section id="reviews" className="scroll-mt-16 px-4 py-20">
+    <section id="reviews" className="scroll-mt-[90px] px-4 py-20">
       <div className="mx-auto max-w-[1160px]">
         <div className="card-shadow bg-panel">
           <div className="flex items-center gap-4 border-b border-line px-5 py-3">
@@ -218,7 +221,7 @@ export function Reviews() {
             </div>
           ))}
         </div>
-        <p className="mt-3 text-right text-[11px] text-gray-400">* {REVIEWS.source}</p>
+        <p className="mt-3 text-right text-[11px] text-gray-500">* {REVIEWS.source}</p>
       </div>
     </section>
   );
@@ -258,25 +261,45 @@ export function Footer() {
     <footer className="rounded-t-[60px] bg-[#f3f3f3] px-5 pb-10 pt-12 text-center shadow-[0_-8px_20px_rgba(0,0,0,.05)]">
       <nav className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-[15px] font-semibold text-navy">
         {NAV.map((n) => (
-          <a key={n.href} href={`/${n.href}`} className="underline">
+          <a key={n.href} href={`/${n.href}`} onClick={go(`/${n.href}`)} className="underline">
             {n.label}
           </a>
         ))}
-        {INSTAGRAM_URL && (
-          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="underline">
-            Instagram
-          </a>
-        )}
+        <a href="/duty-free" onClick={go('/duty-free')} className="underline">
+          Duty Free
+        </a>
         {EXHIBIT_SITE_URL && (
           <a href={EXHIBIT_SITE_URL} target="_blank" rel="noreferrer" className="underline">
             About Project
           </a>
         )}
       </nav>
+      <div className="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-1 text-[13px] text-gray-600">
+        {COURSES.map((c) => (
+          <a key={c.id} href={c.path} onClick={go(c.path)} className="hover:text-brand">
+            {c.short} 상세 »
+          </a>
+        ))}
+      </div>
+      {INSTAGRAM_ID && (
+        <a
+          href={INSTAGRAM_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="mx-auto mt-5 flex w-fit items-center gap-2 rounded-full bg-gradient-to-r from-[#f9a43a] via-[#e1306c] to-[#833ab4] px-5 py-2 text-[14px] font-bold text-white shadow"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <rect x="3" y="3" width="18" height="18" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+          </svg>
+          @{INSTAGRAM_ID}
+        </a>
+      )}
       <p className="mt-4 text-[13px] text-navy">Copyright © 2026 PyeongS Travel. All rights reserved (아마도).</p>
       <p className="mx-auto mt-6 max-w-3xl text-[12px] leading-relaxed text-gray-500">{FOOTER.disclaimer}</p>
-      <p className="mt-2 text-[11px] text-gray-400">{FOOTER.team}</p>
-      <details className="mx-auto mt-6 max-w-3xl text-left text-[11px] text-gray-400">
+      <p className="mt-2 text-[11px] text-gray-500">{FOOTER.team}</p>
+      <details className="mx-auto mt-6 max-w-3xl text-left text-[11px] text-gray-500">
         <summary className="cursor-pointer text-center">사진 출처 (Wikimedia Commons)</summary>
         <ul className="mt-2 space-y-0.5">
           {credits.map((c) => (

@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ExternalLink, MapPin } from 'lucide-react';
 import { KAKAO_MAP_KEY } from '../config';
-import { MAP_ROUTES, type MapRoute, type MapSpot } from '../content';
+import { MAP_ROUTES, TOURS, type MapRoute, type MapSpot } from '../content';
+import { navigate } from '../router';
+
+/** 지도 장소 → 투어 페이지(/spot/:id) 연결 (키키의 Tour Now) */
+const TOUR_OF: Record<string, string> = { pension: 'stars' };
+const tourFor = (spotId: string) => TOURS.find((t) => t.id === (TOUR_OF[spotId] ?? spotId));
 import { Pin } from './Common';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -86,7 +91,7 @@ function pinHtml(n: number, color: string, active: boolean) {
   const size = active ? 36 : 30;
   return `<div style="transform:translate(-50%,-100%);cursor:pointer;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))">
     <svg width="${size}" height="${size * 1.3}" viewBox="0 0 30 39"><path d="M15 38 C 15 38 2 22 2 14 a13 13 0 0 1 26 0 c0 8 -13 24 -13 24z" fill="${color}" stroke="#fff" stroke-width="1.5"/>
-    <text x="15" y="19" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Inter, sans-serif">${n}</text></svg></div>`;
+    <text x="15" y="19" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Pretendard, sans-serif">${n}</text></svg></div>`;
 }
 
 // ───────── 메인 ─────────
@@ -212,7 +217,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
 
       <div className="grid gap-5 lg:grid-cols-[440px_1fr]">
         {/* 목록 */}
-        <div className="max-h-[560px] overflow-y-auto border border-line">
+        <div className="order-2 max-h-[380px] overflow-y-auto border border-line lg:order-1 lg:max-h-[560px]">
           <p className="sticky top-0 z-10 border-b border-line bg-panel px-5 py-3 text-[15px] font-semibold">
             Location <span className="text-[12px] font-normal text-gray-500">· 이번엔 진짜 위치입니다</span>
           </p>
@@ -222,7 +227,10 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
             return (
               <div
                 key={`${route.id}-${s.id}-${i}`}
+                role={tbd ? undefined : 'button'}
+                tabIndex={tbd ? -1 : 0}
                 onClick={() => !tbd && setActive(s.id)}
+                onKeyDown={(e) => !tbd && (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), setActive(s.id))}
                 className={`flex cursor-pointer items-center gap-3 px-5 py-2.5 ${active === s.id ? 'bg-[#eaf4fc]' : i % 2 ? 'bg-panel' : 'bg-white'} ${tbd ? 'cursor-default opacity-70' : ''}`}
               >
                 <Pin n={i + 1} color={tbd ? '#9aa0a6' : route.color} size={22} />
@@ -233,6 +241,19 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
                   <p className="text-[15px] font-semibold">{s.name}</p>
                   <p className="truncate text-gray-500">{tbd ? '장소 확정 전 (업체 정해지면 지도에 표시)' : p ? p.address : s.desc}</p>
                 </div>
+                {tourFor(s.id) && (
+                  <a
+                    href={`/spot/${tourFor(s.id)!.id}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      navigate(`/spot/${tourFor(s.id)!.id}`);
+                    }}
+                    className="hidden shrink-0 text-[12px] font-bold text-brand underline sm:block"
+                  >
+                    Tour Now
+                  </a>
+                )}
                 {!tbd && (
                   <a
                     href={kakaoLink(s, p)}
@@ -251,7 +272,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
 
         {/* 지도 */}
         {state === 'nokey' || state === 'error' ? (
-          <div className="relative">
+          <div className="relative order-1 lg:order-2">
             {fallback}
             <p className="absolute inset-x-3 bottom-3 flex items-center gap-1.5 bg-white/90 px-3 py-2 text-[12px] text-gray-600">
               <MapPin size={14} />
@@ -259,7 +280,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
             </p>
           </div>
         ) : (
-          <div className="relative min-h-[420px] border border-line lg:min-h-[560px]">
+          <div className="relative order-1 min-h-[360px] border border-line lg:order-2 lg:min-h-[560px]">
             <div ref={boxRef} className="absolute inset-0" />
             {state === 'loading' && <p className="absolute inset-0 flex items-center justify-center text-[13px] text-gray-500">지도 불러오는 중…</p>}
           </div>

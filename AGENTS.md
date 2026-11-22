@@ -31,6 +31,7 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 | `src/components/Ticketing.tsx` | 티켓 컴포넌트(21:217) + 발권기 애니메이션 화면(21:313), PDF 저장·인스타 스토리 이미지 |
 | `src/components/Shop.tsx` | 굿즈샵 목록 `/duty-free`(6:197), 굿즈 상세 `/duty-free/:id`(25:359), 굿즈 카드(2:39). 상품 데이터는 `content.ts`의 `GOODS` (임시값) |
 | `src/cart.tsx` | 장바구니 context + localStorage, 헤더 장바구니 버튼, 오른쪽 드로어, 결제 완료(?) 영수증(25:520). **실제 결제 없음** |
+| `src/components/SpotPage.tsx` | 투어 개별 페이지 `/spot/:id` (키키의 Start Tour 페이지). 데이터는 `content.ts`의 `TOURS` (코스 장소 기준 7개, 가이드 = 팀원) |
 | `src/components/KakaoMap.tsx` | Map of PyeongSwiss 카카오맵 실제 지도 (코스별 핀·동선). 장소 목록은 `content.ts`의 `MAP_ROUTES` (`query` 비어 있으면 "장소 확정 전") |
 | `src/components/CoursePage.tsx` | 코스 상세 페이지 (입문 20:166 / 정복 20:422) |
 | `src/components/Tours.tsx` | 투어 코스 카드 섹션(19:197), Duty Free 배너, Tour Guides 슬라이드. 구버전 Schedule 캐러셀은 코드만 남기고 숨김 |
@@ -52,7 +53,12 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 - [x] 피그마 반영 (홈쇼핑 영상, 투어 코스, 코스 상세, 코스 선택, 발권 애니메이션) — 피그마 https://www.figma.com/design/F172HJ7ss055cTetZwdlPh
 - [x] 굿즈샵 (목록·상세·장바구니·영수증)
 - [x] 카카오맵 실제 지도. 키는 Vercel 환경변수 `VITE_KAKAO_MAP_KEY` (로컬은 `.env.local`, 깃에 안 올림). 카카오 앱의 JavaScript SDK 도메인에 사이트 주소 등록돼 있어야 함
-- [ ] 숙소·치즈체험장·배추농원 업체 확정 → `MAP_ROUTES`의 `query`에 카카오맵 검색어 입력
+- [x] 숙소·치즈·배추 임시 선정 (평창 스위스마을 / 바람마을 치즈체험장 / 대관령 수레마을) → 팀 확정 시 `MAP_ROUTES` 수정
+- [x] 패키지 이동수단 = 왕복 전용 버스로 통일 (KTX·시외버스는 Travel Info "따로 가는 법")
+- [ ] 피그마 한글 로고 → `public/logo/`에 SVG/PNG 넣고 `config.ts`의 `LOGO_IMAGE`
+- [ ] 인스타 아이디 → `config.ts`의 `INSTAGRAM_ID` (넣으면 푸터에 @아이디 표시)
+- [ ] 사용성 평가 구글폼 → `config.ts`의 `EVAL_FORM_URL` (넣으면 우측 하단 "평가하기" 버튼 생김, 비면 숨김)
+- [ ] 여름 사진으로 교체 (지금 겨울 사진 많음: samyangranch, skijump, alpensia)
 - [ ] 굿즈 상품명·가격을 피그마 확정본으로 교체 → `content.ts`의 `GOODS` (지금은 임시값)
 - [ ] 성민 굿즈 시안 → `public/goods/` + `config.ts`의 `GOODS_IMAGES` (비어 있으면 카테고리 아이콘 자리표시)
 - [ ] 겨울 사진(풍차 언덕, 올림픽 레거시) → 여름 사진으로 교체

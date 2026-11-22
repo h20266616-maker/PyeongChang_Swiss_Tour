@@ -29,7 +29,7 @@ export default function HomeShopping() {
   const hasVideo = !!HOMESHOPPING_VIDEO_ID;
 
   return (
-    <section id="live" aria-label="평스홈쇼핑 방송" className="scroll-mt-16 bg-[#0f1640] px-0 pt-6 md:px-6 md:py-8">
+    <section id="live" aria-label="평스홈쇼핑 방송" className="scroll-mt-[90px] bg-[#0f1640] px-0 pt-6 md:px-6 md:py-8">
       <div className="mx-auto max-w-[1100px]">
         <div className="relative aspect-video w-full overflow-hidden bg-black md:border-4 md:border-[#26306b] md:shadow-[0_6px_20px_rgba(0,0,0,.45)]">
           {hasVideo ? (

@@ -7,11 +7,24 @@
  */
 export const HOMESHOPPING_VIDEO_ID = '';
 
-/** 사용성 평가 구글폼 링크 (사이트 우측 하단 버튼) */
+/**
+ * 사용성 평가 구글폼 링크 (PLAN.md의 사용성 평가용). 넣으면 우측 하단에 "이 여행사 평가하기" 버튼이 생김.
+ * 비워두면 버튼 자체가 안 보임.
+ */
 export const EVAL_FORM_URL = '';
 
-/** 도연 여행사 인스타그램 */
-export const INSTAGRAM_URL = '';
+/**
+ * 여행사 인스타그램 아이디 (@ 빼고). 예: 'pyeongs_travel'
+ * 넣으면 푸터에 "@아이디" + 인스타 링크가 표시됨. 비워두면 안 보임.
+ */
+export const INSTAGRAM_ID = '';
+export const INSTAGRAM_URL = INSTAGRAM_ID ? `https://www.instagram.com/${INSTAGRAM_ID}/` : '';
+
+/**
+ * 피그마 한글 로고 이미지 — public/logo/ 에 넣고 경로 입력 (SVG 추천). 예: '/logo/pyeongs-ko.svg'
+ * 비워두면 지금의 글자 로고(PyeongS Travel)가 나옴.
+ */
+export const LOGO_IMAGE = '';
 
 /** 은빈 전시용 소개 웹사이트 */
 export const EXHIBIT_SITE_URL = '';

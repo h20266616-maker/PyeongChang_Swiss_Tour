@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { Download, RotateCcw, TrainFront, X } from 'lucide-react';
+import { BusFront, Download, RotateCcw, X } from 'lucide-react';
 import { PASS } from '../content';
 
 export type TicketData = {
@@ -76,12 +76,12 @@ export const Ticket = forwardRef<HTMLDivElement, { t: TicketData; stamped: boole
         </div>
         <div className="grid grid-cols-[1fr_auto_1.2fr] items-center gap-2 px-4 pt-4 md:px-5">
           <div>
-            <p className="text-[10px] font-semibold text-gray-400">FROM</p>
+            <p className="text-[10px] font-semibold text-gray-500">FROM</p>
             <p className="text-[17px] font-extrabold leading-tight md:text-[20px]">{t.from}</p>
           </div>
-          <TrainFront className="text-brand" size={20} />
+          <BusFront className="text-brand" size={20} />
           <div className="text-right">
-            <p className="text-[10px] font-semibold text-gray-400">TO</p>
+            <p className="text-[10px] font-semibold text-gray-500">TO</p>
             <p className="text-[14px] font-extrabold text-gray-300 line-through decoration-[#d6001c] decoration-[3px] md:text-[16px]">SWITZERLAND</p>
             <p className="text-[19px] font-extrabold leading-tight text-brand md:text-[22px]">{PASS.realDest}</p>
             <p className="text-[10px] text-gray-500">{PASS.realDestKo}</p>
@@ -90,7 +90,7 @@ export const Ticket = forwardRef<HTMLDivElement, { t: TicketData; stamped: boole
         <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 px-4 text-[12px] sm:w-[64%] md:px-5">
           {fields.map(([ko, en, v]) => (
             <div key={en}>
-              <dt className="text-[9px] font-bold tracking-wider text-gray-400">
+              <dt className="text-[9px] font-bold tracking-wider text-gray-500">
                 {en} · {ko}
               </dt>
               <dd className="font-bold">{v}</dd>
@@ -99,7 +99,7 @@ export const Ticket = forwardRef<HTMLDivElement, { t: TicketData; stamped: boole
         </dl>
         <div className="mt-3 flex items-end justify-between gap-3 px-4 pb-4 md:px-5">
           <div>
-            <p className="text-[9px] font-bold tracking-wider text-gray-400">BOOKING NO. · 예약번호</p>
+            <p className="text-[9px] font-bold tracking-wider text-gray-500">BOOKING NO. · 예약번호</p>
             <p className="font-mono text-[15px] font-bold tracking-wider">{t.bookingNo}</p>
           </div>
           <Barcode value={t.bookingNo} className="w-[150px] md:w-[190px]" />

@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/tour/(.*)", "destination": "/index.html" },
+    { "source": "/spot/(.*)", "destination": "/index.html" },
     { "source": "/duty-free", "destination": "/index.html" },
     { "source": "/duty-free/(.*)", "destination": "/index.html" }
   ]

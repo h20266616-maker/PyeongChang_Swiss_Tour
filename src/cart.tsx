@@ -191,7 +191,7 @@ function CartDrawer() {
                         <p className="text-[14px] font-bold">{(l.unit * l.qty).toLocaleString()} 양털</p>
                       </div>
                     </div>
-                    <button onClick={() => remove(l.id, l.option)} aria-label={`${l.goods.name} 삭제`} className="self-start text-gray-400 hover:text-[#e60023]">
+                    <button onClick={() => remove(l.id, l.option)} aria-label={`${l.goods.name} 삭제`} className="self-start text-gray-500 hover:text-[#e60023]">
                       <Trash2 size={16} />
                     </button>
                   </li>

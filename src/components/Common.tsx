@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Cloud, CloudFog, Moon, Sun, Wind } from 'lucide-react';
+import { LOGO_IMAGE } from '../config';
 
 export const photo = (name: string) => `${import.meta.env.BASE_URL}photos/${name}.jpg`;
 
@@ -24,6 +25,7 @@ export function SectionTitle({ black, blue, sub, blueFirst }: { black: string; b
 }
 
 export function Logo({ small }: { small?: boolean }) {
+  if (LOGO_IMAGE) return <img src={LOGO_IMAGE} alt="평스투어 PyeongS Travel" className={`h-[42px] w-auto ${small ? 'scale-90' : ''}`} />;
   return (
     <div className={`flex flex-col items-center leading-none ${small ? 'scale-90' : ''}`}>
       <div className="relative flex items-end">
@@ -60,7 +62,7 @@ export function Pin({ n, color, size = 30 }: { n: number; color: string; size?: 
       </defs>
       <path d="M15 38 C 15 38 2 22 2 14 a13 13 0 0 1 26 0 c0 8 -13 24 -13 24z" fill={color} stroke="rgba(0,0,0,.15)" />
       <path d="M15 38 C 15 38 2 22 2 14 a13 13 0 0 1 26 0 c0 8 -13 24 -13 24z" fill={`url(#pg${n})`} />
-      <text x="15" y="19" textAnchor="middle" fontSize="13" fontWeight="700" fill="#fff" fontFamily="Inter">
+      <text x="15" y="19" textAnchor="middle" fontSize="13" fontWeight="700" fill="#fff" fontFamily="Pretendard">
         {n}
       </text>
     </svg>
@@ -75,16 +77,16 @@ export function TrustBadges() {
       <svg width="52" height="54" viewBox="0 0 52 54" aria-label="100% 시원 보장">
         <path d="M26 2 L48 9 V26 C48 40 37 49 26 52 C15 49 4 40 4 26 V9 Z" fill="#1d3d8f" stroke="#c9d3ea" strokeWidth="2" />
         <path d="M26 7 L43 12.5 V26 C43 37 35 44 26 47 C17 44 9 37 9 26 V12.5 Z" fill="#2a56c6" />
-        <text x="26" y="24" textAnchor="middle" fontSize="10" fontWeight="800" fill="#fff" fontFamily="Inter">100%</text>
+        <text x="26" y="24" textAnchor="middle" fontSize="10" fontWeight="800" fill="#fff" fontFamily="Pretendard">100%</text>
         <text x="26" y="34" textAnchor="middle" fontSize="8" fontWeight="800" fill="#ffd54a" fontFamily="Pretendard">시원</text>
         <rect x="6" y="37" width="40" height="8" rx="1" fill="#f2b705" />
-        <text x="26" y="43.5" textAnchor="middle" fontSize="5.4" fontWeight="800" fill="#1d3d8f" fontFamily="Inter">GUARANTEE</text>
+        <text x="26" y="43.5" textAnchor="middle" fontSize="5.4" fontWeight="800" fill="#1d3d8f" fontFamily="Pretendard">GUARANTEE</text>
       </svg>
       {/* 체크 리본 */}
       <svg width="78" height="40" viewBox="0 0 78 40" aria-label="동결건조 인증">
         <rect x="18" y="12" width="58" height="18" rx="2" fill="#f7c600" />
         <text x="47" y="20" textAnchor="middle" fontSize="6.5" fontWeight="800" fill="#5a4300" fontFamily="Pretendard">동결건조</text>
-        <text x="47" y="27.5" textAnchor="middle" fontSize="6.5" fontWeight="800" fill="#5a4300" fontFamily="Inter">APPROVED</text>
+        <text x="47" y="27.5" textAnchor="middle" fontSize="6.5" fontWeight="800" fill="#5a4300" fontFamily="Pretendard">APPROVED</text>
         <path d="M4 20 l8 9 l16 -24" stroke="#2e2e2e" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M4 20 l8 9 l16 -24" stroke="#ffd84d" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
@@ -95,13 +97,13 @@ export function TrustBadges() {
         ))}
         <circle cx="25" cy="25" r="21" fill="#e9a400" />
         <circle cx="25" cy="25" r="16" fill="#2c1a00" />
-        <text x="25" y="22" textAnchor="middle" fontSize="5.6" fontWeight="800" fill="#ffcf4a" fontFamily="Inter">BEST TOUR</text>
-        <text x="25" y="29" textAnchor="middle" fontSize="5.6" fontWeight="800" fill="#ffcf4a" fontFamily="Inter">EVER(?)</text>
+        <text x="25" y="22" textAnchor="middle" fontSize="5.6" fontWeight="800" fill="#ffcf4a" fontFamily="Pretendard">BEST TOUR</text>
+        <text x="25" y="29" textAnchor="middle" fontSize="5.6" fontWeight="800" fill="#ffcf4a" fontFamily="Pretendard">EVER(?)</text>
       </svg>
       {/* 2026 */}
       <svg width="58" height="26" viewBox="0 0 58 26" aria-label="2026">
         <path d="M6 2 H58 L52 24 H0 Z" fill="#fff" stroke="#1d3d8f" strokeWidth="1.5" />
-        <text x="29" y="19" textAnchor="middle" fontSize="16" fontWeight="800" fontStyle="italic" fill="#1d3d8f" fontFamily="Inter">2026</text>
+        <text x="29" y="19" textAnchor="middle" fontSize="16" fontWeight="800" fontStyle="italic" fill="#1d3d8f" fontFamily="Pretendard">2026</text>
       </svg>
     </div>
   );
