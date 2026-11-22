@@ -639,3 +639,58 @@ export const FOOTER = {
     '평창 스위스 투어(평스투어)는 실존하지 않는 여행사입니다. 한림대학교 디자인씽킹 6조 「테무산 스위스」 텀과제 결과물이며 실제 상품을 판매하거나 예약을 받지 않습니다. 교통·관광지 정보는 실제 정보입니다.',
   team: '디자인씽킹 6조 테무산 스위스 · 화영 채빈 은빈 아리 성민 도연',
 };
+
+// ─────────────────────────────────────────────
+// Map of PyeongSwiss — 실제 지도 (카카오맵)
+// 좌표는 지어내지 않고, query를 카카오 장소검색에 넣어서 실제 위치를 받아옴.
+// query가 빈 칸('')인 곳은 실제 업체가 정해지지 않은 곳 → 지도에 핀 없이 목록에만 "장소 확정 전"으로 표시.
+// 업체가 정해지면 query에 카카오맵 검색어(예: '대관령치즈스쿨')만 넣으면 핀이 생김.
+// ─────────────────────────────────────────────
+export type MapSpot = { id: string; name: string; query: string; when: string; desc?: string };
+export type MapRoute = { id: CourseId | 'season'; label: string; color: string; spots: MapSpot[] };
+
+const SPOT = {
+  sheep: { id: 'sheep', name: '대관령 양떼목장', query: '대관령양떼목장', when: '1일차 오전', desc: '평창의 스위스 초원 산책 + 양떼 건초주기' },
+  balwang: { id: 'balwang', name: '발왕산 케이블카 + 스카이워크', query: '발왕산관광케이블카', when: '1일차 오후', desc: '국내 최장 7.4km 케이블카, 해발 1,458m' },
+  olympic: { id: 'olympic', name: '평창올림픽기념관', query: '평창올림픽기념관', when: '1일차 오후', desc: 'VR로 즐기는 여름 동계스포츠' },
+  skijump: { id: 'skijump', name: '알펜시아 스키점프대', query: '알펜시아 스키점프센터', when: '1일차 오후', desc: '여름엔 축구장이 되는 스키점프대' },
+  pension: { id: 'pension', name: '스위스마을 펜션 (숙소)', query: '', when: '1일차 저녁', desc: '바비큐 + 별 보기' },
+  samyang: { id: 'samyang', name: '삼양라운드힐', query: '삼양라운드힐', when: '2일차 오전', desc: '풍력발전기 능선 + 양몰이 공연' },
+  cheese: { id: 'cheese', name: '치즈 만들기 체험장', query: '', when: '2일차', desc: '대관령 우유로 만드는 스위스 치즈(?)' },
+  cabbage: { id: 'cabbage', name: '고랭지배추 농원', query: '', when: '2일차 오후', desc: '알프스 양배추 농장 체험' },
+  seonja: { id: 'seonja', name: '선자령', query: '선자령', when: '2일차 오전', desc: '입구 숲길만 산책 (전체 코스 4~5시간)' },
+  sliding: { id: 'sliding', name: '알펜시아 슬라이딩파크', query: '알펜시아 슬라이딩센터', when: '2일차 오후', desc: '봅슬레이 대신 튜브썰매' },
+  yukbaek: { id: 'yukbaek', name: '육백마지기', query: '육백마지기', when: '3일차 오전', desc: '해발 1,256m 고랭지 채소단지 + 풍력발전기 초원' },
+  bongpyeong: { id: 'bongpyeong', name: '봉평 이효석문화마을', query: '이효석문화마을', when: '3일차 오후', desc: '『메밀꽃 필 무렵』 배경지' },
+} satisfies Record<string, MapSpot>;
+
+export const MAP_ROUTES: MapRoute[] = [
+  {
+    id: 'intro',
+    label: '입문 코스 (1박2일)',
+    color: '#2a6db5',
+    spots: [SPOT.sheep, SPOT.balwang, SPOT.olympic, SPOT.skijump, SPOT.pension, SPOT.samyang, SPOT.cheese, SPOT.cabbage],
+  },
+  {
+    id: 'master',
+    label: '정복 코스 (2박3일)',
+    color: '#f58300',
+    spots: [
+      SPOT.sheep, SPOT.balwang, SPOT.olympic, SPOT.skijump, SPOT.pension,
+      SPOT.seonja, SPOT.samyang, { ...SPOT.cheese, when: '2일차 오후' }, SPOT.cabbage, SPOT.sliding,
+      { ...SPOT.yukbaek }, SPOT.bongpyeong,
+    ],
+  },
+  {
+    id: 'season',
+    label: '시즌 한정',
+    color: '#5fbf37',
+    spots: [
+      { id: 'daisy', name: '육백마지기 샤스타데이지', query: '육백마지기', when: '6월~7월 초 출발', desc: '샤스타데이지 + 은하수 관측' },
+      { id: 'music', name: '평창대관령음악제', query: '알펜시아 콘서트홀', when: '7월 말 출발', desc: '알펜시아 일대에서 열림' },
+      { id: 'ttamtti', name: '더위사냥축제 (땀띠공원)', query: '평창 땀띠공원', when: '7월 말 출발', desc: '평창읍 땀띠공원 일대' },
+      { id: 'montblanc', name: '휘닉스파크 몽블랑 메밀꽃밭', query: '휘닉스파크', when: '8월 말~9월 초 출발', desc: '메밀꽃밭' },
+      { id: 'hyoseok', name: '효석문화제', query: '이효석문화마을', when: '8월 말~9월 초 출발', desc: '봉평 일대' },
+    ],
+  },
+];

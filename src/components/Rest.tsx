@@ -4,38 +4,17 @@ import { BusFront, Check, ExternalLink, TrainFront } from 'lucide-react';
 import credits from '../credits.json';
 import { EXHIBIT_SITE_URL, INSTAGRAM_URL } from '../config';
 import { FOOTER, INFO, NAV, PARTNERS, POLAROID_QUOTE, REVIEWS, TOURS, type Tour } from '../content';
-import { Pin, SectionTitle, WeatherIcon, photo } from './Common';
+import { Pin, SectionTitle, photo } from './Common';
 import { TourModal } from './Tours';
+import { KakaoTourMap } from './KakaoMap';
 
-/* ───────── Map ───────── */
+/* ───────── Map (카카오맵 실제 지도, 키 없으면 일러스트 약도) ───────── */
 export function TourMap() {
   const [open, setOpen] = useState<Tour | null>(null);
   return (
     <section id="map" className="scroll-mt-16 px-4 py-20">
-      <SectionTitle blue="Map" black="of PyeongSwiss" blueFirst sub="Take a Peek at the PyeongSwiss Map (축척 무시)" />
-      <div className="mx-auto grid max-w-[1160px] gap-5 lg:grid-cols-[555px_1fr]">
-        <div className="border border-line">
-          <p className="border-b border-line bg-panel px-5 py-3 text-[15px] font-semibold">Location</p>
-          {TOURS.map((t, i) => (
-            <div key={t.id} className={`flex items-center gap-4 px-5 py-2.5 ${i % 2 ? 'bg-panel' : 'bg-white'}`}>
-              <Pin n={i + 1} color={t.pinColor} size={24} />
-              <div className="flex-1 text-[13px] leading-tight">
-                <p className="text-[15px] font-semibold">{t.name}</p>
-                <p>
-                  Tour at {t.time} Guide by {t.guide}
-                </p>
-                <p className="flex items-center gap-1">
-                  <WeatherIcon k={t.weatherIcon} /> Weather: {t.weather}
-                </p>
-              </div>
-              <button onClick={() => setOpen(t)} className="btn-orange px-5 py-1.5 text-[13px]">
-                Tour Now
-              </button>
-            </div>
-          ))}
-        </div>
-        <IllustratedMap onPin={setOpen} />
-      </div>
+      <SectionTitle blue="Map" black="of PyeongSwiss" blueFirst sub="Take a Peek at the PyeongSwiss Map (이번엔 축척 지킴)" />
+      <KakaoTourMap fallback={<IllustratedMap onPin={setOpen} />} />
       <AnimatePresence>{open && <TourModal t={open} onClose={() => setOpen(null)} />}</AnimatePresence>
     </section>
   );

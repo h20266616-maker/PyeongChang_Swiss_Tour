@@ -36,3 +36,12 @@ export const GOODS_IMAGES: Record<string, string> = {
 
 /** 마스코트 표기 (확정: 대괄양) — 사이트 전체가 이 값을 따라감 */
 export const MASCOT_NAME = '대괄양';
+
+/**
+ * 카카오맵 JavaScript 키 (Map of PyeongSwiss 실제 지도).
+ * 코드에 직접 쓰지 말고 Vercel 환경변수 VITE_KAKAO_MAP_KEY 로 넣기 (로컬은 .env.local).
+ * 카카오 디벨로퍼스 → 내 애플리케이션 → 플랫폼 → Web 사이트 도메인에
+ * https://pyeong-chang-swiss-tour.vercel.app 와 http://localhost:3000 등록 필요.
+ * 비어 있으면 예전 일러스트 약도 + "카카오맵에서 보기" 링크로 대체됨.
+ */
+export const KAKAO_MAP_KEY: string = import.meta.env.VITE_KAKAO_MAP_KEY ?? '';
