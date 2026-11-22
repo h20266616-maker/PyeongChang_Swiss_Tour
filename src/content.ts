@@ -456,13 +456,14 @@ export const HOMESHOPPING = {
 // ─────────────────────────────────────────────
 // (직구) Duty Free 굿즈샵 (피그마 node 6:197 / 25:359 / 25:520 / 2:39)
 // ⚠ 상품명·가격은 임시값. 피그마 확정본 나오면 여기만 고치면 됨
-// 이미지: public/goods/<id>.png 넣고 config.ts GOODS_IMAGES에 경로 입력
+// 이미지: public/goods/<이름>.jpg 넣고 각 상품 images 에 이름 추가 (첫 장이 대표)
 // ─────────────────────────────────────────────
 export const WOOL_WON = 100; // 1 양털 = 100원
-export const GOODS_CATEGORIES = ['전체', '마스코트', '여행용품', '의류·잡화', '먹거리', '기념품'] as const;
+export const GOODS_CATEGORIES = ['전체', '마스코트', '의류·잡화', '먹거리', '기념품'] as const;
 export type GoodsCategory = Exclude<(typeof GOODS_CATEGORIES)[number], '전체'> | '세트';
 export type GoodsBadge = 'BEST' | 'NEW' | 'MD추천' | '한정';
-export type GoodsOption = { name: string; values: { label: string; delta?: number }[] };
+/** image: 그 옵션을 고르면 바뀌는 사진 (public/goods/ 파일명, 확장자 제외) */
+export type GoodsOption = { name: string; values: { label: string; delta?: number; image?: string }[] };
 
 export type Goods = {
   id: string;
@@ -476,171 +477,137 @@ export type Goods = {
   summary: string; // 카드 한 줄
   description: string[]; // 상세 설명
   course?: CourseId; // 코스 고객 전용 세트
+  images: string[]; // public/goods/<이름>.jpg (첫 장이 대표). 성민 시안
 };
 
-const SIZE_SML: GoodsOption = { name: '크기', values: [{ label: 'S' }, { label: 'M' }, { label: 'L' }, { label: 'XL', delta: 20 }] };
+const SIZES: GoodsOption = { name: '사이즈', values: [{ label: 'S' }, { label: 'M' }, { label: 'L' }, { label: 'XL', delta: 20 }] };
 
+// 성민 굿즈 시안 기준 (2026-11-23). 가격은 임시값 → 확정되면 price만 수정
 export const GOODS: Goods[] = [
   {
     id: 'set-intro',
     name: '[입문 코스 고객 전용] 평스 웰컴 세트',
     category: '세트',
-    price: 140,
+    price: 170,
     badge: '한정',
     popularity: 90,
     course: 'intro',
-    summary: '대관령 공기캔 + 양 키링 + 스티커팩',
-    description: ['입문 코스 탑승권 소지자만 살 수 있다고 우기는 세트입니다. (확인은 안 합니다)', '구성: 대관령 공기캔 1, 양 키링 1, 평스 스티커팩 1', '따로 사는 것보다 20양털 저렴합니다.'],
+    summary: `${MASCOT_NAME} 인형 키링 + 평스 스티커팩`,
+    description: ['입문 코스 탑승권 소지자만 살 수 있다고 우기는 세트입니다. (확인은 안 합니다)', `구성: ${MASCOT_NAME} 인형 키링(기본) 1 + 평스 스티커팩 1`, '따로 사는 것보다 20양털 저렴합니다.'],
+    images: ['plush-basic', 'sticker-pack'],
   },
   {
     id: 'set-master',
     name: '[정복 코스 고객 전용] 평스 정복자 세트',
     category: '세트',
-    price: 540,
+    price: 640,
     badge: '한정',
     popularity: 85,
     course: 'master',
-    summary: '웰컴 세트 + 마스코트 인형(S) + 메밀 목베개',
-    description: ['2박 3일을 버틴 정복자에게 드리는 세트입니다.', `구성: 웰컴 세트 전체 + ${MASCOT_NAME} 인형(S) 1 + 메밀 목베개 1`, '따로 사는 것보다 50양털 저렴합니다.','버스 안에서 바로 쓸 수 있게 목베개를 맨 위에 담아드립니다.'],
+    summary: '인형 키링 + 무드등 키링 + 창좋다 티셔츠 + 하스카프 시리얼',
+    description: [
+      '2박 3일을 버틴 정복자에게 드리는 풀세트입니다.',
+      `구성: ${MASCOT_NAME} 인형 키링 1 + 동결건조 ${MASCOT_NAME} 무드등 키링 1 + "평창 창좋다~" 티셔츠 1 + 하스카프 동결건조칩 시리얼 1`,
+      '따로 사는 것보다 70양털 저렴합니다.',
+    ],
+    images: ['moodlight-keyring', 'plush-basic', 'tshirt-changjota', 'haskap-cereal'],
   },
   {
-    id: 'dwaegwalyang',
-    name: `${MASCOT_NAME} 봉제인형`,
+    id: 'plush',
+    name: `${MASCOT_NAME} 인형 키링`,
     category: '마스코트',
-    price: 250,
+    price: 150,
     badge: 'BEST',
     popularity: 100,
-    options: { name: '크기', values: [{ label: 'S (15cm)' }, { label: 'M (25cm)', delta: 80 }, { label: 'L (40cm)', delta: 200 }] },
-    summary: '스위스산(이라고 주장하는) 메인 가이드',
-    description: [`평스투어 메인 가이드 ${MASCOT_NAME}를 그대로 옮긴 봉제인형.`, '누르면 소리가 날 것 같지만 나지 않습니다.', '원산지: 대관령 (스위스 아님)'],
+    options: {
+      name: '표정',
+      values: [
+        { label: '기본', image: 'plush-basic' },
+        { label: '괄괄 (화남)', image: 'plush-angry' },
+      ],
+    },
+    summary: '평스투어 메인 가이드, 가방에 달고 다니는 대괄양',
+    description: [
+      `평스투어 메인 가이드 ${MASCOT_NAME}를 그대로 옮긴 복슬복슬 인형 키링.`,
+      '표정 2종: 기본 / 괄괄(일정 늦으면 나오는 표정)',
+      '원산지: 대관령 (스위스 아님)',
+    ],
+    images: ['plush-basic', 'plush-angry'],
   },
   {
-    id: 'keyring',
-    name: '양 키링 (양털 100% 아님)',
+    id: 'moodlight',
+    name: `동결건조 ${MASCOT_NAME} 무드등 키링`,
     category: '마스코트',
-    price: 80,
-    badge: 'BEST',
-    popularity: 95,
-    summary: '가방에 달면 스위스 다녀온 사람처럼 보임',
-    description: ['대관령 양떼목장 양을 닮은 키링.', '소재: 폴리에스터. 양털로 결제하지만 양털로 만들지는 않았습니다.'],
-  },
-  {
-    id: 'passport-cover',
-    name: '평스 여권 커버',
-    category: '여행용품',
-    price: 120,
-    badge: 'MD추천',
-    popularity: 60,
-    summary: '여권은 필요 없지만 커버는 필요함',
-    description: ['평창 여행에는 여권이 필요 없습니다.', '그래도 갖고 다니면 해외여행 기분이 납니다. 주민등록증이 쏙 들어가는 크기.'],
-  },
-  {
-    id: 'neck-pillow',
-    name: '봉평 메밀 목베개',
-    category: '여행용품',
     price: 180,
-    popularity: 65,
-    summary: '버스 안 숙면 보장',
-    description: ['봉평 메밀 껍질을 채운 목베개.', '비행기 12시간용이 아니라 버스용이라 작고 가볍습니다.'],
-  },
-  {
-    id: 'name-tag',
-    name: '탑승권 네임택',
-    category: '여행용품',
-    price: 70,
     badge: 'NEW',
-    popularity: 50,
-    summary: 'SWITZERLAND 취소선 디자인',
-    description: ['발권기에서 나온 탑승권 모양 그대로 만든 캐리어 네임택.', '목적지는 이미 평창으로 인쇄돼 있습니다.'],
-  },
-  {
-    id: 'windbreaker',
-    name: '대관령 바람막이 "한여름 밤 필수"',
-    category: '의류·잡화',
-    price: 450,
-    badge: 'BEST',
     popularity: 88,
-    options: SIZE_SML,
-    summary: '한여름에도 대관령 밤은 쌀쌀합니다',
-    description: ['유의사항에 "겉옷 필수"라고 적어놓고 파는 그 겉옷입니다.', '등판에 PyeongS Travel 로고 자수.'],
+    summary: '리모컨을 누르면 유리병 속 대괄양이 파랗게 빛남',
+    description: [
+      `유리병 안에 동결건조(?)된 ${MASCOT_NAME}가 들어 있는 키링.`,
+      '함께 달린 리모컨의 빨간 버튼을 누르면 병이 파랗게 빛납니다.',
+      '스위스를 동결건조해 옮겨온 평스투어의 컨셉을 그대로 담았습니다.',
+    ],
+    images: ['moodlight-keyring'],
   },
   {
-    id: 'bucket-hat',
-    name: '양떼 버킷햇',
+    id: 'tshirt-changjota',
+    name: '"평창 창좋다~" 티셔츠',
     category: '의류·잡화',
-    price: 210,
-    popularity: 55,
-    options: { name: '크기', values: [{ label: 'M' }, { label: 'L' }] },
-    summary: '양떼목장 포토존 필수템',
-    description: ['양 귀가 달린 버킷햇.', '양떼 사이에 서면 구분이 안 될 수 있으니 인솔자를 잘 따라다니세요.'],
-  },
-  {
-    id: 'ecobag',
-    name: '"스위스 아님" 에코백',
-    category: '의류·잡화',
-    price: 150,
-    soldOut: true,
+    price: 290,
+    badge: 'BEST',
     popularity: 80,
-    summary: '정직한 문구 에코백',
-    description: ['큰 글씨로 "스위스 아님"이라고 적힌 에코백.', '너무 정직해서 품절되었습니다.'],
+    options: SIZES,
+    summary: '평창 → 창좋다. 세로로 읽어도 가로로 읽어도 평창',
+    description: ['흰 티셔츠에 "평창 / 창좋다~" 문구.', '한여름에도 대관령 밤은 쌀쌀하니 위에 겉옷 필수!'],
+    images: ['tshirt-changjota'],
   },
   {
-    id: 'cheese',
-    name: '대관령 우유 치즈',
-    category: '먹거리',
-    price: 160,
+    id: 'tshirt-more',
+    name: '"…(더보기)" 티셔츠',
+    category: '의류·잡화',
+    price: 290,
     badge: 'MD추천',
     popularity: 75,
-    summary: '스위스 치즈 공방 체험(평창) 그 치즈',
-    description: ['코스 2일차 치즈 만들기 체험에서 쓰는 대관령 우유로 만든 치즈.', '냉장 보관. 퐁듀는 직접 만드셔야 합니다.'],
+    options: SIZES,
+    summary: '사이트 부제를 통째로 입는 티셔츠. 결말은 더보기',
+    description: ['평스투어 사이트의 그 긴 부제가 앞판에 그대로.', '"단 돈…(더보기)"에서 끝나서 사람들이 뒷말을 궁금해합니다.'],
+    images: ['tshirt-more'],
   },
   {
-    id: 'buckwheat-tea',
-    name: '봉평 메밀차',
+    id: 'haskap-cereal',
+    name: '평창 특산물 하스카프 동결건조칩 시리얼',
     category: '먹거리',
     price: 90,
-    popularity: 45,
-    summary: '「메밀꽃 필 무렵」 그 동네 메밀',
-    description: ['봉평 메밀을 볶아 만든 티백 20개입.', '메밀은 스위스 곡물이 아닙니다.'],
-  },
-  {
-    id: 'hwangtae',
-    name: '황태채 스낵',
-    category: '먹거리',
-    price: 60,
-    badge: '한정',
-    popularity: 40,
-    summary: '황태구이 정식의 간식 버전',
-    description: ['대관령 황태를 바삭하게 구운 스낵.', '버스에서 드시면 옆자리 분께 냄새가 갈 수 있습니다.'],
-  },
-  {
-    id: 'air',
-    name: '대관령 공기캔 (Swiss Air)',
-    category: '기념품',
-    price: 50,
     badge: 'MD추천',
-    popularity: 92,
-    summary: '대관령의 시원한 공기를 그대로',
-    description: ['대관령의 시원한 공기를 담았다고 주장하는 캔.', '열면 그냥 공기입니다. 여름에 열면 조금 덜 덥게 느껴질 수 있습니다 (기분 탓).'],
+    popularity: 70,
+    summary: '평창산 하스카프 동결건조칩 함유 · 300g',
+    description: ['평창의 자연이 키운 하스카프를 동결건조칩으로 넣은 시리얼.', '구성: 300g', '스위스 뮤즐리 대신 평창 시리얼.'],
+    images: ['haskap-cereal'],
   },
   {
     id: 'sticker',
     name: '평스 스티커팩',
     category: '기념품',
-    price: 30,
-    popularity: 58,
-    summary: `${MASCOT_NAME}·평창 명소 스티커 12종`,
-    description: ['마스코트와 평창 명소 스티커 12종.', '캐리어에 붙이면 스위스 다녀온 것처럼 보입니다.'],
+    price: 40,
+    badge: 'BEST',
+    popularity: 92,
+    summary: '"평창… 창좋다", 동결건조, 대괄양 등 스티커 한 장',
+    description: [
+      `${MASCOT_NAME}, 평스투어 로고, "평창… 창좋다", "동결건조", "시원해!" 등이 들어간 스티커 시트.`,
+      '캐리어에 붙이면 스위스 다녀온 것처럼 보입니다.',
+    ],
+    images: ['sticker-pack', 'sticker-sheet'],
   },
   {
-    id: 'postcard',
-    name: '평창=스위스 엽서 세트',
+    id: 'wakppu',
+    name: '평창 동결 건조 왁뿌 (12개입)',
     category: '기념품',
-    price: 40,
-    badge: 'NEW',
-    popularity: 35,
-    summary: '보내면 받는 사람이 헷갈리는 엽서',
-    description: ['평창 풍경 엽서 6장.', '뒷면에 "From Switzerland(평창)"이 인쇄돼 있습니다.'],
+    price: 120,
+    badge: '한정',
+    popularity: 65,
+    summary: '하늘색·민트·흰색 캡슐 12개입 박스',
+    description: ['평창 동결 건조 왁뿌 12개입 박스.', '하늘색·민트·흰색 캡슐이 4개씩 들어 있습니다.'],
+    images: ['wakppu'],
   },
 ];
 

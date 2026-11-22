@@ -56,12 +56,12 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 - [x] 숙소·치즈·배추 확정 (평창 스위스마을 / 바람마을 치즈체험장 / 대관령 수레마을)
 - [x] 교통 시간표·요금 재확인 (2026-11-23 조회: KTX 청량리→평창 18,000원 1시간 10~20분 하루 약 14회 / 동서울→장평 우등 14,800원 약 1시간 50분 하루 8회)
 - [x] 패키지 이동수단 = 왕복 전용 버스로 통일 (KTX·시외버스는 Travel Info "따로 가는 법")
-- [ ] 피그마 한글 로고 → `public/logo/`에 SVG/PNG 넣고 `config.ts`의 `LOGO_IMAGE`
-- [ ] 인스타 아이디 → `config.ts`의 `INSTAGRAM_ID` (넣으면 푸터에 @아이디 표시)
+- [x] 한글 로고 = 스티커 시안에서 추출한 `public/logo/pyeongs-tour.png` (원본 SVG 받으면 교체)
+- [x] 인스타 @donggyeol_pyeongchang (`config.ts` INSTAGRAM_ID)
 - [ ] 사용성 평가 구글폼 → `config.ts`의 `EVAL_FORM_URL` (넣으면 우측 하단 "평가하기" 버튼 생김, 비면 숨김)
 - [ ] 여름 사진으로 교체 (지금 겨울 사진 많음: samyangranch, skijump, alpensia)
-- [ ] 굿즈 상품명·가격을 피그마 확정본으로 교체 → `content.ts`의 `GOODS` (지금은 임시값)
-- [ ] 성민 굿즈 시안 → `public/goods/` + `config.ts`의 `GOODS_IMAGES` (비어 있으면 카테고리 아이콘 자리표시)
+- [x] 굿즈: 성민 시안 9종 반영 (public/goods/). 가격은 임시값 → `content.ts`의 `GOODS` price
+- [x] 대괄양 캐릭터 = 인형 시안 사진 (`config.ts` CHARACTER_IMAGES)
 - [ ] 겨울 사진(풍차 언덕, 올림픽 레거시) → 여름 사진으로 교체
 - [ ] 곤드레밥 실제 사진 (지금은 말린 곤드레 나물)
 - [ ] 발표 전 교통 시간표 재확인

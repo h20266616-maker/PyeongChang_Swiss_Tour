@@ -1,24 +1,25 @@
 import { useMemo, useState, type MouseEvent } from 'react';
-import { ChevronRight, Cookie, Gift, Luggage, Package, PawPrint, Plus, Shirt } from 'lucide-react';
-import { GOODS_IMAGES } from '../config';
+import { ChevronRight, Cookie, Gift, Package, PawPrint, Plus, Shirt } from 'lucide-react';
 import { GOODS, GOODS_CATEGORIES, SHOP, courseById, type Goods, type GoodsBadge, type GoodsCategory } from '../content';
+
+export const goodsImg = (name: string) => `${import.meta.env.BASE_URL}goods/${name}.jpg`;
 import { Stepper, unitPrice, useCart, won } from '../cart';
 import { navigate } from '../router';
 import { SectionTitle } from './Common';
 
-/* ───────── 굿즈 이미지 (성민 시안 전까지 자리표시) ───────── */
+/* ───────── 굿즈 이미지 (성민 시안: public/goods/). 사진 없는 상품만 아이콘 자리표시 ───────── */
 const CAT_STYLE: Record<GoodsCategory, { icon: typeof Gift; bg: string; fg: string }> = {
   세트: { icon: Package, bg: 'from-[#fff4d6] to-[#ffe2a8]', fg: 'text-[#c46200]' },
   마스코트: { icon: PawPrint, bg: 'from-[#eef7e8] to-[#d5ecc6]', fg: 'text-[#4b8a2e]' },
-  여행용품: { icon: Luggage, bg: 'from-[#e8f3fc] to-[#cfe5f7]', fg: 'text-[#1f6fb5]' },
   '의류·잡화': { icon: Shirt, bg: 'from-[#eceefa] to-[#d6dbf3]', fg: 'text-[#1d2a6b]' },
   먹거리: { icon: Cookie, bg: 'from-[#fdf0e6] to-[#f7dcc6]', fg: 'text-[#a3541c]' },
   기념품: { icon: Gift, bg: 'from-[#fbeaf0] to-[#f4d2de]', fg: 'text-[#b0315e]' },
 };
 
-export function GoodsImage({ g, className = '', small, view = 0 }: { g: Goods; className?: string; small?: boolean; view?: number }) {
-  const src = GOODS_IMAGES[g.id];
-  if (src) return <img src={src} alt={g.name} className={`object-cover ${className}`} loading="lazy" />;
+/** img: 보여줄 사진 이름 (없으면 대표 사진). 흰 배경 상품 사진이라 contain + 흰 바탕 */
+export function GoodsImage({ g, className = '', small, view = 0, img }: { g: Goods; className?: string; small?: boolean; view?: number; img?: string }) {
+  const name = img ?? g.images[0];
+  if (name) return <img src={goodsImg(name)} alt={g.name} className={`bg-white object-contain ${className}`} loading="lazy" />;
   const s = CAT_STYLE[g.category];
   const Icon = s.icon;
   return (
@@ -230,7 +231,12 @@ export function GoodsDetail({ g }: { g: Goods }) {
     return [...others.filter((x) => x.category === g.category), ...others.filter((x) => x.category !== g.category).sort((a, b) => b.popularity - a.popularity)].slice(0, 4);
   }, [g]);
 
-  const views = ['대표', '측면', '디테일'];
+  // 옵션(예: 표정)을 고르면 그 옵션 사진으로 바뀜
+  const pickOption = (label: string) => {
+    setOption(label);
+    const im = g.options?.values.find((v) => v.label === label)?.image;
+    if (im && g.images.includes(im)) setView(g.images.indexOf(im));
+  };
 
   return (
     <div className="px-4 pb-24 pt-6">
@@ -239,27 +245,29 @@ export function GoodsDetail({ g }: { g: Goods }) {
         {/* 이미지 + 썸네일 */}
         <div>
           <div className="relative">
-            <GoodsImage g={g} view={view} className="card-shadow aspect-square w-full" />
+            <GoodsImage g={g} img={g.images[view]} view={view} className="card-shadow aspect-square w-full" />
             {g.badge && (
               <span className="absolute left-3 top-3">
                 <Badge b={g.badge} />
               </span>
             )}
           </div>
-          <div className="mt-3 grid grid-cols-3 gap-2" role="tablist" aria-label="상품 이미지">
-            {views.map((v, i) => (
-              <button
-                key={v}
-                role="tab"
-                aria-selected={view === i}
-                aria-label={`${v} 이미지`}
-                onClick={() => setView(i)}
-                className={`border-2 p-0.5 ${view === i ? 'border-brand' : 'border-transparent'}`}
-              >
-                <GoodsImage g={g} view={i} small className="aspect-[4/3] w-full" />
-              </button>
-            ))}
-          </div>
+          {g.images.length > 1 && (
+            <div className="mt-3 grid grid-cols-4 gap-2" role="tablist" aria-label="상품 이미지">
+              {g.images.map((im, i) => (
+                <button
+                  key={im}
+                  role="tab"
+                  aria-selected={view === i}
+                  aria-label={`이미지 ${i + 1}`}
+                  onClick={() => setView(i)}
+                  className={`border-2 p-0.5 ${view === i ? 'border-brand' : 'border-line'}`}
+                >
+                  <GoodsImage g={g} img={im} small className="aspect-square w-full" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* 정보 */}
@@ -278,7 +286,7 @@ export function GoodsDetail({ g }: { g: Goods }) {
                 <label htmlFor="opt" className="font-semibold text-gray-600">
                   {g.options.name}
                 </label>
-                <select id="opt" value={option} onChange={(e) => setOption(e.target.value)} className="h-[36px] border border-[#bfbfbf] bg-white px-2">
+                <select id="opt" value={option} onChange={(e) => pickOption(e.target.value)} className="h-[36px] border border-[#bfbfbf] bg-white px-2">
                   {g.options.values.map((v) => (
                     <option key={v.label} value={v.label}>
                       {v.label}

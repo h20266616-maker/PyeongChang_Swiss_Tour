@@ -310,7 +310,7 @@ export function Guides() {
         {GUIDES_INTRO.mascots.map((m) => (
           <div key={m.id} className="card-shadow flex gap-4 bg-panel p-4">
             <div className="flex h-[96px] w-[96px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#e3f4fd] to-[#c9ecc0]">
-              {CHARACTER_IMAGES[m.id] ? <img src={CHARACTER_IMAGES[m.id]} alt={m.name} className="h-full w-full object-contain" /> : <SheepIcon />}
+              {CHARACTER_IMAGES[m.id] ? <img src={CHARACTER_IMAGES[m.id]} alt={m.name} className="h-full w-full bg-white object-cover" /> : <SheepIcon />}
             </div>
             <div>
               <p className="text-[18px] font-bold">{m.name}</p>

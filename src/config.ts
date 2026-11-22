@@ -24,28 +24,17 @@ export const INSTAGRAM_URL = INSTAGRAM_ID ? `https://www.instagram.com/${INSTAGR
  * 피그마 한글 로고 이미지 — public/logo/ 에 넣고 경로 입력 (SVG 추천). 예: '/logo/pyeongs-ko.svg'
  * 비워두면 지금의 글자 로고(PyeongS Travel)가 나옴.
  */
-export const LOGO_IMAGE = '';
+export const LOGO_IMAGE = '/logo/pyeongs-tour.png'; // 성민 스티커 시안의 평스투어 로고 (투명 PNG)
 
 /** 은빈 전시용 소개 웹사이트 */
 export const EXHIBIT_SITE_URL = '';
 
-/** 성민 캐릭터 이미지 — public/characters/ 에 넣고 경로 입력. 비워두면 자리표시 */
+/** 성민 캐릭터 이미지 (가이드 소개 카드). 비워두면 양 일러스트 */
 export const CHARACTER_IMAGES: Record<string, string> = {
-  dwaegwalyang: '', // 대괄양. 예: '/characters/daegwalyang.png'
+  dwaegwalyang: '/goods/plush-basic.jpg', // 대괄양 인형 시안
 };
 
-/**
- * 성민 굿즈 이미지 — public/goods/ 에 넣고 경로 입력. 키는 content.ts GOODS의 id.
- * 비워두면 자리표시 (카테고리 아이콘). 예: keyring: '/goods/keyring.png'
- */
-export const GOODS_IMAGES: Record<string, string> = {
-  'set-intro': '',
-  'set-master': '',
-  dwaegwalyang: '',
-  keyring: '',
-  air: '',
-  sticker: '',
-};
+// 굿즈 이미지는 content.ts GOODS의 images 에서 관리 (public/goods/<이름>.jpg)
 
 /** 마스코트 표기 (확정: 대괄양) — 사이트 전체가 이 값을 따라감 */
 export const MASCOT_NAME = '대괄양';
