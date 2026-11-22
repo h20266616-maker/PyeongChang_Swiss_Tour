@@ -24,7 +24,8 @@ export const INSTAGRAM_URL = INSTAGRAM_ID ? `https://www.instagram.com/${INSTAGR
  * 피그마 한글 로고 이미지 — public/logo/ 에 넣고 경로 입력 (SVG 추천). 예: '/logo/pyeongs-ko.svg'
  * 비워두면 지금의 글자 로고(PyeongS Travel)가 나옴.
  */
-export const LOGO_IMAGE = '/logo/pyeongs-tour.png'; // 성민 스티커 시안의 평스투어 로고 (투명 PNG)
+// 비워두면 한글 글자 로고(별 + 평스투어). 스티커 시안 로고를 쓰려면 '/logo/pyeongs-tour.png'
+export const LOGO_IMAGE = '';
 
 /** 은빈 전시용 소개 웹사이트 */
 export const EXHIBIT_SITE_URL = '';

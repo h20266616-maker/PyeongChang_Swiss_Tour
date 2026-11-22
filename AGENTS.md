@@ -56,7 +56,7 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 - [x] 숙소·치즈·배추 확정 (평창 스위스마을 / 바람마을 치즈체험장 / 대관령 수레마을)
 - [x] 교통 시간표·요금 재확인 (2026-11-23 조회: KTX 청량리→평창 18,000원 1시간 10~20분 하루 약 14회 / 동서울→장평 우등 14,800원 약 1시간 50분 하루 8회)
 - [x] 패키지 이동수단 = 왕복 전용 버스로 통일 (KTX·시외버스는 Travel Info "따로 가는 법")
-- [x] 한글 로고 = 스티커 시안에서 추출한 `public/logo/pyeongs-tour.png` (원본 SVG 받으면 교체)
+- [x] 로고 = 한글 글자 로고(별 + 평스투어, Common.tsx Logo). 시안 추출본 `public/logo/pyeongs-tour.png`는 보관만 (`LOGO_IMAGE`)
 - [x] 인스타 @donggyeol_pyeongchang (`config.ts` INSTAGRAM_ID)
 - [ ] 사용성 평가 구글폼 → `config.ts`의 `EVAL_FORM_URL` (넣으면 우측 하단 "평가하기" 버튼 생김, 비면 숨김)
 - [ ] 여름 사진으로 교체 (지금 겨울 사진 많음: samyangranch, skijump, alpensia)
