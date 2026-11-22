@@ -240,9 +240,9 @@ export const INFO = {
         kind: 'KTX',
         title: 'KTX-이음 강릉선',
         route: '청량리역 → 평창역',
-        time: '약 1시간 17분',
-        fare: '18,000원 (일반실)',
-        extra: '서울역 출발 하루 약 12회 · 진부(오대산)역도 정차',
+        time: '약 1시간 10~20분',
+        fare: '18,000원',
+        extra: '청량리 출발 하루 약 14회 (05:27 첫차 ~ 21:52 막차, 요일별 상이) · 진부(오대산)역도 정차',
         href: 'https://www.letskorail.com',
         cta: '코레일 예매',
       },
@@ -250,21 +250,21 @@ export const INFO = {
         kind: 'BUS',
         title: '시외버스 (우등)',
         route: '동서울터미널 → 장평터미널',
-        time: '약 1시간 41분',
-        fare: '16,300원',
-        extra: '하루 약 8회 (06:40 첫차 ~ 20:20 막차) · 봉평과 가까움',
+        time: '약 1시간 50분',
+        fare: '14,800원 (우등)',
+        extra: '하루 8회 (06:40 첫차 ~ 20:20 막차, 13:50편만 일반 11,400원) · 봉평과 가까움',
         href: 'https://txbus.t-money.co.kr',
         cta: '시외버스 예매',
       },
     ],
-    caution: '※ 2026년 시간표 조회 기준. 출발 전 예매 사이트에서 꼭 다시 확인하세요.',
+    caution: '※ 2026년 11월 23일 시간표 조회 기준. 출발 전 예매 사이트에서 꼭 다시 확인하세요.',
   },
   compare: {
     title: 'Why',
     accent: 'PyeongSwiss?',
     sub: '진짜 스위스 vs 테무산 스위스. 정직하게 비교해 드립니다.',
     rows: [
-      { item: '가는 법', swiss: '비행기 10시간 넘게', pc: '서울에서 버스 한 번 (KTX면 약 1시간 17분)' },
+      { item: '가는 법', swiss: '비행기 10시간 넘게', pc: '서울에서 버스 한 번 (KTX면 약 1시간 15분)' },
       { item: '여행 경비', swiss: '항공권 생각만 해도 더워짐', pc: '1박2일 99,000원 (버스·숙박·식사 포함)' },
       { item: '한여름 밤', swiss: '시원함', pc: '대관령 7~8월 평균 최저 16~17℃' },
       { item: '양', swiss: '스위스 양', pc: '대관령 양 (구분 불가)' },
@@ -293,7 +293,7 @@ export const REVIEWS = {
 // ─────────────────────────────────────────────
 export type CourseId = 'intro' | 'master';
 export type Slot = '오전' | '점심' | '오후' | '저녁';
-export type ScheduleItem = { slot: Slot; title: string; desc?: string };
+export type ScheduleItem = { slot: Slot; title: string; desc?: string; photo?: string };
 export type CourseDay = { day: string; note?: string; items: ScheduleItem[] };
 
 export type Course = {
@@ -323,11 +323,11 @@ export type Course = {
 };
 
 const INTRO_DAY1: ScheduleItem[] = [
-  { slot: '오전', title: '서울 출발 → 대관령 양떼목장', desc: '한국의 알프스, 아니 평창의 스위스 초원 산책 / 양떼 건초주기 체험' },
-  { slot: '점심', title: '곤드레밥', desc: '스위스 퐁듀 품절로 대체' },
+  { slot: '오전', title: '서울 출발 → 대관령 양떼목장', desc: '한국의 알프스, 아니 평창의 스위스 초원 산책 / 양떼 건초주기 체험', photo: 'sheep3' },
+  { slot: '점심', title: '곤드레밥', desc: '스위스 퐁듀 품절로 대체', photo: 'gondre' },
   { slot: '오후', title: '발왕산 케이블카 + 스카이워크', desc: '국내 최장 7.4km 케이블카로 해발 1,458m 정상까지 / 융프라우 산악열차 대신 탑승' },
-  { slot: '오후', title: '평창올림픽기념관 → 알펜시아 스키점프대', desc: 'VR로 즐기는 여름 동계스포츠 / 여름엔 축구장이 되는 스키점프대 포토타임' },
-  { slot: '저녁', title: '스위스마을 펜션 체크인 → 바비큐 → 별 보기', desc: '도시에선 못 보는 대관령 밤하늘 무료 제공' },
+  { slot: '오후', title: '평창올림픽기념관 → 알펜시아 스키점프대', desc: 'VR로 즐기는 여름 동계스포츠 / 여름엔 축구장이 되는 스키점프대 포토타임', photo: 'skijump' },
+  { slot: '저녁', title: '스위스마을 펜션 체크인 → 바비큐 → 별 보기', desc: '도시에선 못 보는 대관령 밤하늘 무료 제공', photo: 'sheep2' },
 ];
 
 const COMMON_EXCLUDED = ['여권(필요 없음)', '스위스 프랑', '개인경비', '여행자보험'];
@@ -367,7 +367,7 @@ export const COURSES: Course[] = [
       {
         day: '2일차',
         items: [
-          { slot: '오전', title: '삼양라운드힐', desc: '풍력발전기 능선 + 양몰이 공연' },
+          { slot: '오전', title: '삼양라운드힐', desc: '풍력발전기 능선 + 양몰이 공연', photo: 'samyangranch' },
           { slot: '오전', title: '치즈 만들기 체험', desc: '스위스 치즈 공방 체험 (대관령 우유 사용)' },
           { slot: '점심', title: '황태구이 정식' },
           { slot: '오후', title: '고랭지배추 농원', desc: '알프스 양배추 농장 체험, 배추모양 만두 빚기' },
@@ -411,10 +411,10 @@ export const COURSES: Course[] = [
         day: '2일차',
         items: [
           { slot: '오전', title: '선자령 산책', desc: '알프스 트레킹 코스 맛보기, 풍력발전기 능선길' },
-          { slot: '오전', title: '삼양라운드힐', desc: '풍력발전기 능선 + 양몰이 공연' },
+          { slot: '오전', title: '삼양라운드힐', desc: '풍력발전기 능선 + 양몰이 공연', photo: 'samyangranch' },
           { slot: '점심', title: '삼양라면 + 한우버거', desc: '알프스 정상에서 먹는 라면' },
           { slot: '오후', title: '치즈 만들기 체험 → 고랭지배추 농원', desc: '스위스 치즈 공방 + 알프스 양배추 농장 체험' },
-          { slot: '오후', title: '알펜시아 슬라이딩파크', desc: '봅슬레이 대신 튜브썰매 국가대표 체험' },
+          { slot: '오후', title: '알펜시아 슬라이딩파크', desc: '봅슬레이 대신 튜브썰매 국가대표 체험', photo: 'alpensia' },
           { slot: '저녁', title: '대관령 한우 → 펜션 별 보기' },
         ],
       },
@@ -423,7 +423,7 @@ export const COURSES: Course[] = [
         items: [
           { slot: '오전', title: '육백마지기', desc: '해발 1,256m, 국내 최초 고랭지 채소단지 / 고랭지 배추밭 + 풍력발전기 초원' },
           { slot: '점심', title: '봉평 메밀 (막국수·전병)' },
-          { slot: '오후', title: '봉평 이효석문화마을', desc: '『메밀꽃 필 무렵』 배경지 / 메밀 = 스위스 곡물? (아님)' },
+          { slot: '오후', title: '봉평 이효석문화마을', desc: '『메밀꽃 필 무렵』 배경지 / 메밀 = 스위스 곡물? (아님)', photo: 'buckwheat' },
           { slot: '오후', title: '서울 도착' },
         ],
       },
@@ -689,7 +689,7 @@ const SPOT = {
   balwang: { id: 'balwang', name: '발왕산 케이블카 + 스카이워크', query: '발왕산관광케이블카', when: '1일차 오후', desc: '국내 최장 7.4km 케이블카, 해발 1,458m' },
   olympic: { id: 'olympic', name: '평창올림픽기념관', query: '평창올림픽기념관', when: '1일차 오후', desc: 'VR로 즐기는 여름 동계스포츠' },
   skijump: { id: 'skijump', name: '알펜시아 스키점프대', query: '알펜시아 스키점프센터', when: '1일차 오후', desc: '여름엔 축구장이 되는 스키점프대' },
-  // 숙소·치즈·배추: 팀 확정 전 임시 선정 (실제 업체). 바꾸려면 name/query만 수정
+  // 숙소·치즈·배추: 팀 확정 (2026-11-23). 평창 스위스마을 / 바람마을 치즈체험장 / 대관령 수레마을
   pension: { id: 'pension', name: '평창 스위스마을 (숙소)', query: '평창스위스마을', when: '1일차 저녁', desc: '양떼목장 도보 3분 독채 · 바비큐 + 별 보기' },
   samyang: { id: 'samyang', name: '삼양라운드힐', query: '삼양라운드힐', when: '2일차 오전', desc: '풍력발전기 능선 + 양몰이 공연' },
   cheese: { id: 'cheese', name: '바람마을 치즈체험장', query: '바람마을 치즈체험장', when: '2일차', desc: '대관령 목장 우유로 만드는 스위스 치즈(?)' },

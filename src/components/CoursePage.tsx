@@ -143,12 +143,15 @@ export default function CoursePage({ course, onBook }: { course: Course; onBook:
                   {d.items.map((it, k) => (
                     <li key={k} className="relative py-2.5">
                       <span className="absolute -left-[23px] top-[15px] h-3 w-3 rounded-full border-2 border-white bg-brand" />
-                      <div className="flex flex-wrap items-start gap-2 md:flex-nowrap md:gap-3">
+                      <div className="flex items-start gap-2 md:gap-3">
                         <span className={`shrink-0 rounded-sm border px-2 py-0.5 text-[12px] font-bold ${SLOT_STYLE[it.slot]}`}>{it.slot}</span>
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="text-[15px] font-bold">{it.title}</p>
                           {it.desc && <p className="mt-0.5 text-[13px] text-gray-600">{it.desc}</p>}
                         </div>
+                        {it.photo && (
+                          <img src={photo(it.photo)} alt="" loading="lazy" className="h-[60px] w-[84px] shrink-0 rounded-sm object-cover shadow md:h-[78px] md:w-[120px]" />
+                        )}
                       </div>
                     </li>
                   ))}

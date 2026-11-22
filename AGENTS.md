@@ -53,7 +53,8 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 - [x] 피그마 반영 (홈쇼핑 영상, 투어 코스, 코스 상세, 코스 선택, 발권 애니메이션) — 피그마 https://www.figma.com/design/F172HJ7ss055cTetZwdlPh
 - [x] 굿즈샵 (목록·상세·장바구니·영수증)
 - [x] 카카오맵 실제 지도. 키는 Vercel 환경변수 `VITE_KAKAO_MAP_KEY` (로컬은 `.env.local`, 깃에 안 올림). 카카오 앱의 JavaScript SDK 도메인에 사이트 주소 등록돼 있어야 함
-- [x] 숙소·치즈·배추 임시 선정 (평창 스위스마을 / 바람마을 치즈체험장 / 대관령 수레마을) → 팀 확정 시 `MAP_ROUTES` 수정
+- [x] 숙소·치즈·배추 확정 (평창 스위스마을 / 바람마을 치즈체험장 / 대관령 수레마을)
+- [x] 교통 시간표·요금 재확인 (2026-11-23 조회: KTX 청량리→평창 18,000원 1시간 10~20분 하루 약 14회 / 동서울→장평 우등 14,800원 약 1시간 50분 하루 8회)
 - [x] 패키지 이동수단 = 왕복 전용 버스로 통일 (KTX·시외버스는 Travel Info "따로 가는 법")
 - [ ] 피그마 한글 로고 → `public/logo/`에 SVG/PNG 넣고 `config.ts`의 `LOGO_IMAGE`
 - [ ] 인스타 아이디 → `config.ts`의 `INSTAGRAM_ID` (넣으면 푸터에 @아이디 표시)

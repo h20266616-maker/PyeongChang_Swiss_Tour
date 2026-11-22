@@ -43,6 +43,15 @@ body {
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .marquee-track { animation: marquee 30s linear infinite; }
 
+/* 모바일 가독성: 아주 작은 글씨만 한 단계 키움 (Tailwind 레이어보다 우선) */
+@media (max-width: 640px) {
+  .text-\[9px\] { font-size: 10px; }
+  .text-\[10px\] { font-size: 11px; }
+  .text-\[11px\] { font-size: 12px; }
+  .text-\[12px\] { font-size: 13px; }
+  .text-\[13px\] { font-size: 14px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
   html { scroll-behavior: auto; }

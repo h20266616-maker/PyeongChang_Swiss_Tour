@@ -24,7 +24,7 @@ export function GoodsImage({ g, className = '', small, view = 0 }: { g: Goods; c
   return (
     <div role="img" aria-label={`${g.name} (이미지 준비 중)`} className={`flex flex-col items-center justify-center bg-gradient-to-br ${s.bg} ${className}`}>
       <Icon className={`${s.fg} ${small ? 'h-7 w-7' : 'h-[34%] w-[34%]'}`} strokeWidth={1.4} style={{ transform: view ? `rotate(${view * 12 - 18}deg) scale(${1 - view * 0.08})` : undefined }} />
-      {!small && <span className={`mt-2 text-[11px] font-semibold opacity-70 ${s.fg}`}>시안 준비 중</span>}
+      {!small && <span className={`mt-2 text-[12px] font-bold tracking-[0.2em] opacity-60 ${s.fg}`}>PYEONGS</span>}
     </div>
   );
 }

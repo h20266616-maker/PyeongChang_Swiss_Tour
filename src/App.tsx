@@ -10,6 +10,7 @@ import HomeShopping from './components/HomeShopping';
 import Hero from './components/Hero';
 import CoursePage from './components/CoursePage';
 import SpotPage from './components/SpotPage';
+import NotFound from './components/NotFound';
 import { Courses, Guides } from './components/Tours';
 import { Footer, Partners, Polaroids, Reviews, TourMap, TravelInfo } from './components/Rest';
 
@@ -21,7 +22,8 @@ export default function App() {
   const isShop = path === '/duty-free';
   const goods = path.startsWith('/duty-free/') ? goodsById(decodeURIComponent(path.slice('/duty-free/'.length))) : undefined;
   const spot = path.startsWith('/spot/') ? TOURS.find((t) => t.id === path.slice('/spot/'.length)) : undefined;
-  const isHome = !detail && !isShop && !goods && !spot;
+  const isHome = path === '/';
+  const notFound = !isHome && !detail && !isShop && !goods && !spot;
 
   /** "이 코스로 발권": 코스 선택값 세팅 + 히어로 예매 카드로 스크롤 */
   const book = (id: CourseId) => {
@@ -93,6 +95,8 @@ export default function App() {
           <GoodsDetail key={goods.id} g={goods} />
         ) : spot ? (
           <SpotPage key={spot.id} t={spot} onBook={book} />
+        ) : notFound ? (
+          <NotFound />
         ) : (
           <>
             <HomeShopping />

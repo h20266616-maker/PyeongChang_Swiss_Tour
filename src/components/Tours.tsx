@@ -211,6 +211,30 @@ export function DutyBanner() {
   );
 }
 
+/** 성민 캐릭터 이미지 오기 전 임시 양 일러스트 (config.ts CHARACTER_IMAGES 넣으면 교체) */
+function SheepIcon() {
+  return (
+    <svg viewBox="0 0 96 96" className="h-[84px] w-[84px]" role="img" aria-label="대괄양 (임시 일러스트)">
+      <g fill="#fff" stroke="#d9dde3" strokeWidth="2">
+        <circle cx="34" cy="50" r="14" />
+        <circle cx="48" cy="44" r="16" />
+        <circle cx="62" cy="50" r="14" />
+        <circle cx="40" cy="60" r="13" />
+        <circle cx="56" cy="60" r="13" />
+      </g>
+      <rect x="38" y="68" width="5" height="14" rx="2" fill="#3a3a3a" />
+      <rect x="53" y="68" width="5" height="14" rx="2" fill="#3a3a3a" />
+      <ellipse cx="48" cy="44" rx="10" ry="12" fill="#3a3a3a" />
+      <ellipse cx="36" cy="40" rx="6" ry="3" fill="#3a3a3a" transform="rotate(-25 36 40)" />
+      <ellipse cx="60" cy="40" rx="6" ry="3" fill="#3a3a3a" transform="rotate(25 60 40)" />
+      <circle cx="44" cy="42" r="1.8" fill="#fff" />
+      <circle cx="52" cy="42" r="1.8" fill="#fff" />
+      <path d="M44 50 q4 3 8 0" stroke="#fff" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+      <circle cx="48" cy="28" r="6" fill="#f2b705" />
+    </svg>
+  );
+}
+
 /* ───────── Tour Guides: 큰 액자 + 선반 썸네일 ───────── */
 export function Guides() {
   const [i, setI] = useState(0);
@@ -285,8 +309,8 @@ export function Guides() {
       <div className={`mx-auto mt-14 grid gap-5 ${GUIDES_INTRO.mascots.length > 1 ? 'max-w-[900px] md:grid-cols-2' : 'max-w-[450px]'}`}>
         {GUIDES_INTRO.mascots.map((m) => (
           <div key={m.id} className="card-shadow flex gap-4 bg-panel p-4">
-            <div className="flex h-[96px] w-[96px] shrink-0 items-center justify-center border border-dashed border-gray-300 bg-white text-center text-[10px] text-gray-500">
-              {CHARACTER_IMAGES[m.id] ? <img src={CHARACTER_IMAGES[m.id]} alt={m.name} className="h-full w-full object-contain" /> : <>캐릭터 이미지<br />(성민)</>}
+            <div className="flex h-[96px] w-[96px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#e3f4fd] to-[#c9ecc0]">
+              {CHARACTER_IMAGES[m.id] ? <img src={CHARACTER_IMAGES[m.id]} alt={m.name} className="h-full w-full object-contain" /> : <SheepIcon />}
             </div>
             <div>
               <p className="text-[18px] font-bold">{m.name}</p>

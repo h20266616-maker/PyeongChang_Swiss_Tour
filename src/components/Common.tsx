@@ -27,16 +27,17 @@ export function SectionTitle({ black, blue, sub, blueFirst }: { black: string; b
 export function Logo({ small }: { small?: boolean }) {
   if (LOGO_IMAGE) return <img src={LOGO_IMAGE} alt="평스투어 PyeongS Travel" className={`h-[42px] w-auto ${small ? 'scale-90' : ''}`} />;
   return (
-    <div className={`flex flex-col items-center leading-none ${small ? 'scale-90' : ''}`}>
+    // 한글 로고 "평스투어" (피그마 원본 파일 받으면 config.ts LOGO_IMAGE로 교체)
+    <div className={`flex flex-col items-center leading-none ${small ? 'scale-90' : ''}`} aria-label="평스투어 PyeongS Travel">
       <div className="relative flex items-end">
-        <svg width="34" height="30" viewBox="0 0 34 30" className="absolute -left-3 -top-3" aria-hidden>
+        <svg width="34" height="30" viewBox="0 0 34 30" className="absolute -left-4 -top-3" aria-hidden>
           <path d="M3 26 C 10 10, 22 4, 33 3" stroke="#f2b705" strokeWidth="3" fill="none" strokeLinecap="round" />
           <path d="M20 2 l2.4 5 5.4.6-4 3.7 1.1 5.3-4.9-2.7-4.8 2.7 1-5.3-4-3.7 5.4-.6z" fill="#f2b705" />
         </svg>
-        <span className="font-sans text-[26px] font-extrabold italic tracking-tight text-navy">PyeongS</span>
-        <span className="ml-1 font-sans text-[24px] font-semibold text-brand">Travel</span>
+        <span className="text-[28px] font-black italic tracking-[-0.04em] text-navy">평스</span>
+        <span className="ml-0.5 text-[28px] font-extrabold tracking-[-0.04em] text-brand">투어</span>
       </div>
-      <span className="mt-1 text-[9px] font-semibold tracking-[0.3em] text-brand">PYEONGCHANG SWISS TOUR</span>
+      <span className="mt-1.5 text-[9px] font-bold tracking-[0.32em] text-brand">PYEONGS TRAVEL</span>
     </div>
   );
 }
