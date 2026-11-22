@@ -63,18 +63,30 @@ function saveCache() {
   }
 }
 
-function searchPlace(kakao: any, query: string): Promise<LatLng | null> {
-  if (query in memCache) return Promise.resolve(memCache[query]);
+/** 장소명으로 못 찾으면 실제 주소(address)로 좌표 찾기 — 카카오에 다른 이름으로 등록된 곳 대비 */
+function geocode(kakao: any, address: string): Promise<LatLng | null> {
+  return new Promise((resolve) => {
+    new kakao.maps.services.Geocoder().addressSearch(address, (data: any[], status: string) => {
+      const d = status === kakao.maps.services.Status.OK ? data[0] : null;
+      resolve(d ? { lat: Number(d.y), lng: Number(d.x), address: d.road_address?.address_name || d.address_name, placeUrl: '' } : null);
+    });
+  });
+}
+
+function searchPlace(kakao: any, query: string, address?: string): Promise<LatLng | null> {
+  const key = query + (address ? `|${address}` : '');
+  if (key in memCache) return Promise.resolve(memCache[key]);
   return new Promise((resolve) => {
     const ps = new kakao.maps.services.Places();
-    ps.keywordSearch(query, (data: any[], status: string) => {
+    ps.keywordSearch(query, async (data: any[], status: string) => {
       let hit: LatLng | null = null;
       if (status === kakao.maps.services.Status.OK) {
         // 평창군 결과 우선 → 없으면 강원. 다른 지역 동명 장소는 핀 안 찍음 (엉뚱한 위치 방지)
         const pick = data.find((d) => d.address_name?.includes('평창군')) || data.find((d) => d.address_name?.startsWith('강원'));
         if (pick) hit = { lat: Number(pick.y), lng: Number(pick.x), address: pick.road_address_name || pick.address_name, placeUrl: pick.place_url };
       }
-      memCache[query] = hit;
+      if (!hit && address) hit = await geocode(kakao, address);
+      memCache[key] = hit;
       saveCache();
       resolve(hit);
     });
@@ -126,7 +138,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
     if (state !== 'ready') return;
     const kakao = window.kakao;
     let dead = false;
-    Promise.all(route.spots.filter((s) => s.query).map(async (s) => [s.query, await searchPlace(kakao, s.query)] as const)).then((res) => {
+    Promise.all(route.spots.filter((s) => s.query).map(async (s) => [s.query, await searchPlace(kakao, s.query, s.address)] as const)).then((res) => {
       if (dead) return;
       setCoords((prev) => ({ ...prev, ...Object.fromEntries(res) }));
     });

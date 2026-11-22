@@ -680,7 +680,8 @@ export const FOOTER = {
 // query가 빈 칸('')인 곳은 실제 업체가 정해지지 않은 곳 → 지도에 핀 없이 목록에만 "장소 확정 전"으로 표시.
 // 업체가 정해지면 query에 카카오맵 검색어(예: '대관령치즈스쿨')만 넣으면 핀이 생김.
 // ─────────────────────────────────────────────
-export type MapSpot = { id: string; name: string; query: string; when: string; desc?: string };
+/** address: 카카오 장소명 검색이 실패할 때 쓰는 실제 주소 (출처 확인된 주소만) */
+export type MapSpot = { id: string; name: string; query: string; when: string; desc?: string; address?: string };
 export type MapRoute = { id: CourseId | 'season'; label: string; color: string; spots: MapSpot[] };
 
 const SPOT = {
@@ -692,7 +693,7 @@ const SPOT = {
   pension: { id: 'pension', name: '평창 스위스마을 (숙소)', query: '평창스위스마을', when: '1일차 저녁', desc: '양떼목장 도보 3분 독채 · 바비큐 + 별 보기' },
   samyang: { id: 'samyang', name: '삼양라운드힐', query: '삼양라운드힐', when: '2일차 오전', desc: '풍력발전기 능선 + 양몰이 공연' },
   cheese: { id: 'cheese', name: '바람마을 치즈체험장', query: '바람마을 치즈체험장', when: '2일차', desc: '대관령 목장 우유로 만드는 스위스 치즈(?)' },
-  cabbage: { id: 'cabbage', name: '대관령 수레마을 (고랭지배추)', query: '수레마을', when: '2일차 오후', desc: '고랭지배추 체험 + 배추모양 만두 빚기' },
+  cabbage: { id: 'cabbage', name: '대관령 수레마을 (고랭지배추)', query: '고랭지만두체험휴양마을', address: '강원특별자치도 평창군 대관령면 갈골길 33-5', when: '2일차 오후', desc: '고랭지배추 체험 + 배추모양 만두 빚기' },
   seonja: { id: 'seonja', name: '선자령', query: '선자령', when: '2일차 오전', desc: '입구 숲길만 산책 (전체 코스 4~5시간)' },
   sliding: { id: 'sliding', name: '알펜시아 슬라이딩파크', query: '알펜시아 슬라이딩센터', when: '2일차 오후', desc: '봅슬레이 대신 튜브썰매' },
   yukbaek: { id: 'yukbaek', name: '육백마지기', query: '육백마지기', when: '3일차 오전', desc: '해발 1,256m 고랭지 채소단지 + 풍력발전기 초원' },
