@@ -266,7 +266,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
         )}
       </div>
       <p className="mt-3 text-center text-[12px] text-gray-500">
-        ※ 위치는 카카오맵 장소검색 결과입니다. 숙소·치즈체험장·배추농원은 업체 확정 후 표시됩니다.
+        ※ 위치는 카카오맵 장소검색 결과입니다. 실제 방문 전 각 장소 운영시간·예약 여부를 확인하세요.
       </p>
     </div>
   );
