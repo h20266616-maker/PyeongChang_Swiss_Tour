@@ -1,11 +1,105 @@
 import { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
+import { BedDouble, CalendarRange, ChevronLeft, ChevronRight, Flag, MapPin, Utensils } from 'lucide-react';
 import { CHARACTER_IMAGES } from '../config';
-import { DUTY_FREE, GUIDES_INTRO, TOURS, type Tour } from '../content';
+import { COURSES, DUTY_FREE, GUIDES_INTRO, SEASON_EXTRAS, TOURS, type Course, type CourseId, type Tour } from '../content';
+import { navigate } from '../router';
 import { SectionTitle, photo } from './Common';
 
-/* ───────── Schedule: 키키의 6블록 캐러셀 ───────── */
+/* ───────── Tour Course: 입문/정복 코스 카드 (피그마 node 19:197) ───────── */
+export function Courses({ onBook }: { onBook: (id: CourseId) => void }) {
+  return (
+    <section id="courses" className="scroll-mt-16 px-4 py-20">
+      <SectionTitle black="PyeongS Tour" blue="Course" sub="스위스 같은데 평창인 패키지. 처음이면 입문, 다 보고 싶으면 정복." />
+      <div className="mx-auto grid max-w-[1100px] gap-8 md:grid-cols-2">
+        {COURSES.map((c) => (
+          <CourseCard key={c.id} c={c} onBook={onBook} />
+        ))}
+      </div>
+
+      {/* 시즌 한정 추가 일정 */}
+      <div className="mx-auto mt-16 max-w-[1100px]">
+        <h3 className="text-center text-[22px] font-semibold tracking-tight">
+          시즌 한정 <span className="text-brand">추가 일정</span>
+        </h3>
+        <p className="mt-1 text-center text-[13px] font-medium text-gray-600">출발 시기에 따라 두 코스 모두 자동 추가 (추가요금 없음)</p>
+        <div className="mt-6 grid gap-5 sm:grid-cols-3">
+          {SEASON_EXTRAS.map((s) => (
+            <div key={s.when} className="card-shadow overflow-hidden bg-panel">
+              <img src={photo(s.photo)} alt="" className="h-[140px] w-full object-cover" loading="lazy" />
+              <div className="px-4 py-3">
+                <p className="text-[13px] font-bold text-brand">{s.when}</p>
+                <p className="mt-0.5 text-[14px] font-semibold leading-snug">{s.what}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <DutyBanner />
+    </section>
+  );
+}
+
+function CourseCard({ c, onBook }: { c: Course; onBook: (id: CourseId) => void }) {
+  const info: [typeof BedDouble, string, string][] = [
+    [CalendarRange, '여행기간', c.period],
+    [BedDouble, '숙소', c.stay],
+    [Utensils, '식사', c.meals],
+    [Flag, '인솔자', c.leader],
+  ];
+  return (
+    <article className="card-shadow flex flex-col bg-white">
+      <div className="relative">
+        <img src={photo(c.photo)} alt="" className="h-[220px] w-full object-cover md:h-[260px]" loading="lazy" />
+        <span className="absolute left-0 top-3 bg-[#e60023] px-3 py-1 text-[13px] font-extrabold text-white shadow">{c.promo}</span>
+      </div>
+      <div className="flex flex-1 flex-col bg-panel px-5 pb-5 pt-4">
+        <div className="flex flex-wrap gap-1.5">
+          {c.tags.map((t) => (
+            <span key={t} className="rounded-sm border border-brand/40 bg-white px-1.5 py-0.5 text-[11px] font-semibold text-brand">
+              {t}
+            </span>
+          ))}
+        </div>
+        <h3 className="mt-2 text-[18px] font-bold leading-snug">{c.title.replace(/^\[테무산특가\]\s*/, '')}</h3>
+        <div className="mt-3 flex flex-wrap items-end gap-x-2">
+          <s className="text-[14px] text-gray-400">{c.priceOrig}</s>
+          <span className="text-[13px] font-semibold text-gray-500">1인</span>
+          <span className="text-[28px] font-extrabold leading-none text-[#e60023]">{c.price}</span>
+          <span className="mb-0.5 rounded-sm bg-[#fff1c2] px-1.5 text-[12px] font-bold text-[#b35a00]">{c.discount}</span>
+        </div>
+        <dl className="mt-4 space-y-1.5 border-t border-line pt-3 text-[13px]">
+          {info.map(([Icon, k, v]) => (
+            <div key={k} className="flex gap-2">
+              <dt className="flex w-[70px] shrink-0 items-center gap-1 font-semibold text-gray-500">
+                <Icon size={14} /> {k}
+              </dt>
+              <dd className="font-medium">{v}</dd>
+            </div>
+          ))}
+        </dl>
+        <div className="mt-auto grid grid-cols-2 gap-2 pt-5">
+          <a
+            href={c.path}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(c.path);
+            }}
+            className="flex h-[42px] items-center justify-center rounded-md border border-brand bg-white text-[14px] font-bold text-brand hover:bg-[#eef5fc]"
+          >
+            상세 일정 보기
+          </a>
+          <button onClick={() => onBook(c.id)} className="btn-orange h-[42px] text-[14px]">
+            이 코스로 발권 »
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+/* ───────── (구버전 · 숨김) Schedule: 키키의 6블록 캐러셀 — 피그마에서도 숨김 처리. App에서 렌더 안 함 ───────── */
 export function Schedule() {
   const track = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState<Tour | null>(null);
@@ -88,12 +182,14 @@ export function TourModal({ t, onClose }: { t: Tour; onClose: () => void }) {
   );
 }
 
-function DutyBanner() {
-  const [msg, setMsg] = useState(false);
+export function DutyBanner() {
   return (
     <div id="dutyfree" className="relative mx-auto mt-16 flex max-w-[1340px] flex-wrap items-center justify-end gap-4 bg-gradient-to-b from-[#e9f2fb] to-[#f4fbff] px-6 py-5">
       <p className="text-[14px] font-semibold text-navy md:mr-6">
-        {DUTY_FREE.banner} <span className="underline">{DUTY_FREE.link}</span>
+        {DUTY_FREE.banner}{' '}
+        <a href="/duty-free" onClick={(e) => (e.preventDefault(), navigate('/duty-free'))} className="underline">
+          {DUTY_FREE.link}
+        </a>
       </p>
       <svg width="64" height="70" viewBox="0 0 64 70" aria-hidden>
         <path d="M20 22 V14 a12 12 0 0 1 24 0 V22" stroke="#1f6fb5" strokeWidth="5" fill="none" />
@@ -101,14 +197,16 @@ function DutyBanner() {
         <path d="M30 26 H60 L58 68 H28 Z" fill="#f7c600" />
         <path d="M44 40 c-4 -6 -12 -1 -6 6 l6 6 6 -6 c6 -7 -2 -12 -6 -6z" fill="#fff" />
       </svg>
-      <button onClick={() => setMsg(true)} className="text-[14px] font-bold text-navy underline">
-        Shop now »
-      </button>
-      {msg && (
-        <p role="status" className="w-full text-right text-[12px] font-semibold text-red-600">
-          {DUTY_FREE.soldMsg}
-        </p>
-      )}
+      <a
+        href="/duty-free"
+        onClick={(e) => {
+          e.preventDefault();
+          navigate('/duty-free');
+        }}
+        className="text-[14px] font-bold text-navy underline"
+      >
+        {DUTY_FREE.cta}
+      </a>
     </div>
   );
 }

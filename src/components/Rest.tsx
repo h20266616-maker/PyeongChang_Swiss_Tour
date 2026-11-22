@@ -279,7 +279,7 @@ export function Footer() {
     <footer className="rounded-t-[60px] bg-[#f3f3f3] px-5 pb-10 pt-12 text-center shadow-[0_-8px_20px_rgba(0,0,0,.05)]">
       <nav className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-[15px] font-semibold text-navy">
         {NAV.map((n) => (
-          <a key={n.href} href={n.href} className="underline">
+          <a key={n.href} href={`/${n.href}`} className="underline">
             {n.label}
           </a>
         ))}

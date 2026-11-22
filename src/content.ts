@@ -11,7 +11,7 @@ export const SLOGAN =
 
 export const NAV = [
   { href: '#ticket', label: 'Tickets' },
-  { href: '#schedule', label: 'Schedule' },
+  { href: '#courses', label: 'Tour Course' },
   { href: '#guides', label: 'Tour Guides' },
   { href: '#map', label: 'Map' },
   { href: '#info', label: 'Travel Info' },
@@ -260,12 +260,395 @@ export const REVIEWS = {
   ],
 };
 
+// ─────────────────────────────────────────────
+// 투어 코스 (피그마 node 19:197 / 20:166 / 20:422) — FIGMA_HANDOFF.md 원문 그대로
+// ─────────────────────────────────────────────
+export type CourseId = 'intro' | 'master';
+export type Slot = '오전' | '점심' | '오후' | '저녁';
+export type ScheduleItem = { slot: Slot; title: string; desc?: string };
+export type CourseDay = { day: string; note?: string; items: ScheduleItem[] };
+
+export type Course = {
+  id: CourseId;
+  path: string;
+  short: string; // 셀렉트·티켓 표기
+  promo: string;
+  title: string;
+  subtitle: string;
+  photo: string;
+  priceOrig: string;
+  price: string;
+  discount: string;
+  tags: string[];
+  origin: string;
+  period: string;
+  places: string;
+  stay: string;
+  meals: string;
+  leader: string;
+  pax: string;
+  route: string[];
+  included: string[];
+  excluded: string[];
+  notices: string[];
+  days: CourseDay[];
+};
+
+const INTRO_DAY1: ScheduleItem[] = [
+  { slot: '오전', title: '서울 출발 → 대관령 양떼목장', desc: '한국의 알프스, 아니 평창의 스위스 초원 산책 / 양떼 건초주기 체험' },
+  { slot: '점심', title: '곤드레밥', desc: '스위스 퐁듀 품절로 대체' },
+  { slot: '오후', title: '발왕산 케이블카 + 스카이워크', desc: '국내 최장 7.4km 케이블카로 해발 1,458m 정상까지 / 융프라우 산악열차 대신 탑승' },
+  { slot: '오후', title: '평창올림픽기념관 → 알펜시아 스키점프대', desc: 'VR로 즐기는 여름 동계스포츠 / 여름엔 축구장이 되는 스키점프대 포토타임' },
+  { slot: '저녁', title: '스위스마을 펜션 체크인 → 바비큐 → 별 보기', desc: '도시에선 못 보는 대관령 밤하늘 무료 제공' },
+];
+
+const COMMON_EXCLUDED = ['여권(필요 없음)', '스위스 프랑', '개인경비', '여행자보험'];
+
+export const COURSES: Course[] = [
+  {
+    id: 'intro',
+    path: '/tour/intro',
+    short: '입문 코스 (1박2일)',
+    promo: '[테무산특가]',
+    title: '[평스투어 입문 코스] 양떼목장+발왕산+별보기 (1박2일)',
+    subtitle: '양떼목장+발왕산+별보기',
+    photo: 'sheep2',
+    priceOrig: '199,000원',
+    price: '99,000원',
+    discount: '스위스 대비 98% 할인',
+    tags: ['여름 출발', '1박2일', '서울출발', '버스여행'],
+    origin: '서울 (집결지 추후 안내)',
+    period: '1박 2일',
+    places: '대관령 양떼목장, 발왕산 케이블카, 평창올림픽기념관, 알펜시아 스키점프대, 삼양라운드힐, 치즈체험장, 고랭지배추 농원',
+    stay: '평창 스위스마을 펜션 (진짜 스위스 아님)',
+    meals: '3식 포함 (곤드레밥 / 펜션 바비큐 / 황태구이 정식)',
+    leader: `있음 (마스코트 ${MASCOT_NAME})`,
+    pax: '최소 출발인원 2명 / 총인원 40명',
+    route: ['서울', '양떼목장', '발왕산', '올림픽기념관', '스키점프대', '펜션(1박, 별 보기)', '삼양라운드힐', '치즈체험', '배추농원', '서울'],
+    included: ['왕복 버스', '숙박 1박', '식사 3회', '발왕산 케이블카', '치즈체험', '배추농원 체험', '별 (무료)'],
+    excluded: COMMON_EXCLUDED,
+    notices: [
+      '본 상품은 스위스가 아닌 평창에서 진행됩니다.',
+      '매주 월요일은 발왕산 케이블카 휴장으로 출발이 어렵습니다.',
+      '한여름에도 대관령 밤은 쌀쌀합니다. 겉옷 필수!',
+      '흐린 날에는 별이 안 보일 수 있습니다. (환불 불가)',
+      '현지 날씨 및 사정에 따라 일정이 변경될 수 있습니다.',
+    ],
+    days: [
+      { day: '1일차', items: INTRO_DAY1 },
+      {
+        day: '2일차',
+        items: [
+          { slot: '오전', title: '삼양라운드힐', desc: '풍력발전기 능선 + 양몰이 공연' },
+          { slot: '오전', title: '치즈 만들기 체험', desc: '스위스 치즈 공방 체험 (대관령 우유 사용)' },
+          { slot: '점심', title: '황태구이 정식' },
+          { slot: '오후', title: '고랭지배추 농원', desc: '알프스 양배추 농장 체험, 배추모양 만두 빚기' },
+          { slot: '오후', title: '서울 도착' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'master',
+    path: '/tour/master',
+    short: '정복 코스 (2박3일)',
+    promo: '[테무산특가]',
+    title: '[평스투어 정복 코스] 발왕산+육백마지기+봉평 (2박3일)',
+    subtitle: '발왕산+육백마지기+봉평',
+    photo: 'buckwheat',
+    priceOrig: '349,000원',
+    price: '149,000원',
+    discount: '스위스 대비 97% 할인',
+    tags: ['여름 출발', '2박3일', '서울출발', '버스여행'],
+    origin: '서울 (집결지 추후 안내)',
+    period: '2박 3일',
+    places: '입문 코스 전 일정 + 선자령, 슬라이딩파크, 육백마지기, 봉평 이효석문화마을',
+    stay: '평창 스위스마을 펜션 2박 (연박이라 짐 안 옮겨도 됨)',
+    meals: '5식 포함 (곤드레밥 / 바비큐 / 삼양라면+한우버거 / 대관령 한우 / 봉평 메밀)',
+    leader: `있음 (마스코트 ${MASCOT_NAME})`,
+    pax: '최소 출발인원 2명 / 총인원 40명',
+    route: ['서울', '양떼목장', '발왕산', '올림픽기념관', '스키점프대', '펜션(1박)', '선자령', '삼양라운드힐', '치즈체험', '배추농원', '슬라이딩파크', '펜션(2박)', '육백마지기', '봉평', '서울'],
+    included: ['왕복 버스', '숙박 2박', '식사 5회', '발왕산 케이블카', '치즈체험', '배추농원 체험', '튜브썰매', '별 (무료)'],
+    excluded: COMMON_EXCLUDED,
+    notices: [
+      '본 상품은 스위스가 아닌 평창에서 진행됩니다.',
+      '매주 월요일은 발왕산 케이블카 휴장으로 출발이 어렵습니다.',
+      '선자령은 전체 코스가 4~5시간이라 입구 숲길만 산책합니다.',
+      '육백마지기 진입로는 공사로 간헐적 통제될 수 있습니다.',
+      '한여름에도 대관령 밤은 쌀쌀합니다. 겉옷 필수!',
+    ],
+    days: [
+      { day: '1일차', note: '입문 코스 1일차와 동일', items: INTRO_DAY1 },
+      {
+        day: '2일차',
+        items: [
+          { slot: '오전', title: '선자령 산책', desc: '알프스 트레킹 코스 맛보기, 풍력발전기 능선길' },
+          { slot: '오전', title: '삼양라운드힐', desc: '풍력발전기 능선 + 양몰이 공연' },
+          { slot: '점심', title: '삼양라면 + 한우버거', desc: '알프스 정상에서 먹는 라면' },
+          { slot: '오후', title: '치즈 만들기 체험 → 고랭지배추 농원', desc: '스위스 치즈 공방 + 알프스 양배추 농장 체험' },
+          { slot: '오후', title: '알펜시아 슬라이딩파크', desc: '봅슬레이 대신 튜브썰매 국가대표 체험' },
+          { slot: '저녁', title: '대관령 한우 → 펜션 별 보기' },
+        ],
+      },
+      {
+        day: '3일차',
+        items: [
+          { slot: '오전', title: '육백마지기', desc: '해발 1,256m, 국내 최초 고랭지 채소단지 / 고랭지 배추밭 + 풍력발전기 초원' },
+          { slot: '점심', title: '봉평 메밀 (막국수·전병)' },
+          { slot: '오후', title: '봉평 이효석문화마을', desc: '『메밀꽃 필 무렵』 배경지 / 메밀 = 스위스 곡물? (아님)' },
+          { slot: '오후', title: '서울 도착' },
+        ],
+      },
+    ],
+  },
+];
+
+export const courseById = (id: CourseId) => COURSES.find((c) => c.id === id)!;
+
+/** 시즌 한정 추가 일정 (두 코스 공통) */
+export const SEASON_EXTRAS = [
+  { when: '6월~7월 초 출발', what: '육백마지기 샤스타데이지 + 은하수 관측', photo: 'samyangranch' },
+  { when: '7월 말 출발', what: '평창대관령음악제 + 더위사냥축제(땀띠공원)', photo: 'alpensia' },
+  { when: '8월 말~9월 초 출발', what: '휘닉스파크 몽블랑 메밀꽃밭 + 효석문화제', photo: 'buckwheat' },
+];
+
+/** 상단 홈쇼핑 영상 섹션 (피그마 node 18:197) */
+export const HOMESHOPPING = {
+  channel: '평스홈쇼핑 CH.1458',
+  live: 'LIVE',
+  countdownLabel: '방송 종료까지',
+  urgent: '마감임박',
+  priceOrig: '199,000원',
+  price: '99,000원',
+  caption: '[평스투어 입문 코스] 양떼목장+발왕산+별보기 1박2일',
+  poster: 'sheep2',
+  noVideo: '방송 준비 중입니다. 곧 찾아뵙겠습니다 (영상 제작 중)',
+};
+
+// ─────────────────────────────────────────────
+// (직구) Duty Free 굿즈샵 (피그마 node 6:197 / 25:359 / 25:520 / 2:39)
+// ⚠ 상품명·가격은 임시값. 피그마 확정본 나오면 여기만 고치면 됨
+// 이미지: public/goods/<id>.png 넣고 config.ts GOODS_IMAGES에 경로 입력
+// ─────────────────────────────────────────────
+export const WOOL_WON = 100; // 1 양털 = 100원
+export const GOODS_CATEGORIES = ['전체', '마스코트', '여행용품', '의류·잡화', '먹거리', '기념품'] as const;
+export type GoodsCategory = Exclude<(typeof GOODS_CATEGORIES)[number], '전체'> | '세트';
+export type GoodsBadge = 'BEST' | 'NEW' | 'MD추천' | '한정';
+export type GoodsOption = { name: string; values: { label: string; delta?: number }[] };
+
+export type Goods = {
+  id: string;
+  name: string;
+  category: GoodsCategory;
+  price: number; // 양털
+  badge?: GoodsBadge;
+  popularity: number; // 인기순 정렬용
+  soldOut?: boolean;
+  options?: GoodsOption;
+  summary: string; // 카드 한 줄
+  description: string[]; // 상세 설명
+  course?: CourseId; // 코스 고객 전용 세트
+};
+
+const SIZE_SML: GoodsOption = { name: '크기', values: [{ label: 'S' }, { label: 'M' }, { label: 'L' }, { label: 'XL', delta: 20 }] };
+
+export const GOODS: Goods[] = [
+  {
+    id: 'set-intro',
+    name: '[입문 코스 고객 전용] 평스 웰컴 세트',
+    category: '세트',
+    price: 140,
+    badge: '한정',
+    popularity: 90,
+    course: 'intro',
+    summary: '대관령 공기캔 + 양 키링 + 스티커팩',
+    description: ['입문 코스 탑승권 소지자만 살 수 있다고 우기는 세트입니다. (확인은 안 합니다)', '구성: 대관령 공기캔 1, 양 키링 1, 평스 스티커팩 1', '따로 사는 것보다 20양털 저렴합니다.'],
+  },
+  {
+    id: 'set-master',
+    name: '[정복 코스 고객 전용] 평스 정복자 세트',
+    category: '세트',
+    price: 540,
+    badge: '한정',
+    popularity: 85,
+    course: 'master',
+    summary: '웰컴 세트 + 마스코트 인형(S) + 메밀 목베개',
+    description: ['2박 3일을 버틴 정복자에게 드리는 세트입니다.', `구성: 웰컴 세트 전체 + ${MASCOT_NAME} 인형(S) 1 + 메밀 목베개 1`, '따로 사는 것보다 50양털 저렴합니다.','버스 안에서 바로 쓸 수 있게 목베개를 맨 위에 담아드립니다.'],
+  },
+  {
+    id: 'dwaegwalyang',
+    name: `${MASCOT_NAME} 봉제인형`,
+    category: '마스코트',
+    price: 250,
+    badge: 'BEST',
+    popularity: 100,
+    options: { name: '크기', values: [{ label: 'S (15cm)' }, { label: 'M (25cm)', delta: 80 }, { label: 'L (40cm)', delta: 200 }] },
+    summary: '스위스산(이라고 주장하는) 메인 가이드',
+    description: [`평스투어 메인 가이드 ${MASCOT_NAME}를 그대로 옮긴 봉제인형.`, '누르면 소리가 날 것 같지만 나지 않습니다.', '원산지: 대관령 (스위스 아님)'],
+  },
+  {
+    id: 'gondregon',
+    name: '곤드레곤 봉제인형',
+    category: '마스코트',
+    price: 230,
+    badge: 'NEW',
+    popularity: 70,
+    options: { name: '크기', values: [{ label: 'S (15cm)' }, { label: 'M (25cm)', delta: 80 }] },
+    summary: '소심한 곤드레 나물 드래곤',
+    description: ['식사 담당 가이드 곤드레곤 인형.', '배를 누르면 곤드레밥이 먹고 싶어지는 효과가 있습니다 (개인차 있음).'],
+  },
+  {
+    id: 'keyring',
+    name: '양 키링 (양털 100% 아님)',
+    category: '마스코트',
+    price: 80,
+    badge: 'BEST',
+    popularity: 95,
+    summary: '가방에 달면 스위스 다녀온 사람처럼 보임',
+    description: ['대관령 양떼목장 양을 닮은 키링.', '소재: 폴리에스터. 양털로 결제하지만 양털로 만들지는 않았습니다.'],
+  },
+  {
+    id: 'passport-cover',
+    name: '평스 여권 커버',
+    category: '여행용품',
+    price: 120,
+    badge: 'MD추천',
+    popularity: 60,
+    summary: '여권은 필요 없지만 커버는 필요함',
+    description: ['평창 여행에는 여권이 필요 없습니다.', '그래도 갖고 다니면 해외여행 기분이 납니다. 주민등록증이 쏙 들어가는 크기.'],
+  },
+  {
+    id: 'neck-pillow',
+    name: '봉평 메밀 목베개',
+    category: '여행용품',
+    price: 180,
+    popularity: 65,
+    summary: '버스 안 숙면 보장',
+    description: ['봉평 메밀 껍질을 채운 목베개.', '비행기 12시간용이 아니라 버스용이라 작고 가볍습니다.'],
+  },
+  {
+    id: 'name-tag',
+    name: '탑승권 네임택',
+    category: '여행용품',
+    price: 70,
+    badge: 'NEW',
+    popularity: 50,
+    summary: 'SWITZERLAND 취소선 디자인',
+    description: ['발권기에서 나온 탑승권 모양 그대로 만든 캐리어 네임택.', '목적지는 이미 평창으로 인쇄돼 있습니다.'],
+  },
+  {
+    id: 'windbreaker',
+    name: '대관령 바람막이 "한여름 밤 필수"',
+    category: '의류·잡화',
+    price: 450,
+    badge: 'BEST',
+    popularity: 88,
+    options: SIZE_SML,
+    summary: '한여름에도 대관령 밤은 쌀쌀합니다',
+    description: ['유의사항에 "겉옷 필수"라고 적어놓고 파는 그 겉옷입니다.', '등판에 PyeongS Travel 로고 자수.'],
+  },
+  {
+    id: 'bucket-hat',
+    name: '양떼 버킷햇',
+    category: '의류·잡화',
+    price: 210,
+    popularity: 55,
+    options: { name: '크기', values: [{ label: 'M' }, { label: 'L' }] },
+    summary: '양떼목장 포토존 필수템',
+    description: ['양 귀가 달린 버킷햇.', '양떼 사이에 서면 구분이 안 될 수 있으니 인솔자를 잘 따라다니세요.'],
+  },
+  {
+    id: 'ecobag',
+    name: '"스위스 아님" 에코백',
+    category: '의류·잡화',
+    price: 150,
+    soldOut: true,
+    popularity: 80,
+    summary: '정직한 문구 에코백',
+    description: ['큰 글씨로 "스위스 아님"이라고 적힌 에코백.', '너무 정직해서 품절되었습니다.'],
+  },
+  {
+    id: 'cheese',
+    name: '대관령 우유 치즈',
+    category: '먹거리',
+    price: 160,
+    badge: 'MD추천',
+    popularity: 75,
+    summary: '스위스 치즈 공방 체험(평창) 그 치즈',
+    description: ['코스 2일차 치즈 만들기 체험에서 쓰는 대관령 우유로 만든 치즈.', '냉장 보관. 퐁듀는 직접 만드셔야 합니다.'],
+  },
+  {
+    id: 'buckwheat-tea',
+    name: '봉평 메밀차',
+    category: '먹거리',
+    price: 90,
+    popularity: 45,
+    summary: '「메밀꽃 필 무렵」 그 동네 메밀',
+    description: ['봉평 메밀을 볶아 만든 티백 20개입.', '메밀은 스위스 곡물이 아닙니다.'],
+  },
+  {
+    id: 'hwangtae',
+    name: '황태채 스낵',
+    category: '먹거리',
+    price: 60,
+    badge: '한정',
+    popularity: 40,
+    summary: '황태구이 정식의 간식 버전',
+    description: ['대관령 황태를 바삭하게 구운 스낵.', '버스에서 드시면 옆자리 분께 냄새가 갈 수 있습니다.'],
+  },
+  {
+    id: 'air',
+    name: '대관령 공기캔 (Swiss Air)',
+    category: '기념품',
+    price: 50,
+    badge: 'MD추천',
+    popularity: 92,
+    summary: '대관령의 시원한 공기를 그대로',
+    description: ['대관령의 시원한 공기를 담았다고 주장하는 캔.', '열면 그냥 공기입니다. 여름에 열면 조금 덜 덥게 느껴질 수 있습니다 (기분 탓).'],
+  },
+  {
+    id: 'sticker',
+    name: '평스 스티커팩',
+    category: '기념품',
+    price: 30,
+    popularity: 58,
+    summary: `${MASCOT_NAME}·곤드레곤 스티커 12종`,
+    description: ['마스코트와 평창 명소 스티커 12종.', '캐리어에 붙이면 스위스 다녀온 것처럼 보입니다.'],
+  },
+  {
+    id: 'postcard',
+    name: '평창=스위스 엽서 세트',
+    category: '기념품',
+    price: 40,
+    badge: 'NEW',
+    popularity: 35,
+    summary: '보내면 받는 사람이 헷갈리는 엽서',
+    description: ['평창 풍경 엽서 6장.', '뒷면에 "From Switzerland(평창)"이 인쇄돼 있습니다.'],
+  },
+];
+
+export const goodsById = (id: string) => GOODS.find((g) => g.id === id);
+
+export const SHOP = {
+  title: 'PyeongS',
+  accent: 'Duty Free',
+  sub: '해외(같은 국내)에서 직구해온 스위스 굿즈. 1 양털 = 100원.',
+  setTitle: '코스 고객 전용 세트',
+  shipping: [
+    '배송: 실제로 배송되지 않습니다 (과제). 마음으로 보내드립니다.',
+    '배송비: 0 양털 (스위스에서 오지 않으므로)',
+    '교환·반품: 상품을 받지 않으셨으므로 교환·반품할 것도 없습니다.',
+    '양털은 실제 화폐가 아니며, 결제는 절대 일어나지 않습니다.',
+  ],
+  receiptNote: '실제 결제는 일어나지 않았습니다. 양털도 빠져나가지 않았습니다. (디자인씽킹 과제)',
+};
+
 export const POLAROID_QUOTE = { a: 'One', b: 'Night,', c: 'Zero', d: 'Flights' };
 
 export const DUTY_FREE = {
   banner: 'Looking for souvenirs? 해외(같은 국내)에서 직구해온 스위스 굿즈를 만나보세요',
   link: '평스투어 (직구) Duty Free',
-  soldMsg: '죄송합니다. 이건 과제라서 실제로 안 팝니다 🙏',
+  cta: 'Shop now »',
 };
 
 export const FOOTER = {
