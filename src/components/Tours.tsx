@@ -272,7 +272,7 @@ export function Guides() {
       </div>
 
       {/* 마스코트 가이드 */}
-      <div className="mx-auto mt-14 grid max-w-[900px] gap-5 md:grid-cols-2">
+      <div className={`mx-auto mt-14 grid gap-5 ${GUIDES_INTRO.mascots.length > 1 ? 'max-w-[900px] md:grid-cols-2' : 'max-w-[450px]'}`}>
         {GUIDES_INTRO.mascots.map((m) => (
           <div key={m.id} className="card-shadow flex gap-4 bg-panel p-4">
             <div className="flex h-[96px] w-[96px] shrink-0 items-center justify-center border border-dashed border-gray-300 bg-white text-center text-[10px] text-gray-400">

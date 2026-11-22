@@ -44,7 +44,8 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 - 푸터의 "실존하지 않는 여행사 / 과제" 고지는 지우지 말 것
 
 ## 남은 작업 (TODO)
-- [ ] 성민 캐릭터(대괄양/곤드레곤) 이미지 → `public/characters/` + `config.ts`
+- [x] 곤드레곤 캐릭터 삭제 (마스코트는 대괄양 하나)
+- [ ] 성민 캐릭터(대괄양) 이미지 → `public/characters/` + `config.ts`
 - [x] 마스코트 표기 확정: **대괄양** → `config.ts`의 `MASCOT_NAME`
 - [ ] 아리 홈쇼핑 영상 유튜브 ID → `config.ts`의 `HOMESHOPPING_VIDEO_ID`, 평가 구글폼 링크 → `EVAL_FORM_URL`
 - [x] 피그마 반영 (홈쇼핑 영상, 투어 코스, 코스 상세, 코스 선택, 발권 애니메이션) — 피그마 https://www.figma.com/design/F172HJ7ss055cTetZwdlPh

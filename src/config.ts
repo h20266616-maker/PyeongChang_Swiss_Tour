@@ -18,8 +18,7 @@ export const EXHIBIT_SITE_URL = '';
 
 /** 성민 캐릭터 이미지 — public/characters/ 에 넣고 경로 입력. 비워두면 자리표시 */
 export const CHARACTER_IMAGES: Record<string, string> = {
-  dwaegwalyang: '', // 예: '/characters/dwaegwalyang.png'
-  gondregon: '',
+  dwaegwalyang: '', // 대괄양. 예: '/characters/daegwalyang.png'
 };
 
 /**
@@ -30,7 +29,6 @@ export const GOODS_IMAGES: Record<string, string> = {
   'set-intro': '',
   'set-master': '',
   dwaegwalyang: '',
-  gondregon: '',
   keyring: '',
   air: '',
   sticker: '',
