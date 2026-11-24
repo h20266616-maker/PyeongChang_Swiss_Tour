@@ -5,7 +5,7 @@
  * 유튜브 주소가 https://www.youtube.com/watch?v=PXdb9MtQwkU 이면 "PXdb9MtQwkU"만 입력.
  * 비워두면 양떼목장 포스터 + 재생 버튼 + 하단 자막이 보임.
  */
-export const HOMESHOPPING_VIDEO_ID = '';
+export const HOMESHOPPING_VIDEO_ID = 'ZDGDV4FZYvA';
 
 /**
  * 사용성 평가 구글폼 링크 (PLAN.md의 사용성 평가용). 넣으면 우측 하단에 "이 여행사 평가하기" 버튼이 생김.

@@ -49,7 +49,7 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 - [x] 곤드레곤 캐릭터 삭제 (마스코트는 대괄양 하나)
 - [ ] 성민 캐릭터(대괄양) 이미지 → `public/characters/` + `config.ts`
 - [x] 마스코트 표기 확정: **평치양** (2026-11-23 성민 피드백) → `config.ts`의 `MASCOT_NAME`. 캐릭터 이미지 `public/characters/`
-- [ ] 아리 홈쇼핑 영상 유튜브 ID → `config.ts`의 `HOMESHOPPING_VIDEO_ID`, 평가 구글폼 링크 → `EVAL_FORM_URL`
+- [x] 아리 홈쇼핑 영상 유튜브 ID → `config.ts`의 `HOMESHOPPING_VIDEO_ID` (유튜브 공개 범위가 '일부 공개' 이상이어야 재생됨, 비공개면 안 나옴)
 - [x] 피그마 반영 (홈쇼핑 영상, 투어 코스, 코스 상세, 코스 선택, 발권 애니메이션) — 피그마 https://www.figma.com/design/F172HJ7ss055cTetZwdlPh
 - [x] 굿즈샵 (목록·상세·장바구니·영수증)
 - [x] 카카오맵 실제 지도. 키는 Vercel 환경변수 `VITE_KAKAO_MAP_KEY` (로컬은 `.env.local`, 깃에 안 올림). 카카오 앱의 JavaScript SDK 도메인에 사이트 주소 등록돼 있어야 함
