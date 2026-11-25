@@ -2,7 +2,7 @@ import type { MouseEvent } from 'react';
 import { BusFront, Check, ExternalLink, TrainFront } from 'lucide-react';
 import credits from '../credits.json';
 import { EXHIBIT_SITE_URL, INSTAGRAM_ID, INSTAGRAM_URL } from '../config';
-import { COURSES, FOOTER, INFO, NAV, PARTNERS, POLAROID_QUOTE, REVIEWS, TOURS, type Tour } from '../content';
+import { COURSES, FOOTER, INFO, NAV, PARTNERS, PARTNERS_NOTE, POLAROID_QUOTE, REVIEWS, TOURS, type Tour } from '../content';
 import { navigate } from '../router';
 import { Pin, SectionTitle, photo } from './Common';
 import { KakaoTourMap } from './KakaoMap';
@@ -78,17 +78,18 @@ function IllustratedMap({ onPin }: { onPin: (t: Tour) => void }) {
   );
 }
 
-/* ───────── Partners (키키처럼 멤버 = 파트너사) ───────── */
+/* ───────── Partners (가상 패러디 협찬사) ───────── */
 export function Partners() {
   const logos = [...PARTNERS, ...PARTNERS];
   return (
     <section className="overflow-hidden py-16">
-      <SectionTitle black="우리" blue="파트너사" />
+      <SectionTitle black="공식(?)" blue="협찬사" />
       <div className="marquee-track flex w-max items-center gap-20">
         {logos.map((p, i) => (
           <PartnerLogo key={i} name={p.name} style={p.style} />
         ))}
       </div>
+      <p className="mt-8 px-4 text-center text-[12px] text-gray-400">{PARTNERS_NOTE}</p>
     </section>
   );
 }
@@ -107,8 +108,8 @@ function PartnerLogo({ name, style }: { name: string; style: string }) {
   if (style === 'mono')
     return (
       <span className="flex flex-col items-center leading-none">
-        <span className="text-[40px] font-black">D</span>
-        <span className="text-[10px] tracking-[0.4em]">{name}</span>
+        <span className="text-[40px] font-black">🐑</span>
+        <span className="text-[13px] font-bold tracking-[0.3em]">{name}</span>
       </span>
     );
   return <span className="font-serif text-[28px] text-gray-500">★ {name}</span>;
