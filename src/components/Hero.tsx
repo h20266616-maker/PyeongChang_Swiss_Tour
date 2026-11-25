@@ -6,6 +6,70 @@ import { TicketingModal, makeBookingNo, type TicketData } from './Ticketing';
 
 const today = SUMMER.def; // 여름 출발 상품이라 기본값은 다가오는 7월 중순
 
+/** 히어로 오른쪽 나무 표지판: 기둥 가운데에 판이 못으로 박혀 있고, 아래는 풀에 묻힘 */
+function WoodSign({ text }: { text: string }) {
+  return (
+    <svg viewBox="0 0 260 330" className="absolute bottom-0 right-[7%] hidden w-[250px] md:block" aria-hidden>
+      <defs>
+        <linearGradient id="ws-post" x1="0" x2="1">
+          <stop offset="0" stopColor="#4a2e16" />
+          <stop offset=".35" stopColor="#7a4f2a" />
+          <stop offset=".6" stopColor="#6a4322" />
+          <stop offset="1" stopColor="#3b2410" />
+        </linearGradient>
+        <linearGradient id="ws-board" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#a8743f" />
+          <stop offset=".5" stopColor="#8d5c2f" />
+          <stop offset="1" stopColor="#6e4522" />
+        </linearGradient>
+        <filter id="ws-shadow" x="-10%" y="-10%" width="120%" height="140%">
+          <feDropShadow dx="2" dy="5" stdDeviation="4" floodColor="#000" floodOpacity=".35" />
+        </filter>
+      </defs>
+
+      {/* 땅 그림자 */}
+      <ellipse cx="130" cy="326" rx="46" ry="7" fill="#1f3a10" opacity=".45" />
+
+      {/* 기둥 (판 뒤로 위까지 살짝 올라옴) */}
+      <g filter="url(#ws-shadow)">
+        <path d="M117 36 L130 26 L143 36 V330 H117 Z" fill="url(#ws-post)" />
+        <path d="M124 60 C 122 120, 126 200, 123 320" stroke="#3b2410" strokeWidth="1.2" fill="none" opacity=".5" />
+        <path d="M136 80 C 138 160, 134 240, 137 320" stroke="#3b2410" strokeWidth="1" fill="none" opacity=".4" />
+      </g>
+
+      {/* 판: 기둥 가운데에 고정, 살짝 기울어짐 */}
+      <g transform="rotate(-4 130 100)" filter="url(#ws-shadow)">
+        <rect x="14" y="56" width="232" height="88" rx="6" fill="url(#ws-board)" stroke="#4f3117" strokeWidth="3" />
+        {/* 나뭇결 */}
+        <g stroke="#5c3a1b" fill="none" opacity=".35" strokeWidth="1.3">
+          <path d="M22 72 C 70 68, 120 76, 170 70 S 230 72, 240 70" />
+          <path d="M22 128 C 80 132, 130 124, 190 130 S 232 128, 240 130" />
+          <path d="M40 100 c 10 -6 22 -6 30 0 c -8 6 -20 6 -30 0z" />
+          <path d="M196 92 c 8 -4 16 -4 22 0 c -6 4 -14 4 -22 0z" />
+        </g>
+        {/* 글자 (흰 페인트) */}
+        <text x="130" y="114" textAnchor="middle" fontSize="44" fontWeight="900" fill="#3b2410" opacity=".55" dx="2" dy="2">
+          {text}
+        </text>
+        <text x="130" y="114" textAnchor="middle" fontSize="44" fontWeight="900" fill="#fff6e6">
+          {text}
+        </text>
+        {/* 못 */}
+        <circle cx="130" cy="66" r="3" fill="#2b2b2b" stroke="#9a9a9a" strokeWidth="1" />
+        <circle cx="130" cy="134" r="3" fill="#2b2b2b" stroke="#9a9a9a" strokeWidth="1" />
+      </g>
+
+      {/* 기둥 밑을 덮는 풀 */}
+      <g fill="#4f8f22">
+        <path d="M100 330 C 104 316, 108 306, 112 300 C 112 312, 114 322, 116 330 Z" />
+        <path d="M110 330 C 116 314, 122 304, 126 298 C 124 312, 124 322, 126 330 Z" fill="#5fa52a" />
+        <path d="M130 330 C 134 316, 140 306, 146 302 C 142 314, 140 322, 140 330 Z" />
+        <path d="M140 330 C 146 318, 152 310, 160 306 C 154 316, 152 324, 152 330 Z" fill="#5fa52a" />
+      </g>
+    </svg>
+  );
+}
+
 export default function Hero({ course, onCourse }: { course: CourseId; onCourse: (id: CourseId) => void }) {
   const [name, setName] = useState('');
   const [from, setFrom] = useState(BOOKING.origins[0]);
@@ -45,12 +109,7 @@ export default function Hero({ course, onCourse }: { course: CourseId; onCourse:
         <img src={photo('sheep1')} alt="초록 언덕 위에서 풀을 뜯는 양떼와 먼 산 (사실 대관령)" className="absolute inset-0 h-full w-full object-cover" />
 
         {/* 나무 표지판 */}
-        <div className="absolute bottom-0 right-[8%] hidden h-[300px] w-[230px] md:block" aria-hidden>
-          <div className="absolute bottom-0 left-1/2 h-[210px] w-[18px] -translate-x-1/2 bg-gradient-to-r from-[#6b4423] via-[#8a5a32] to-[#5a3a1d]" />
-          <div className="absolute left-0 top-6 -rotate-6 rounded-sm bg-gradient-to-b from-[#9b6a3f] to-[#6e4524] px-5 py-3 shadow-[0_4px_8px_rgba(0,0,0,.35)]">
-            <span className="text-[30px] font-black italic text-white/90 [text-shadow:0_2px_2px_rgba(0,0,0,.35)]">{BOOKING.signText}</span>
-          </div>
-        </div>
+        <WoodSign text={BOOKING.signText} />
 
         {/* 예매 카드 */}
         <div className="relative z-10 px-4 pb-10 pt-10 md:absolute md:left-[10%] md:top-[80px] md:p-0">
