@@ -125,9 +125,14 @@ export default function Hero({ course, onCourse }: { course: CourseId; onCourse:
                 지금 <span className="bg-gradient-to-b from-[#3fc6d8] to-[#1f6fb5] bg-clip-text text-transparent">바로</span>{' '}
                 <span className="text-navy">예매!</span>
               </p>
-              <svg width="40" height="44" viewBox="0 0 40 44" aria-hidden className="mt-1">
-                <path d="M6 4 C 30 6, 36 22, 22 38" stroke="#46b520" strokeWidth="7" fill="none" strokeLinecap="round" />
-                <path d="M12 34 L22 42 L28 30 Z" fill="#46b520" />
+              {/* 아래 예매 칸을 가리키는 곡선 화살표 (머리는 marker라 곡선 끝 방향을 자동으로 따라감) */}
+              <svg width="42" height="46" viewBox="0 0 42 46" aria-hidden className="mt-1 shrink-0">
+                <defs>
+                  <marker id="bk-arrow" viewBox="0 0 10 10" refX="3" refY="5" markerWidth="16" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto">
+                    <path d="M0 0 L10 5 L0 10 Z" fill="#46b520" />
+                  </marker>
+                </defs>
+                <path d="M6 7 C 26 4, 36 16, 24 32" stroke="#46b520" strokeWidth="6" fill="none" strokeLinecap="round" markerEnd="url(#bk-arrow)" />
               </svg>
             </div>
 
