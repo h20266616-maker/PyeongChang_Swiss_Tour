@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { BOOKING, COURSES, SUMMER, courseById, type CourseId } from '../content';
 import { TrustBadges, photo } from './Common';
+import { LOGO_IMAGE } from '../config';
 import { TicketingModal, makeBookingNo, type TicketData } from './Ticketing';
 
 const today = SUMMER.def; // 여름 출발 상품이라 기본값은 다가오는 7월 중순
@@ -22,7 +23,13 @@ function WoodSign({ text }: { text: string }) {
           <stop offset=".5" stopColor="#8d5c2f" />
           <stop offset="1" stopColor="#6e4522" />
         </linearGradient>
-        <filter id="ws-shadow" x="-10%" y="-10%" width="120%" height="140%">
+        <filter id="ws-paint">
+          <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 .965  0 0 0 0 .9  0 0 0 1 0" />
+        </filter>
+        <filter id="ws-paint-shadow">
+          <feColorMatrix type="matrix" values="0 0 0 0 .23  0 0 0 0 .14  0 0 0 0 .06  0 0 0 .55 0" />
+        </filter>
+        <filter id="ws-shadow"x="-10%" y="-10%" width="120%" height="140%">
           <feDropShadow dx="2" dy="5" stdDeviation="4" floodColor="#000" floodOpacity=".35" />
         </filter>
       </defs>
@@ -47,13 +54,9 @@ function WoodSign({ text }: { text: string }) {
           <path d="M40 100 c 10 -6 22 -6 30 0 c -8 6 -20 6 -30 0z" />
           <path d="M196 92 c 8 -4 16 -4 22 0 c -6 4 -14 4 -22 0z" />
         </g>
-        {/* 글자 (흰 페인트) */}
-        <text x="130" y="114" textAnchor="middle" fontSize="44" fontWeight="900" fill="#3b2410" opacity=".55" dx="2" dy="2">
-          {text}
-        </text>
-        <text x="130" y="114" textAnchor="middle" fontSize="44" fontWeight="900" fill="#fff6e6">
-          {text}
-        </text>
+        {/* 평스투어 로고를 흰 페인트로 (청록 로고는 나무 위에서 안 보여서 색만 바꿈) */}
+        <image href={LOGO_IMAGE} x="34" y="76" width="192" height="45" filter="url(#ws-paint-shadow)" aria-label={text} />
+        <image href={LOGO_IMAGE} x="32" y="74" width="192" height="45" filter="url(#ws-paint)" />
         {/* 못 */}
         <circle cx="130" cy="66" r="3" fill="#2b2b2b" stroke="#9a9a9a" strokeWidth="1" />
         <circle cx="130" cy="134" r="3" fill="#2b2b2b" stroke="#9a9a9a" strokeWidth="1" />
