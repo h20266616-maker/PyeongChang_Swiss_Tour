@@ -42,7 +42,7 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 ## 규칙
 - 교통·기온 등 **사실 정보는 지어내지 말 것**. 바꿀 때는 출처 확인 후 `content.ts`에 반영
 - 사진 교체 시 같은 파일명으로 덮어쓰기. 새 CC 사진을 쓰면 `credits.json`에 출처 추가 (팀이 직접 찍은 사진이면 credits에서 해당 항목 삭제)
-- 리뷰는 실제 인터뷰 발췌만 사용 (가짜 후기 금지)
+- 사람 리뷰는 실제 인터뷰 발췌만 사용 (가짜 사람 후기 금지). 웃긴 후기는 누가 봐도 사람이 아닌 리뷰어(양·사물·마스코트)만, "가상 후기 · 사람 아님" 표시 (`content.ts` REVIEWS의 kind)
 - 푸터의 "실존하지 않는 여행사 / 과제" 고지는 지우지 말 것
 
 ## 남은 작업 (TODO)
@@ -58,7 +58,7 @@ React 19 · TypeScript · Vite 6 · Tailwind v4 (`@tailwindcss/vite`) · motion 
 - [x] 패키지 이동수단 = 왕복 전용 버스로 통일 (KTX·시외버스는 Travel Info "따로 가는 법")
 - [x] 공식 로고 `public/logo/` (헤더: logo-horizontal, 푸터: logo-full, 파비콘: logo-icon). 로고는 상단 바 안에 (튀어나온 박스 X)
 - [x] 팀명 쿠팡산 스위스 (구 테무산), 굿즈 가격은 원화로만 표시
-- [x] 인스타 @donggyeol_pyeongchang (`config.ts` INSTAGRAM_ID)
+- [x] 인스타 @pyeongs_tour (`config.ts` INSTAGRAM_ID, 2026-11 계정 변경. 예전 @donggyeol_pyeongchang은 없는 계정)
 - [ ] 사용성 평가 구글폼 → `config.ts`의 `EVAL_FORM_URL` (넣으면 우측 하단 "평가하기" 버튼 생김, 비면 숨김)
 - [ ] 여름 사진으로 교체 (지금 겨울 사진 많음: samyangranch, skijump, alpensia)
 - [x] 굿즈: 성민 시안 9종 반영 (public/goods/). 가격은 임시값 → `content.ts`의 `GOODS` price

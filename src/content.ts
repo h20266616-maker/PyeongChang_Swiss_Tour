@@ -280,17 +280,26 @@ export const INFO = {
   },
 };
 
-export const REVIEWS = {
-  avg: '5.0',
-  count: '(응답자 1명)',
-  source: '디자인씽킹 6조 평창 거주 경험자 인터뷰 발췌',
+// 후기 규칙: 사람 후기 = 실제 인터뷰 발췌만 (kind: 'interview'). 지어낸 사람 후기 금지.
+// 웃긴 후기는 누가 봐도 사람이 아닌 리뷰어(동물·사물·마스코트)만, kind: 'fiction' 으로 표시됨
+export type Review = { text: string; who: string; initial: string; stars: number; kind: 'interview' | 'fiction' | 'mascot'; avatar?: string; color?: string };
+export const REVIEWS: { avg: string; count: string; source: string; items: Review[] } = {
+  avg: '4.6',
+  count: '(사람 응답자 1명은 5.0 · 나머지는 사람 아님)',
+  source: '사람 후기는 디자인씽킹 6조 평창 거주 경험자 인터뷰 발췌. "가상 후기"는 사람이 아닌 분들이 쓴 설정입니다',
   items: [
-    { text: '스위스 갔었는데, 진짜 평창이랑 똑같아요', who: '평창 거주 경험 20대', initial: '평' },
-    { text: '여름에 30도 넘는 경우가 거의 없어요', who: '평창 거주 경험 20대', initial: '평' },
-    { text: '한여름인데 밤엔 추워서 겉옷 입을 정도', who: '평창 거주 경험 20대', initial: '평' },
-    { text: '유럽 감성 느끼고 싶은데 돈이 부족하다? 평창 오세요', who: '평창 거주 경험 20대', initial: '평' },
-    { text: '유명해지기 전에 지금 저점 매수하세요', who: '평창 거주 경험 20대', initial: '평' },
-    { text: '평스 투어에 환불이 어딨어? 여름 시원하잖아. 좋다며?', who: MASCOT_NAME, initial: '양', avatar: '/characters/pyeongchiyang-angry.png' },
+    { text: '스위스 갔었는데, 진짜 평창이랑 똑같아요', who: '평창 거주 경험 20대', initial: '평', stars: 5, kind: 'interview' },
+    { text: '사람들이 자꾸 저보고 알프스 양이래요. 저 대관령 토박이인데요. 건초는 맛있었음', who: '대관령 양떼목장 양 3호', initial: '양', stars: 5, kind: 'fiction', color: '#8a9a5b' },
+    { text: '여름에 30도 넘는 경우가 거의 없어요', who: '평창 거주 경험 20대', initial: '평', stars: 5, kind: 'interview' },
+    { text: '주인이 평창 다녀온 뒤로 저를 안 틀어요. 여름 내내 창고에 있음. 별 하나 드립니다', who: '선풍기 (서울 거주)', initial: '풍', stars: 1, kind: 'fiction', color: '#5b8fb9' },
+    { text: '한여름인데 밤엔 추워서 겉옷 입을 정도', who: '평창 거주 경험 20대', initial: '평', stars: 5, kind: 'interview' },
+    { text: '우리 동네랑 너무 똑같아서 기분이 좀 나쁨. 근데 비행기 안 타도 된다는 건 인정', who: '스위스 소 (취리히 근교)', initial: '소', stars: 3, kind: 'fiction', color: '#b5835a' },
+    { text: '7.4km 올라가는 내내 다들 "여기 스위스 아니냐"고 함. 아닙니다. 저 국산입니다', who: '발왕산 케이블카', initial: '케', stars: 5, kind: 'fiction', color: '#c8102e' },
+    { text: '유럽 감성 느끼고 싶은데 돈이 부족하다? 평창 오세요', who: '평창 거주 경험 20대', initial: '평', stars: 5, kind: 'interview' },
+    { text: '치즈 퐁듀 자리에 제가 나왔는데 아무도 항의 안 함. 오히려 한 그릇 더 시킴', who: '곤드레밥', initial: '곤', stars: 5, kind: 'fiction', color: '#6b8e23' },
+    { text: '유명해지기 전에 지금 저점 매수하세요', who: '평창 거주 경험 20대', initial: '평', stars: 5, kind: 'interview' },
+    { text: '여권 챙겼는데 한 번도 안 꺼냄. 서운해서 별 넷', who: '여권 (미사용)', initial: '여', stars: 4, kind: 'fiction', color: '#1d3b6e' },
+    { text: '평스 투어에 환불이 어딨어? 여름 시원하잖아. 좋다며?', who: MASCOT_NAME, initial: '양', stars: 5, kind: 'mascot', avatar: '/characters/pyeongchiyang-angry.png' },
   ],
 };
 

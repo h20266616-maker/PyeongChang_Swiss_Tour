@@ -17,7 +17,7 @@ export const EVAL_FORM_URL = '';
  * 여행사 인스타그램 아이디 (@ 빼고). 예: 'pyeongs_travel'
  * 넣으면 푸터에 "@아이디" + 인스타 링크가 표시됨. 비워두면 안 보임.
  */
-export const INSTAGRAM_ID = 'donggyeol_pyeongchang';
+export const INSTAGRAM_ID = 'pyeongs_tour';
 export const INSTAGRAM_URL = INSTAGRAM_ID ? `https://www.instagram.com/${INSTAGRAM_ID}/` : '';
 
 /**

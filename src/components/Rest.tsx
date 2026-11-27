@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react';
+import { useState, type MouseEvent } from 'react';
 import { BusFront, Check, ExternalLink, TrainFront } from 'lucide-react';
 import credits from '../credits.json';
 import { EXHIBIT_SITE_URL, INSTAGRAM_ID, INSTAGRAM_URL } from '../config';
@@ -164,6 +164,7 @@ export function TravelInfo() {
 
 /* ───────── Reviews ───────── */
 export function Reviews() {
+  const [showAll, setShowAll] = useState(false);
   return (
     <section id="reviews" className="scroll-mt-[90px] px-4 py-20">
       <div className="mx-auto max-w-[1160px]">
@@ -186,26 +187,38 @@ export function Reviews() {
           </div>
         </div>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
-          {REVIEWS.items.map((r) => (
+          {(showAll ? REVIEWS.items : REVIEWS.items.slice(0, 6)).map((r) => (
             <div key={r.text} className="card-shadow flex min-h-[190px] flex-col justify-between bg-panel p-5">
               <div>
-                <p className="text-[24px] text-[#f7c600]">★★★★★</p>
+                <p className="text-[24px] tracking-wide" aria-label={`별점 ${r.stars}점`}>
+                  <span className="text-[#f7c600]">{'★'.repeat(r.stars)}</span>
+                  <span className="text-gray-300">{'★'.repeat(5 - r.stars)}</span>
+                </p>
                 <p className="mt-2 text-[15px] font-semibold">{r.text}</p>
               </div>
-              <div className="flex items-center gap-3">
-                {'avatar' in r && r.avatar ? (
+              <div className="mt-4 flex items-center gap-3">
+                {r.avatar ? (
                   <img src={r.avatar} alt="" className="h-10 w-10 rounded-full border border-line bg-white object-cover" />
                 ) : (
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#7c8b99] font-semibold text-white">{r.initial}</span>
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full font-semibold text-white" style={{ background: r.color ?? '#7c8b99' }}>
+                    {r.initial}
+                  </span>
                 )}
                 <div className="leading-tight">
                   <p className="text-[14px] font-semibold">{r.who}</p>
-                  <p className="text-[12px] text-gray-500">인터뷰 · 2026</p>
+                  <p className="text-[12px] text-gray-500">{r.kind === 'interview' ? '실제 인터뷰 · 2026' : r.kind === 'mascot' ? '공식 마스코트 · 환불 담당' : '가상 후기 · 사람 아님'}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
+        {REVIEWS.items.length > 6 && (
+          <div className="mt-5 flex justify-center">
+            <button onClick={() => setShowAll((v) => !v)} className="min-h-[44px] rounded-full border border-line bg-white px-6 text-[14px] font-semibold text-navy hover:border-navy">
+              {showAll ? '후기 접기' : `후기 ${REVIEWS.items.length - 6}개 더 보기`}
+            </button>
+          </div>
+        )}
         <p className="mt-3 text-right text-[11px] text-gray-500">* {REVIEWS.source}</p>
       </div>
     </section>
