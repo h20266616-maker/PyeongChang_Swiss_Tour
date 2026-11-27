@@ -222,15 +222,16 @@ export const GUIDES_INTRO = {
 };
 
 // 가상 협찬사 (전부 패러디 · 실존 기업/인물과 무관). 키키처럼 흐르는 로고 띠
+// logo = components/PartnerLogos.tsx 의 로고 이름
 export const PARTNERS = [
-  { name: '양윙칩', style: 'red-box' },
-  { name: 'MC 메에에', style: 'mono' },
-  { name: '양털은행', style: 'gold' },
-  { name: '대관양 시계', style: 'serif-star' },
-  { name: '에어 평창', style: 'swoosh' },
-  { name: '융프라양 산악열차', style: 'leaf' },
-  { name: '맥가이양 숟가락', style: 'red-box' },
-  { name: '곤드레 퐁듀', style: 'gold' },
+  { name: '양윙칩', logo: 'yangwingchip' },
+  { name: 'MC 메에에', logo: 'mcmeee' },
+  { name: '양털은행', logo: 'woolbank' },
+  { name: '대관양 시계', logo: 'watch' },
+  { name: '에어 평창', logo: 'air' },
+  { name: '융프라양 산악열차', logo: 'bahn' },
+  { name: '맥가이양 숟가락', logo: 'spoon' },
+  { name: '곤드레 퐁듀', logo: 'fondue' },
 ];
 
 export const PARTNERS_NOTE = '※ 상기 협찬사는 전부 가상이며 실존 기업·인물과 무관합니다. 양은 실존합니다.';

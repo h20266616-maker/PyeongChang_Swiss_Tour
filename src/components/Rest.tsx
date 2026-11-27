@@ -6,6 +6,7 @@ import { COURSES, FOOTER, INFO, NAV, PARTNERS, PARTNERS_NOTE, POLAROID_QUOTE, RE
 import { navigate } from '../router';
 import { Pin, SectionTitle, photo } from './Common';
 import { KakaoTourMap } from './KakaoMap';
+import { PartnerLogo } from './PartnerLogos';
 
 const go = (to: string) => (e: MouseEvent) => {
   e.preventDefault();
@@ -84,35 +85,14 @@ export function Partners() {
   return (
     <section className="overflow-hidden py-16">
       <SectionTitle black="공식(?)" blue="협찬사" />
-      <div className="marquee-track flex w-max items-center gap-20">
+      <div className="marquee-track flex w-max items-center gap-16">
         {logos.map((p, i) => (
-          <PartnerLogo key={i} name={p.name} style={p.style} />
+          <PartnerLogo key={i} name={p.name} logo={p.logo} />
         ))}
       </div>
       <p className="mt-8 px-4 text-center text-[12px] text-gray-400">{PARTNERS_NOTE}</p>
     </section>
   );
-}
-
-function PartnerLogo({ name, style }: { name: string; style: string }) {
-  if (style === 'red-box') return <span className="bg-[#d42027] px-6 py-2 text-[30px] font-black tracking-[0.2em] text-white">{name}</span>;
-  if (style === 'gold') return <span className="font-serif text-[36px] text-[#7a5a00]">✿ {name}</span>;
-  if (style === 'leaf') return <span className="font-serif text-[40px] italic text-[#4a8c2a]">🌿{name}</span>;
-  if (style === 'swoosh')
-    return (
-      <span className="flex items-center gap-2 text-[30px] font-black text-[#1b2a4a]">
-        <span className="h-8 w-8 rounded-full border-[6px] border-[#2ab3e6] border-r-transparent" />
-        {name}
-      </span>
-    );
-  if (style === 'mono')
-    return (
-      <span className="flex flex-col items-center leading-none">
-        <span className="text-[40px] font-black">🐑</span>
-        <span className="text-[13px] font-bold tracking-[0.3em]">{name}</span>
-      </span>
-    );
-  return <span className="font-serif text-[28px] text-gray-500">★ {name}</span>;
 }
 
 /* ───────── Travel Info: 실제 교통 + 비교 ───────── */
