@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { ExternalLink, MapPin } from 'lucide-react';
+import { ExternalLink, Hand, Lock, MapPin, Minus, Plus } from 'lucide-react';
 import { KAKAO_MAP_KEY } from '../config';
 import { MAP_ROUTES, TOURS, type MapRoute, type MapSpot } from '../content';
 import { navigate } from '../router';
@@ -116,6 +116,12 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
   const mapRef = useRef<any>(null);
   const layerRef = useRef<any[]>([]);
   const infoRef = useRef<any>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  // 휴대폰(터치)에서는 지도를 잠가 둠 → 지도 위를 밀어도 페이지가 스크롤되고, 스크롤하다 핀이 눌려 확대되는 일 없음
+  const coarse = useMemo(() => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches, []);
+  const [unlocked, setUnlocked] = useState(false);
+  const locked = coarse && !unlocked;
 
   // SDK + 지도 생성
   useEffect(() => {
@@ -124,8 +130,14 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
     loadKakao()
       .then((kakao) => {
         if (dead || !boxRef.current) return;
-        mapRef.current = new kakao.maps.Map(boxRef.current, { center: new kakao.maps.LatLng(37.62, 128.6), level: 10 });
-        mapRef.current.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
+        // 두 번 탭/더블클릭 확대·휠 확대 끔 (확대는 +/- 버튼으로). 드래그·핀치는 아래 effect에서 잠금 상태에 따라
+        mapRef.current = new kakao.maps.Map(boxRef.current, {
+          center: new kakao.maps.LatLng(37.62, 128.6),
+          level: 10,
+          disableDoubleClickZoom: true,
+          scrollwheel: false,
+          draggable: !coarse,
+        });
         setState('ready');
       })
       .catch(() => !dead && setState('error'));
@@ -133,6 +145,27 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
       dead = true;
     };
   }, []);
+
+  // 잠금 상태 반영: 잠기면 드래그·핀치 끔, 풀리면 켬 (PC는 드래그 항상 가능, 휠 확대는 끔)
+  useEffect(() => {
+    const map = mapRef.current;
+    if (state !== 'ready' || !map) return;
+    map.setDraggable(!locked);
+    map.setZoomable(coarse && unlocked);
+  }, [state, locked, coarse, unlocked]);
+
+  // 지도가 화면 밖으로 나가면 다시 잠금
+  useEffect(() => {
+    if (!coarse || !unlocked || !wrapRef.current) return;
+    const io = new IntersectionObserver(([e]) => !e.isIntersecting && setUnlocked(false), { threshold: 0.1 });
+    io.observe(wrapRef.current);
+    return () => io.disconnect();
+  }, [coarse, unlocked]);
+
+  const zoom = (d: number) => {
+    const map = mapRef.current;
+    if (map) map.setLevel(Math.min(14, Math.max(1, map.getLevel() + d)), { animate: { duration: 200 } });
+  };
 
   // 코스 바뀌면 장소 좌표 검색
   useEffect(() => {
@@ -214,9 +247,14 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
   }, [state, active, route, coords, tick]);
 
   /** 핀·목록 클릭: 같은 핀을 다시 눌러도 다시 확대되게 tick 증가 */
-  function focusSpot(id: string) {
+  function focusSpot(id: string, fromList = false) {
     setActive(id);
     setTick((n) => n + 1);
+    // 휴대폰은 지도가 목록 위에 있어서, 목록에서 누르면 지도가 보이게 스크롤
+    if (fromList && coarse && wrapRef.current) {
+      const r = wrapRef.current.getBoundingClientRect();
+      if (r.top < 60 || r.bottom > window.innerHeight) wrapRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   }
 
   const switchRoute = (id: MapRoute['id']) => {
@@ -232,7 +270,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
           <button
             key={r.id}
             onClick={() => switchRoute(r.id)}
-            className={`rounded-full border px-5 py-2 text-[14px] font-semibold transition ${routeId === r.id ? 'border-navy bg-navy text-white' : 'border-line bg-white text-gray-600 hover:border-navy'}`}
+            className={`rounded-full border px-5 py-2.5 text-[14px] font-semibold transition ${routeId === r.id ? 'border-navy bg-navy text-white' : 'border-line bg-white text-gray-600 hover:border-navy'}`}
           >
             {r.label}
           </button>
@@ -253,8 +291,8 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
                 key={`${route.id}-${s.id}-${i}`}
                 role={tbd ? undefined : 'button'}
                 tabIndex={tbd ? -1 : 0}
-                onClick={() => !tbd && focusSpot(s.id)}
-                onKeyDown={(e) => !tbd && (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), focusSpot(s.id))}
+                onClick={() => !tbd && focusSpot(s.id, true)}
+                onKeyDown={(e) => !tbd && (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), focusSpot(s.id, true))}
                 className={`flex cursor-pointer items-center gap-3 px-5 py-2.5 ${active === s.id ? 'bg-[#eaf4fc]' : i % 2 ? 'bg-panel' : 'bg-white'} ${tbd ? 'cursor-default opacity-70' : ''}`}
               >
                 <Pin n={i + 1} color={tbd ? '#9aa0a6' : route.color} size={22} />
@@ -284,7 +322,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
                     target="_blank"
                     rel="noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="btn-orange flex shrink-0 items-center gap-1 px-3 py-1.5 text-[12px]"
+                    className="btn-orange flex min-h-[40px] shrink-0 items-center gap-1 px-3.5 text-[13px]"
                   >
                     길찾기 <ExternalLink size={12} />
                   </a>
@@ -304,19 +342,53 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
             </p>
           </div>
         ) : (
-          <div className="relative order-1 min-h-[360px] border border-line lg:order-2 lg:min-h-[560px]">
+          <div ref={wrapRef} className="relative order-1 min-h-[380px] border border-line lg:order-2 lg:min-h-[560px]">
             <div ref={boxRef} className="absolute inset-0" />
+
+            {/* 잠긴 상태(휴대폰): 지도 위를 덮어서 스크롤은 페이지로 넘기고, 탭하면 잠금 해제 */}
+            {state === 'ready' && locked && (
+              <button
+                onClick={() => setUnlocked(true)}
+                className="absolute inset-0 z-20 flex items-end justify-center bg-black/[.04] pb-5"
+                style={{ touchAction: 'pan-y' }}
+                aria-label="지도 움직이기"
+              >
+                <span className="flex items-center gap-1.5 rounded-full bg-navy/90 px-4 py-2.5 text-[13px] font-bold text-white shadow-lg">
+                  <Hand size={16} /> 눌러서 지도 움직이기
+                </span>
+              </button>
+            )}
+            {state === 'ready' && coarse && unlocked && (
+              <button
+                onClick={() => setUnlocked(false)}
+                className="absolute bottom-3 left-3 z-30 flex min-h-[44px] items-center gap-1.5 rounded-full border border-line bg-white px-4 text-[13px] font-bold text-navy shadow-[0_2px_6px_rgba(0,0,0,.2)]"
+              >
+                <Lock size={15} /> 지도 잠그기
+              </button>
+            )}
+
+            {/* 큰 확대/축소 버튼 (손가락으로 누르기 쉽게) */}
+            {state === 'ready' && (
+              <div className="absolute right-3 top-3 z-30 flex flex-col overflow-hidden rounded-lg border border-line bg-white shadow-[0_2px_6px_rgba(0,0,0,.2)]">
+                <button onClick={() => zoom(-1)} aria-label="확대" className="flex h-11 w-11 items-center justify-center text-navy hover:bg-panel active:bg-panel">
+                  <Plus size={20} />
+                </button>
+                <button onClick={() => zoom(1)} aria-label="축소" className="flex h-11 w-11 items-center justify-center border-t border-line text-navy hover:bg-panel active:bg-panel">
+                  <Minus size={20} />
+                </button>
+              </div>
+            )}
             {state === 'ready' && active && (
               <button
                 onClick={() => setActive(null)}
-                className="absolute left-3 top-3 z-10 rounded-full border border-line bg-white px-4 py-2 text-[13px] font-bold text-navy shadow-[0_2px_6px_rgba(0,0,0,.2)] hover:bg-panel"
+                className="absolute left-3 top-3 z-30 flex min-h-[44px] items-center rounded-full border border-line bg-white px-4 text-[13px] font-bold text-navy shadow-[0_2px_6px_rgba(0,0,0,.2)] hover:bg-panel"
               >
                 ← 전체 코스 보기
               </button>
             )}
             {state === 'ready' && !active && (
-              <p className="pointer-events-none absolute left-3 top-3 z-10 rounded-full bg-white/90 px-3 py-1.5 text-[12px] font-semibold text-gray-600 shadow">
-                핀을 누르면 그 장소로 확대돼요
+              <p className="pointer-events-none absolute left-3 right-16 top-3 z-30 w-fit rounded-full bg-white/90 px-3 py-1.5 text-[12px] font-semibold text-gray-600 shadow">
+                {coarse ? '아래 목록에서 장소를 누르면 지도에서 보여줘요' : '핀을 누르면 그 장소로 확대돼요'}
               </p>
             )}
             {state === 'loading' && <p className="absolute inset-0 flex items-center justify-center text-[13px] text-gray-500">지도 불러오는 중…</p>}
