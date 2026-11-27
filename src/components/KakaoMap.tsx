@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { ExternalLink, Hand, Lock, MapPin, Minus, Plus } from 'lucide-react';
+import { ExternalLink, Hand, MapPin, Minus, Plus } from 'lucide-react';
 import { KAKAO_MAP_KEY } from '../config';
 import { MAP_ROUTES, TOURS, type MapRoute, type MapSpot } from '../content';
 import { navigate } from '../router';
@@ -118,10 +118,9 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
   const infoRef = useRef<any>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
 
-  // 휴대폰(터치)에서는 지도를 잠가 둠 → 지도 위를 밀어도 페이지가 스크롤되고, 스크롤하다 핀이 눌려 확대되는 일 없음
+  // 휴대폰(터치): 구글지도처럼 한 손가락 = 페이지 스크롤, 두 손가락 = 지도 이동·확대. 핀은 그냥 탭
   const coarse = useMemo(() => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches, []);
-  const [unlocked, setUnlocked] = useState(false);
-  const locked = coarse && !unlocked;
+  const [twoFingerHint, setTwoFingerHint] = useState(false);
 
   // SDK + 지도 생성
   useEffect(() => {
@@ -130,7 +129,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
     loadKakao()
       .then((kakao) => {
         if (dead || !boxRef.current) return;
-        // 두 번 탭/더블클릭 확대·휠 확대 끔 (확대는 +/- 버튼으로). 드래그·핀치는 아래 effect에서 잠금 상태에 따라
+        // 두 번 탭/더블클릭 확대·휠 확대 끔 (확대는 +/- 버튼 또는 두 손가락). 휴대폰 드래그는 아래 effect에서 두 손가락일 때만
         mapRef.current = new kakao.maps.Map(boxRef.current, {
           center: new kakao.maps.LatLng(37.62, 128.6),
           level: 10,
@@ -146,21 +145,67 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
     };
   }, []);
 
-  // 잠금 상태 반영: 잠기면 드래그·핀치 끔, 풀리면 켬 (PC는 드래그 항상 가능, 휠 확대는 끔)
+  // 휴대폰: 손가락 두 개가 닿는 순간에만 지도 드래그·핀치 켜고, 다 떼면 다시 끔.
+  // 한 손가락으로 지도 위를 밀면 페이지가 스크롤되고 "두 손가락으로" 안내가 잠깐 뜸
   useEffect(() => {
     const map = mapRef.current;
-    if (state !== 'ready' || !map) return;
-    map.setDraggable(!locked);
-    map.setZoomable(coarse && unlocked);
-  }, [state, locked, coarse, unlocked]);
-
-  // 지도가 화면 밖으로 나가면 다시 잠금
-  useEffect(() => {
-    if (!coarse || !unlocked || !wrapRef.current) return;
-    const io = new IntersectionObserver(([e]) => !e.isIntersecting && setUnlocked(false), { threshold: 0.1 });
-    io.observe(wrapRef.current);
-    return () => io.disconnect();
-  }, [coarse, unlocked]);
+    const el = wrapRef.current;
+    if (state !== 'ready' || !map || !el) return;
+    if (!coarse) {
+      map.setZoomable(false); // PC: 드래그는 그대로, 휠 확대만 끔
+      return;
+    }
+    let on = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const set = (v: boolean) => {
+      if (on === v) return;
+      on = v;
+      map.setDraggable(v);
+      map.setZoomable(v);
+    };
+    map.setDraggable(false);
+    map.setZoomable(false);
+    // 한 손가락 시작점 (스크롤이 시작되면 브라우저가 touchmove를 거의 안 보내서 손 뗄 때도 확인)
+    let start: { x: number; y: number } | null = null;
+    const moved = (t: Touch | undefined) => !!start && !!t && Math.hypot(t.clientX - start.x, t.clientY - start.y) > 12;
+    const hint = () => {
+      setTwoFingerHint(true);
+      clearTimeout(timer);
+      timer = setTimeout(() => setTwoFingerHint(false), 1400);
+    };
+    const onStart = (e: TouchEvent) => {
+      if (e.touches.length >= 2) {
+        start = null;
+        set(true);
+        setTwoFingerHint(false);
+      } else {
+        start = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    };
+    const onMove = (e: TouchEvent) => {
+      if (e.touches.length === 1 && !on && moved(e.touches[0])) {
+        hint();
+        start = null;
+      }
+    };
+    const onEnd = (e: TouchEvent) => {
+      if (!on && moved(e.changedTouches[0])) hint();
+      start = null;
+      if (e.touches.length === 0) set(false);
+    };
+    const opt = { capture: true, passive: true } as const;
+    el.addEventListener('touchstart', onStart, opt);
+    el.addEventListener('touchmove', onMove, opt);
+    el.addEventListener('touchend', onEnd, opt);
+    el.addEventListener('touchcancel', onEnd, opt);
+    return () => {
+      clearTimeout(timer);
+      el.removeEventListener('touchstart', onStart, opt);
+      el.removeEventListener('touchmove', onMove, opt);
+      el.removeEventListener('touchend', onEnd, opt);
+      el.removeEventListener('touchcancel', onEnd, opt);
+    };
+  }, [state, coarse]);
 
   const zoom = (d: number) => {
     const map = mapRef.current;
@@ -342,29 +387,19 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
             </p>
           </div>
         ) : (
-          <div ref={wrapRef} className="relative order-1 min-h-[380px] border border-line lg:order-2 lg:min-h-[560px]">
+          <div ref={wrapRef} data-coop-map={coarse ? '' : undefined} className="relative order-1 min-h-[380px] border border-line lg:order-2 lg:min-h-[560px]">
             <div ref={boxRef} className="absolute inset-0" />
 
-            {/* 잠긴 상태(휴대폰): 지도 위를 덮어서 스크롤은 페이지로 넘기고, 탭하면 잠금 해제 */}
-            {state === 'ready' && locked && (
-              <button
-                onClick={() => setUnlocked(true)}
-                className="absolute inset-0 z-20 flex items-end justify-center bg-black/[.04] pb-5"
-                style={{ touchAction: 'pan-y' }}
-                aria-label="지도 움직이기"
+            {/* 한 손가락으로 지도를 밀었을 때 잠깐 뜨는 안내 (구글지도 방식) */}
+            {state === 'ready' && coarse && (
+              <div
+                className={`pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-black/45 transition-opacity duration-200 ${twoFingerHint ? 'opacity-100' : 'opacity-0'}`}
+                aria-hidden
               >
-                <span className="flex items-center gap-1.5 rounded-full bg-navy/90 px-4 py-2.5 text-[13px] font-bold text-white shadow-lg">
-                  <Hand size={16} /> 눌러서 지도 움직이기
-                </span>
-              </button>
-            )}
-            {state === 'ready' && coarse && unlocked && (
-              <button
-                onClick={() => setUnlocked(false)}
-                className="absolute bottom-3 left-3 z-30 flex min-h-[44px] items-center gap-1.5 rounded-full border border-line bg-white px-4 text-[13px] font-bold text-navy shadow-[0_2px_6px_rgba(0,0,0,.2)]"
-              >
-                <Lock size={15} /> 지도 잠그기
-              </button>
+                <p className="flex items-center gap-2 px-6 text-center text-[16px] font-bold text-white">
+                  <Hand size={20} /> 지도는 두 손가락으로 움직이고 확대해요
+                </p>
+              </div>
             )}
 
             {/* 큰 확대/축소 버튼 (손가락으로 누르기 쉽게) */}
@@ -388,7 +423,7 @@ export function KakaoTourMap({ fallback }: { fallback: ReactNode }) {
             )}
             {state === 'ready' && !active && (
               <p className="pointer-events-none absolute left-3 right-16 top-3 z-30 w-fit rounded-full bg-white/90 px-3 py-1.5 text-[12px] font-semibold text-gray-600 shadow">
-                {coarse ? '아래 목록에서 장소를 누르면 지도에서 보여줘요' : '핀을 누르면 그 장소로 확대돼요'}
+                {coarse ? '핀을 누르면 그 장소로 · 두 손가락으로 이동' : '핀을 누르면 그 장소로 확대돼요'}
               </p>
             )}
             {state === 'loading' && <p className="absolute inset-0 flex items-center justify-center text-[13px] text-gray-500">지도 불러오는 중…</p>}
